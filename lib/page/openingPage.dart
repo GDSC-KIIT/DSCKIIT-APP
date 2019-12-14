@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:dsckiit_app/page/SignUpPage.dart';
+import 'package:dsckiit_app/page/SignInPage.dart';
+
+
 
 class OpeningPage extends StatefulWidget {
   @override
@@ -21,7 +25,7 @@ class _OpeningPageState extends State<OpeningPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Expanded(
-                //flex: 2,
+                //flex: 1,
                 child: Container(
                   alignment: Alignment.centerLeft,
                   child: Column(
@@ -39,7 +43,7 @@ class _OpeningPageState extends State<OpeningPage> {
                 ),
               ),
               Expanded(
-                //flex: 3,
+                //flex: 1,
                 child: Container(
                   alignment: Alignment.centerLeft,
                   child: Column(
@@ -56,31 +60,36 @@ class _OpeningPageState extends State<OpeningPage> {
                 ),
               ),
               Expanded(
-                //flex: ,
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      const SizedBox(height: 30),
-                      RaisedButton(
-                        onPressed: () {},
-                        color: Colors.blue,
-                        textColor: Colors.white,
-                        child: Text('Sign Up',
-                        style: TextStyle(fontSize: 18),
+                //flex: 1,
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        RaisedButton(
+                          onPressed: ()  {
+                            Navigator.of(context).push(MaterialPageRoute<Null>(builder: (BuildContext context){
+                              return SignUp();
+                            }));
+                          },
+                          color: Colors.blue,
+                          textColor: Colors.white,
+                          child: Text('Sign up'),
                         ),
-                      ),
-                      const SizedBox(height: 30),
-                      RaisedButton(
-                        onPressed: () {},
-                        color: Colors.white,
-                        textColor: Colors.black,
-                        child: Text('Sign In',
-                        style: TextStyle(fontSize: 18),
+                        RaisedButton(
+                          onPressed: ()  {
+                            Navigator.of(context).push(MaterialPageRoute<Null>(builder: (BuildContext context){
+                              return SignIn();
+                            }));
+                          },
+                          color: Colors.white,
+                          textColor: Colors.black,
+                          child: Text('Sign in'),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                      ],
+                    )
+                  ],
+                )
               )
             ],
           )
