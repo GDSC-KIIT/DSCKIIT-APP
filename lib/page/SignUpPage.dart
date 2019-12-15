@@ -1,60 +1,193 @@
-import 'package:dsckiit_app/page/SignInPage.dart';
 import 'package:flutter/material.dart';
-import 'package:dsckiit_app/page/nameDetails.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class SignUp extends StatefulWidget {
-  @override
-  _SignUpState createState() => _SignUpState();
+class SignupPage extends StatefulWidget {
+  _SignupPageState createState() => _SignupPageState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignupPageState extends State<SignupPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  String _name, _email, _password;
+
+  checkAuthentication() async {
+    _auth.onAuthStateChanged.listen((user) {
+      if (user != null) {
+        Navigator.pushReplacementNamed(context, "/WelcomePage");
+      }
+    });
+  }
+
+  navigateToSignInPage() {
+    Navigator.pushReplacementNamed(context, "/SigninPage");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this.checkAuthentication();
+  }
+
+  signup() async {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+
+      try {
+        FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
+                email: _email, password: _password))
+            .user;
+        if (user != null) {
+          UserUpdateInfo updateuser = UserUpdateInfo();
+          updateuser.displayName = _name;
+          user.updateProfile(updateuser);
+        }
+      } catch (e) {
+        showError(e.message);
+      }
+    }
+  }
+
+  showError(String errorMessage) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text(errorMessage),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 5.0,
         backgroundColor: Colors.white,
-        elevation: 0.0,
+        title: Text('Sign In', style: TextStyle(color: Colors.black),),
       ),
       body: Container(
-        padding: EdgeInsets.fromLTRB(15, 40, 0, 0),
-        child: Form(
+        child: Center(
           child: ListView(
             children: <Widget>[
-              Text(
-                'Enter your KIIT roll number',
-                style: TextStyle(fontSize: 30, fontFamily: 'Roboto')
-              ),
-              TextFormField(
-                decoration: new InputDecoration(
-                  hintText: 'Roll No',
+              Container(
+                padding: EdgeInsets.fromLTRB(10.0, 50.0, 10.0, 10.0),
+                child: Image(
+                  image: AssetImage("assets/logo.png"),
+                  width: 100.0,
+                  height: 100.0,
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute<Null>(builder: (BuildContext context){
-                              return SignIn();
-                            }));
-                },
-                child: Text(
-                  'Already have an account ? Sign In',
-                  textAlign: TextAlign.start,
-                  textDirection: TextDirection.ltr,
-                  style: TextStyle(fontSize: 20),
+              Container(
+                padding: EdgeInsets.all(15.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      //Name text Box
+                      Container(
+                        padding: EdgeInsets.only(top: 5.0),
+                        child: TextFormField(
+                          validator: (input) {
+                            if (input.isEmpty) {
+                              return 'Provide your real Name';
+                            }
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'Name',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(color: Colors.blue)
+                            ),
+                            //labelStyle: new TextStyle(color: Colors.blue),
+                          ),
+                          onSaved: (input) => _name = input,
+                        ),
+                      ),
+                      //E-mail Text box
+                      Container(
+                        padding: EdgeInsets.only(top: 8.0),
+                        child: TextFormField(
+                          validator: (input) {
+                            if (input.isEmpty) {
+                              return 'Provide an E-mail.';
+                            }
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'Email',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(color: Colors.blue)
+                            ),
+                            //labelStyle: new TextStyle(color: Colors.blue),
+                          ),
+                          onSaved: (input) => _email = input,
+                        ),
+                      ),
+                      //Password Text Box
+                      Container(
+                        padding: EdgeInsets.only(top: 8.0),
+                        child: TextFormField(
+                          validator: (input) {
+                            if (input.length < 6) {
+                              return 'Provide a Password which should have 6 character atleast.';
+                            }
+                          },
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide: BorderSide(color: Colors.blue)
+                            ),
+                            //labelStyle: new TextStyle(color: Colors.blue),
+                          ),
+                          onSaved: (input) => _password = input,
+                          obscureText: true,
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(0, 20.0, 0.0, 15.0),
+                        child: RaisedButton(
+                          padding:
+                              EdgeInsets.fromLTRB(100.0, 20.0, 100.0, 20.0),
+                          color: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6.0),
+                          ),
+                          onPressed: signup,
+                          child: Text(
+                            'Sign Up',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20.0),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: navigateToSignInPage,
+                        child: Text(
+                          'Already have an account? Sign In',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 15.0, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-         Navigator.of(context).push(MaterialPageRoute<Null>(builder: (BuildContext context){
-                              return NameDetails();
-                            })); 
-        },
-        child: Icon(Icons.arrow_forward),
-      ),
     );
   }
 }
-

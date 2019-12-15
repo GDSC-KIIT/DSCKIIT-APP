@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "322909612053",
+    "firebase_url": "https://dsckiit-app.firebaseio.com",
+    "project_id": "dsckiit-app",
+    "storage_bucket": "dsckiit-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:322909612053:android:49564672e66ac60cf9c61c",
+        "android_client_info": {
+          "package_name": "com.example.dsckiit_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "322909612053-q9t76jsa3q7ftf81cuevu1upifb24p3m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCn5rwlucxrcXDyOLYpMFQE8U6NZlrXiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "322909612053-q9t76jsa3q7ftf81cuevu1upifb24p3m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

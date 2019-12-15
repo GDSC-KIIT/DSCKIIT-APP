@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -6,10 +7,71 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  FirebaseUser user;
+  bool isSignedIn = false;
+
+  checkAuthentication() async {
+    _auth.onAuthStateChanged.listen((user) {
+      if (user == null) {
+        Navigator.pushReplacementNamed(context, "/OpeningPage");
+      }
+    });
+  }
+
+  getUser() async {
+    FirebaseUser firebaseUser = await _auth.currentUser();
+    await firebaseUser?.reload();
+    firebaseUser = await _auth.currentUser();
+
+    if (firebaseUser != null) {
+      setState(() {
+        this.user = firebaseUser;
+        this.isSignedIn = true;
+      });
+    }
+  }
+
+  signOut() async {
+    _auth.signOut();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this.checkAuthentication();
+    this.getUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            Text(
+              'This is Home Page',
+              style: TextStyle(
+                fontSize: 30,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(20.0),
+              child: RaisedButton(
+                color: Colors.blue,
+                padding: EdgeInsets.fromLTRB(100.0, 20.0, 100.0, 20.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                onPressed: signOut,
+                child: Text('Sign Out',
+                    style: TextStyle(color: Colors.white, fontSize: 20.0)),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

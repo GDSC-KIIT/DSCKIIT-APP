@@ -1,5 +1,5 @@
+import 'package:dsckiit_app/page/homePage.dart';
 import 'package:flutter/material.dart';
-import 'package:dsckiit_app/page/openingPage.dart';
 import 'dart:async';
 
 class SplashScreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void handleTimeOut() {
     Navigator.of(context).pushReplacement(new MaterialPageRoute(
-        builder: (BuildContext context) => new OpeningPage()));
+        builder: (BuildContext context) => new HomePage()));
   }
 
   startTimeout() async {
