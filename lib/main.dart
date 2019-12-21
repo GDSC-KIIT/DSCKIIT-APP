@@ -4,12 +4,14 @@ import 'package:dsckiit_app/page/openingPage.dart';
 import 'package:dsckiit_app/page/welcomePage.dart';
 import 'package:dsckiit_app/page/SignInPage.dart';
 import 'package:dsckiit_app/page/SignUpPage.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
