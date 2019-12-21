@@ -25,6 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_launcher_icons:
   firebase_auth: ^0.15.2
+  floating_search_bar:
 
 dev_dependencies:
   flutter_test:
