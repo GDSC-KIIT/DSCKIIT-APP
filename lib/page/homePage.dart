@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dsckiit_app/Widgets/custom_card.dart';
+import 'package:dsckiit_app/Widgets/custom_event_card.dart';
+import 'package:dsckiit_app/constants.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -47,30 +50,95 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            Text(
-              'This is Home Page',
-              style: TextStyle(
-                fontSize: 30,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(20.0),
-              child: RaisedButton(
-                color: Colors.blue,
-                padding: EdgeInsets.fromLTRB(100.0, 20.0, 100.0, 20.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "Ongoing",
+                      style: kHeadingStyle,
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.arrow_forward,
+                        color: Colors.grey[900],
+                      ),
+                      iconSize: 27,
+                      onPressed: () {},
+                    ),
+                  ],
                 ),
-                onPressed: signOut,
-                child: Text('Sign Out',
-                    style: TextStyle(color: Colors.white, fontSize: 20.0)),
               ),
-            ),
-          ],
+              Container(
+                height: 150,
+                child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 10,
+                  itemBuilder: (context, int index) {
+                    return CustomCard(
+                      title: 'Some title project',
+                      members: index + 1,
+                      color: Colors.indigo,
+                    );
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "Events and Schedules",
+                      style: kHeadingStyle,
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.arrow_forward,
+                        color: Colors.grey[900],
+                      ),
+                      iconSize: 27,
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 150,
+                child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 10,
+                  itemBuilder: (context, int index) {
+                    return CustomEventCard(
+                      title: 'Sample title',
+                      date: '31st October',
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          onPressed: (){},
       ),
     );
   }
