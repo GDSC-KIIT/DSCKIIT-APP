@@ -27,6 +27,7 @@ dependencies:
   firebase_auth: ^0.15.2
   floating_search_bar:
   flutter_statusbarcolor:
+  cloud_firestore: ^0.13.0+1
 
 dev_dependencies:
   flutter_test:
