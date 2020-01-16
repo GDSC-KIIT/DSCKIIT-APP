@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignupPage extends StatefulWidget {
   _SignupPageState createState() => _SignupPageState();
@@ -8,8 +9,24 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final db = Firestore.instance;
 
   String _name, _email, _password;
+
+  void createRecord(String email, String name, String uid) {
+      db.collection("count").document("userCount").get().then((DocumentSnapshot snapshot) async {
+      int usercount = snapshot['count'] + 1;
+      db.collection("count").document("userCount").updateData({'count': usercount});
+      print(usercount);
+      String x = 'user $usercount';
+      await db.collection("users").document(x).setData({
+        'userId': uid,
+        'email': email,
+        'name': name,
+        'admin': "no"
+        });
+    });
+  }
 
   checkAuthentication() async {
     _auth.onAuthStateChanged.listen((user) {
@@ -41,6 +58,7 @@ class _SignupPageState extends State<SignupPage> {
           UserUpdateInfo updateuser = UserUpdateInfo();
           updateuser.displayName = _name;
           user.updateProfile(updateuser);
+          this.createRecord(_email, _name, user.uid);
         }
       } catch (e) {
         showError(e.message);
@@ -73,7 +91,10 @@ class _SignupPageState extends State<SignupPage> {
       appBar: AppBar(
         elevation: 5.0,
         backgroundColor: Colors.white,
-        title: Text('Sign In', style: TextStyle(color: Colors.black),),
+        title: Text(
+          'Sign In',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: Container(
         child: Center(
@@ -105,9 +126,8 @@ class _SignupPageState extends State<SignupPage> {
                           decoration: InputDecoration(
                             labelText: 'Name',
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                              borderSide: BorderSide(color: Colors.blue)
-                            ),
+                                borderRadius: BorderRadius.circular(5.0),
+                                borderSide: BorderSide(color: Colors.blue)),
                             //labelStyle: new TextStyle(color: Colors.blue),
                           ),
                           onSaved: (input) => _name = input,
@@ -125,9 +145,8 @@ class _SignupPageState extends State<SignupPage> {
                           decoration: InputDecoration(
                             labelText: 'Email',
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                              borderSide: BorderSide(color: Colors.blue)
-                            ),
+                                borderRadius: BorderRadius.circular(5.0),
+                                borderSide: BorderSide(color: Colors.blue)),
                             //labelStyle: new TextStyle(color: Colors.blue),
                           ),
                           onSaved: (input) => _email = input,
@@ -145,9 +164,8 @@ class _SignupPageState extends State<SignupPage> {
                           decoration: InputDecoration(
                             labelText: 'Password',
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                              borderSide: BorderSide(color: Colors.blue)
-                            ),
+                                borderRadius: BorderRadius.circular(5.0),
+                                borderSide: BorderSide(color: Colors.blue)),
                             //labelStyle: new TextStyle(color: Colors.blue),
                           ),
                           onSaved: (input) => _password = input,
