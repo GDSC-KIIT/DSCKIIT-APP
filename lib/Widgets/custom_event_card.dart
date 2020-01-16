@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:dsckiit_app/constants.dart';
 
 class CustomEventCard extends StatelessWidget {
-  CustomEventCard({this.title, this.members = 0, this.date});
+  CustomEventCard({this.title, this.imgURL, this.members = 0, this.date});
 
-  String title;
+  String title, imgURL;
   int members;
   String date;
 
@@ -25,8 +25,9 @@ class CustomEventCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Image(
-                image: NetworkImage(
-                    "https://media.licdn.com/dms/image/C561BAQHF4693xVe78g/company-background_10000/0?e=2159024400&v=beta&t=UUZZCViH2CPkraPz1YZhf121oS_Nonr6xuH5hyEqX1g"),
+                image: NetworkImage(imgURL),
+                height: 80,
+                width: 200,
               ),
               SizedBox(
                 height: 10,

@@ -4,6 +4,7 @@ import 'package:dsckiit_app/Widgets/custom_card.dart';
 import 'package:dsckiit_app/Widgets/custom_event_card.dart';
 import 'package:dsckiit_app/constants.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -120,18 +121,47 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Container(
                     height: 150,
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 10,
-                      itemBuilder: (context, int index) {
-                        return CustomEventCard(
-                          title: 'Sample title',
-                          date: '31st October',
-                        );
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream:
+                          Firestore.instance.collection('events').snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasError)
+                          return new Text('Error: ${snapshot.error}');
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                            return new Text('Loading...');
+                          default:
+                            return new ListView(
+                              physics: BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              children: snapshot.data.documents
+                                  .map((DocumentSnapshot document) {
+                                return new CustomEventCard(
+                                  title: document['title'],
+                                  imgURL: document['image'],
+                                  date: document['date'],
+                                );
+                              }).toList(),
+                            );
+                        }
                       },
                     ),
+                    // child: ListView.builder(
+                    //   physics: BouncingScrollPhysics(),
+                    //   shrinkWrap: true,
+                    //   scrollDirection: Axis.horizontal,
+                    //   itemCount: 10,
+                    //   itemBuilder: (context, int index) {
+                    //     return CustomEventCard(
+                    //       title: 'Sample title',
+                    //       imgURL:
+                    //           'https://www.invensis.net/blog/wp-content/uploads/2015/05/Benefits-of-Python-over-other-programming-languages-invensis.jpg',
+                    //       date: '31st October',
+                    //     );
+                    //   },
+                    // ),
                   ),
                 ],
               ),
@@ -139,7 +169,8 @@ class _HomePageState extends State<HomePage> {
           );
         },
         trailing: CircleAvatar(
-          backgroundImage: NetworkImage('https://learncodeonline.in/mascot.png'),
+          backgroundImage:
+              NetworkImage('https://learncodeonline.in/mascot.png'),
           //backgroundImage: NetworkImage(user.photoUrl),
           backgroundColor: Colors.transparent,
           //child: Text("RD"),
