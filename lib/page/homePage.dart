@@ -158,7 +158,9 @@ class _HomePageState extends State<HomePage> {
           Icons.add,
           color: Colors.white,
         ),
-        onPressed: () {},
+        onPressed: () {
+          FirebaseAuth.instance.signOut();
+        },
       ),
     );
   }
