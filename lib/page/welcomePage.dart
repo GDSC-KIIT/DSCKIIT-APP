@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dsckiit_app/page/homePage.dart';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -52,7 +52,10 @@ class _WelcomePageState extends State<WelcomePage> {
       body: Container(
         child: Center(
           child: !isSignedIn
-              ? CircularProgressIndicator()
+              ? SpinKitWave(
+                  color: Colors.blue,
+                  type: SpinKitWaveType.center,
+                )
               : Column(
                   children: <Widget>[
                     Container(
@@ -78,8 +81,10 @@ class _WelcomePageState extends State<WelcomePage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        onPressed: (){
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context){
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) {
                             return HomePage();
                           }));
                         },
