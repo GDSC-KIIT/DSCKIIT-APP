@@ -92,7 +92,7 @@ class _SignupPageState extends State<SignupPage> {
         elevation: 5.0,
         backgroundColor: Colors.white,
         title: Text(
-          'Sign In',
+          'Sign Up',
           style: TextStyle(color: Colors.black),
         ),
       ),
