@@ -1,3 +1,4 @@
+import 'package:dsckiit_app/page/media_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dsckiit_app/Widgets/custom_card.dart';
@@ -6,6 +7,7 @@ import 'package:dsckiit_app/constants.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'account_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -34,6 +36,7 @@ class _HomePageState extends State<HomePage> {
     if (firebaseUser != null) {
       setState(() {
         this.user = firebaseUser;
+
         this.isSignedIn = true;
       });
     }
@@ -125,7 +128,7 @@ class _HomePageState extends State<HomePage> {
                     height: 150,
                     child: StreamBuilder<QuerySnapshot>(
                       stream:
-                          Firestore.instance.collection('events').snapshots(),
+                      Firestore.instance.collection('events').snapshots(),
                       builder: (BuildContext context,
                           AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.hasError)
@@ -144,6 +147,7 @@ class _HomePageState extends State<HomePage> {
                                   title: document['title'],
                                   imgURL: document['image'],
                                   date: document['date'],
+                                  registerUrl: 'https://google.com',
                                 );
                               }).toList(),
                             );
@@ -171,11 +175,11 @@ class _HomePageState extends State<HomePage> {
           );
         },
         trailing: CircleAvatar(backgroundImage: NetworkImage("https://www.learncodeonline.in/mascot.png"),
-            backgroundColor: Colors.transparent,
-            ),
+          backgroundColor: Colors.transparent,
+        ),
         drawer: Drawer(
           child: ListView(
-            padding: EdgeInsets.zero,
+            padding: EdgeInsets.only(top: 10),
             children: <Widget>[
               DrawerHeader(
                 decoration: BoxDecoration(
@@ -192,7 +196,10 @@ class _HomePageState extends State<HomePage> {
               ListTile(
                 title: Text("Accounts"),
                 trailing: Icon(Icons.person),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => AccountPage(user: user)));
+                },
               ),
               ListTile(
                 title: Text("Chats"),
@@ -202,7 +209,10 @@ class _HomePageState extends State<HomePage> {
               ListTile(
                 title: Text("Media"),
                 trailing: Icon(Icons.photo),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MediaPage()));
+                },
               ),
               ListTile(
                 title: Text("Feedback From"),

@@ -39,12 +39,15 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(Colors.white);
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          image: DecorationImage(
-            image: AssetImage('assets/dsckiitLogo.png',),
-            //fit: BoxFit.
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            image: DecorationImage(
+              image: AssetImage('assets/dsckiitLogo.png',),
+              //fit: BoxFit.
+            ),
           ),
         ),
       ),
