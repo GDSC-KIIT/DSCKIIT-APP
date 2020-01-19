@@ -1,6 +1,7 @@
 import 'package:dsckiit_app/page/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class SigninPage extends StatefulWidget {
   @override
@@ -69,10 +70,11 @@ class _SigninPageState extends State<SigninPage> {
 
   @override
   Widget build(BuildContext context) {
+    //FlutterStatusbarcolor.setStatusBarColor(Colors.black);
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.white,
         title: Text('Sign In', style: TextStyle(color: Colors.black),),
       ),
       body: Container(

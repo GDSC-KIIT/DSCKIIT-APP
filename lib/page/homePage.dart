@@ -5,6 +5,7 @@ import 'package:dsckiit_app/Widgets/custom_event_card.dart';
 import 'package:dsckiit_app/constants.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -51,6 +52,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
     return Scaffold(
       backgroundColor: Colors.white,
       body: FloatingSearchBar.builder(
@@ -168,15 +170,55 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         },
-        trailing: CircleAvatar(
-          backgroundImage:
-              NetworkImage('https://learncodeonline.in/mascot.png'),
-          //backgroundImage: NetworkImage(user.photoUrl),
-          backgroundColor: Colors.transparent,
-          //child: Text("RD"),
-        ),
+        trailing: CircleAvatar(backgroundImage: NetworkImage("https://www.learncodeonline.in/mascot.png"),
+            backgroundColor: Colors.transparent,
+            ),
         drawer: Drawer(
-          child: Container(),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                    color: Colors.black,
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/logo.png',
+                      ),
+                      fit: BoxFit.none,
+                    )),
+
+                //child: Text('Header'),
+              ),
+              ListTile(
+                title: Text("Accounts"),
+                trailing: Icon(Icons.person),
+                onTap: () {},
+              ),
+              ListTile(
+                title: Text("Chats"),
+                trailing: Icon(Icons.message),
+                onTap: () {},
+              ),
+              ListTile(
+                title: Text("Media"),
+                trailing: Icon(Icons.photo),
+                onTap: () {},
+              ),
+              ListTile(
+                title: Text("Feedback From"),
+                trailing: Icon(Icons.feedback),
+                onTap: () {},
+              ),
+              Divider(),
+              ListTile(
+                title: Text("Close"),
+                trailing: Icon(Icons.close),
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
         ),
         onChanged: (String value) {},
         onTap: () {},

@@ -1,5 +1,6 @@
 import 'package:dsckiit_app/page/homePage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'dart:async';
 
 class SplashScreen extends StatefulWidget {
@@ -36,12 +37,14 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           color: Colors.white,
           image: DecorationImage(
-            image: AssetImage('assets/dsckiitLogo.png'),
+            image: AssetImage('assets/dsckiitLogo.png',),
+            //fit: BoxFit.
           ),
         ),
       ),

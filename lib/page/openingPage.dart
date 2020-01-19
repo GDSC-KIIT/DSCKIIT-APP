@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dsckiit_app/page/SignUpPage.dart';
 import 'package:dsckiit_app/page/SignInPage.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class OpeningPage extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class OpeningPage extends StatefulWidget {
 class _OpeningPageState extends State<OpeningPage> {
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -66,7 +68,7 @@ class _OpeningPageState extends State<OpeningPage> {
                     children: <Widget>[
                       RaisedButton(
                         onPressed: () {
-                          Navigator.of(context).pushReplacement(MaterialPageRoute<Null>(
+                          Navigator.of(context).push(MaterialPageRoute<Null>(
                               builder: (BuildContext context) {
                             return SignupPage();
                           }));
@@ -77,7 +79,7 @@ class _OpeningPageState extends State<OpeningPage> {
                       ),
                       RaisedButton(
                         onPressed: () {
-                          Navigator.of(context).pushReplacement(MaterialPageRoute<Null>(
+                          Navigator.of(context).push(MaterialPageRoute<Null>(
                               builder: (BuildContext context) {
                             return SigninPage();
                           }));

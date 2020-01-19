@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class SignupPage extends StatefulWidget {
   _SignupPageState createState() => _SignupPageState();
@@ -87,10 +88,11 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    //FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.white,
         title: Text(
           'Sign Up',
           style: TextStyle(color: Colors.black),
