@@ -29,6 +29,8 @@ dependencies:
   floating_search_bar:
   flutter_statusbarcolor:
   cloud_firestore:
+  firebase_storage:
+  firebase_core:
 
   
 
