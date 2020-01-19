@@ -95,7 +95,7 @@ class _SignupPageState extends State<SignupPage> {
         //backgroundColor: Colors.white,
         title: Text(
           'Sign Up',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: Container(

@@ -75,7 +75,7 @@ class _SigninPageState extends State<SigninPage> {
       appBar: AppBar(
         elevation: 5.0,
         //backgroundColor: Colors.white,
-        title: Text('Sign In', style: TextStyle(color: Colors.black),),
+        title: Text('Sign In', style: TextStyle(color: Colors.white),),
       ),
       body: Container(
         child: Center(
