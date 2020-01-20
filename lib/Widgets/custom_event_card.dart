@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:dsckiit_app/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'package:dsckiit_app/constants.dart';
 
 class CustomEventCard extends StatelessWidget {
   CustomEventCard(

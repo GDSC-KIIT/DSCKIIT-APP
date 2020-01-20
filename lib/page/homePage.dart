@@ -191,7 +191,7 @@ class _HomePageState extends State<HomePage> {
                       image: AssetImage(
                         'assets/logo.png',
                       ),
-                      fit: BoxFit.none,
+                      fit: BoxFit.cover,
                     )),
 
                 //child: Text('Header'),
@@ -205,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               ListTile(
-                title: Text("Chats"),
+                title: Text("Chat"),
                 trailing: Icon(Icons.message),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(builder: (context){
