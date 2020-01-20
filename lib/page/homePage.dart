@@ -1,3 +1,4 @@
+import 'package:dsckiit_app/page/chatPage.dart';
 import 'package:dsckiit_app/page/media_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,7 +8,7 @@ import 'package:dsckiit_app/constants.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-import 'account_page.dart';
+import 'package:dsckiit_app/page/account_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -204,10 +205,14 @@ class _HomePageState extends State<HomePage> {
               ListTile(
                 title: Text("Chats"),
                 trailing: Icon(Icons.message),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                    return ChatPage();
+                  }));
+                },
               ),
               ListTile(
-                title: Text("Media"),
+                title: Text("Noticeboard"),
                 trailing: Icon(Icons.photo),
                 onTap: () {
                   Navigator.push(context,
