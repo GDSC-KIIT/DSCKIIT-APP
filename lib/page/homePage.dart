@@ -54,6 +54,8 @@ class _HomePageState extends State<HomePage> {
     this.getUser();
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey);

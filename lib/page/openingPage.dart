@@ -70,6 +70,43 @@ class _OpeningPageState extends State<OpeningPage> {
     }));
   }
 
+  Widget _signInButton() {
+    return OutlineButton(
+      splashColor: Colors.grey,
+      onPressed: this._busy
+          ? null
+          : () async {
+              setState(() => this._busy = true);
+              final user = await this._googleSignIn();
+              this._showUserProfilePage(user);
+              setState(() => this._busy = false);
+            },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      highlightElevation: 0,
+      borderSide: BorderSide(color: Colors.grey),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image(image: AssetImage("assets/google_logo.png"), height: 20.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                'Sign in with Google',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey,
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
@@ -147,30 +184,7 @@ class _OpeningPageState extends State<OpeningPage> {
                   padding: EdgeInsets.only(top: 50),
                 ),
                 Center(
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    onPressed: this._busy
-                        ? null
-                        : () async {
-                            setState(() => this._busy = true);
-                            final user = await this._googleSignIn();
-                            this._showUserProfilePage(user);
-                            setState(() => this._busy = false);
-                          },
-                    textColor: Colors.white,
-                    padding: const EdgeInsets.all(0.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color(0xFFB00020),
-                      ),
-                      padding: const EdgeInsets.all(10.0),
-                      child: const Text('Log in With Gmail',
-                          style: TextStyle(fontSize: 20)),
-                    ),
-                  ),
+                  child: _signInButton(),
                 )
               ],
             ),
