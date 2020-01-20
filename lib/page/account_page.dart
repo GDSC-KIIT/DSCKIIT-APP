@@ -25,19 +25,19 @@ class AccountPage extends StatelessWidget {
               backgroundColor: Colors.white,
               minRadius: 30,
               child: Image.network(
-                  "https://static.thenounproject.com/png/17241-200.png"),
+                  user.photoUrl==null?"https://static.thenounproject.com/png/17241-200.png":user.photoUrl),
             ),
             SizedBox(
               height: 20,
             ),
             Text(
-              "User name",
+              user.displayName,
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 40),
             ),
             SizedBox(
               height: 20,
             ),
-            Text("User email", style: TextStyle(fontSize: 20))
+            Text(user.email, style: TextStyle(fontSize: 20))
           ],
         ),
       ),

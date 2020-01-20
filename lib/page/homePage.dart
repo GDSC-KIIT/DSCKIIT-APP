@@ -1,5 +1,6 @@
 import 'package:dsckiit_app/page/chatPage.dart';
 import 'package:dsckiit_app/page/media_page.dart';
+import 'package:dsckiit_app/screen/chatScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dsckiit_app/Widgets/custom_card.dart';
@@ -209,7 +210,7 @@ class _HomePageState extends State<HomePage> {
                 trailing: Icon(Icons.message),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                    return ChatPage();
+                    return ChatScreen();
                   }));
                 },
               ),
