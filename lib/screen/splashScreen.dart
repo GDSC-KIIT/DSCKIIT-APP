@@ -2,6 +2,9 @@ import 'package:dsckiit_app/page/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import '../page/homePage.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -12,6 +15,17 @@ class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   AnimationController _iconAnimationController;
   CurvedAnimation _iconAnimation;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  checkAuthentication() async {
+    _auth.onAuthStateChanged.listen((user) {
+      if (user == null) {
+        Navigator.pushReplacementNamed(context, "/OpeningPage");
+      }else{
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+      }
+    });
+  }
 
   void handleTimeOut() {
     Navigator.of(context).pushReplacement(new MaterialPageRoute(
@@ -25,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void initState() {
-    super.initState();
+    Future.delayed(Duration(seconds: 3),() => checkAuthentication());
     _iconAnimationController = AnimationController(
         vsync: this, duration: new Duration(milliseconds: 2200));
     _iconAnimation = new CurvedAnimation(
@@ -33,6 +47,7 @@ class _SplashScreenState extends State<SplashScreen>
     _iconAnimation.addListener(() => this.setState(() {}));
     _iconAnimationController.forward();
     startTimeout();
+    super.initState();
   }
 
   @override

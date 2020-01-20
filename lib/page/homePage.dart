@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
+    FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
     return Scaffold(
       backgroundColor: Colors.white,
       body: FloatingSearchBar.builder(
@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                                   title: document['title'],
                                   imgURL: document['image'],
                                   date: document['date'],
-                                  registerUrl: 'https://google.com',
+                                  registerUrl: document['register'],
                                 );
                               }).toList(),
                             );
