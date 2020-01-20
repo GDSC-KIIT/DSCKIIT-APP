@@ -109,7 +109,7 @@ class _OpeningPageState extends State<OpeningPage> {
 
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
+    FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
     return Scaffold(
       body: Stack(
         children: <Widget>[

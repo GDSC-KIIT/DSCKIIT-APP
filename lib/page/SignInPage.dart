@@ -1,4 +1,5 @@
 import 'package:dsckiit_app/page/homePage.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
@@ -154,15 +155,36 @@ class _SigninPageState extends State<SigninPage> {
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: navigateToSignupScreen,
-                        child: Text(
-                          'New to the Community? Sign Up',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 15.0, fontWeight: FontWeight.bold),
-                        ),
+
+                      RichText(
+                        text: new TextSpan(text: '',
+                            children: [
+                              new TextSpan(
+                                  text: 'New to the Community ?',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16
+                                  )
+                              ),
+                              new TextSpan(
+                                text: ' Sign Up',
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 16
+                                ),
+                                recognizer: new TapGestureRecognizer()..onTap = navigateToSignupScreen,
+                              )
+                            ]),
                       ),
+//                      GestureDetector(
+//                        onTap: navigateToSignupScreen,
+//                        child: Text(
+//                          'New to the Community? Sign Up',
+//                          textAlign: TextAlign.center,
+//                          style: TextStyle(
+//                              fontSize: 15.0, fontWeight: FontWeight.bold),
+//                        ),
+//                      ),
                     ],
                   ),
                 ),

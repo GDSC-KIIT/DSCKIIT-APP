@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dsckiit_app/constants.dart';
-//import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CustomEventCard extends StatelessWidget {
   CustomEventCard(
@@ -108,7 +108,7 @@ Widget _buildAboutDialog(BuildContext context, String title, String imgURL,
       ),
       FlatButton(
         onPressed: () {
-          //_launchURL(registerUrl);
+          launch(registerUrl);
         },
         textColor: Theme
             .of(context)

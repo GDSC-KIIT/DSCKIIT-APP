@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,12 +20,11 @@ class _SignupPageState extends State<SignupPage> {
       int usercount = snapshot['count'] + 1;
       db.collection("count").document("userCount").updateData({'count': usercount});
       // print(usercount);
-      String x = 'user $usercount';
-      await db.collection("users").document(x).setData({
+      await db.collection("users").add({
         'userId': uid,
         'email': email,
         'name': name,
-        'admin': "no"
+        'admin': false
         });
     });
   }
@@ -50,7 +50,6 @@ class _SignupPageState extends State<SignupPage> {
   signup() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-
       try {
         FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
                 email: _email, password: _password))
@@ -92,7 +91,6 @@ class _SignupPageState extends State<SignupPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 5.0,
-        //backgroundColor: Colors.white,
         title: Text(
           'Sign Up',
           style: TextStyle(color: Colors.white),
@@ -103,7 +101,7 @@ class _SignupPageState extends State<SignupPage> {
           child: ListView(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.fromLTRB(10.0, 50.0, 10.0, 10.0),
+                padding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 10.0),
                 child: Image(
                   image: AssetImage("assets/logo.png"),
                   width: 100.0,
@@ -175,10 +173,9 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.fromLTRB(0, 20.0, 0.0, 15.0),
+                        padding: EdgeInsets.fromLTRB(0, 30.0, 0.0, 15.0),
                         child: RaisedButton(
-                          padding:
-                              EdgeInsets.fromLTRB(100.0, 20.0, 100.0, 20.0),
+                          padding: EdgeInsets.fromLTRB(100.0, 20.0, 100.0, 20.0),
                           color: Colors.blue,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6.0),
@@ -191,15 +188,35 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: navigateToSignInPage,
-                        child: Text(
-                          'Already have an account? Sign In',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 15.0, fontWeight: FontWeight.bold),
-                        ),
+                      RichText(
+                        text: new TextSpan(text: '',
+                            children: [
+                          new TextSpan(
+                            text: 'Already have an account ?',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16
+                            )
+                          ),
+                          new TextSpan(
+                            text: ' Sign In',
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 16
+                              ),
+                            recognizer: new TapGestureRecognizer()..onTap = navigateToSignInPage,
+                          )
+                        ]),
                       ),
+//                      GestureDetector(
+//                        onTap: navigateToSignInPage,
+//                        child: Text(
+//                          'Already have an account? Sign In',
+//                          textAlign: TextAlign.center,
+//                          style: TextStyle(
+//                              fontSize: 15.0, fontWeight: FontWeight.bold),
+//                        ),
+//                      ),
                     ],
                   ),
                 ),
