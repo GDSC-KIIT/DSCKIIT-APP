@@ -20,7 +20,7 @@ class _SignupPageState extends State<SignupPage> {
       int usercount = snapshot['count'] + 1;
       db.collection("count").document("userCount").updateData({'count': usercount});
       // print(usercount);
-      await db.collection("users").add({
+      await db.collection("users").document(uid).setData({
         'userId': uid,
         'email': email,
         'name': name,

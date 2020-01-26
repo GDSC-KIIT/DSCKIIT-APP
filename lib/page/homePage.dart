@@ -1,3 +1,4 @@
+import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/media_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,7 +8,7 @@ import 'package:dsckiit_app/constants.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-import 'account_page.dart';
+import 'package:dsckiit_app/page/account_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -55,7 +56,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
     return Scaffold(
       backgroundColor: Colors.white,
       body: FloatingSearchBar.builder(
@@ -91,10 +92,10 @@ class _HomePageState extends State<HomePage> {
                       physics: BouncingScrollPhysics(),
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemCount: 10,
+                      itemCount: 3,
                       itemBuilder: (context, int index) {
                         return CustomCard(
-                          title: 'Some title project',
+                          title: 'American Sign Language Recognition',
                           members: index + 1,
                           color: Colors.indigo,
                         );
@@ -128,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                     height: 150,
                     child: StreamBuilder<QuerySnapshot>(
                       stream:
-                      Firestore.instance.collection('events').snapshots(),
+                          Firestore.instance.collection('events').snapshots(),
                       builder: (BuildContext context,
                           AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.hasError)
@@ -174,12 +175,18 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         },
-        trailing: CircleAvatar(backgroundImage: NetworkImage("https://www.learncodeonline.in/mascot.png"),
-          backgroundColor: Colors.transparent,
-        ),
+        trailing: user.photoUrl != null
+            ? CircleAvatar(
+                backgroundImage: NetworkImage(user.photoUrl),
+                backgroundColor: Colors.transparent,
+              )
+            : CircleAvatar(
+                child: Text(user.displayName[0]),
+              ),
+          
         drawer: Drawer(
           child: ListView(
-            padding: EdgeInsets.only(top: 10),
+            padding: EdgeInsets.only(top: 0),
             children: <Widget>[
               DrawerHeader(
                 decoration: BoxDecoration(
@@ -188,26 +195,32 @@ class _HomePageState extends State<HomePage> {
                       image: AssetImage(
                         'assets/logo.png',
                       ),
-                      fit: BoxFit.none,
+                      fit: BoxFit.cover,
                     )),
-
                 //child: Text('Header'),
               ),
               ListTile(
                 title: Text("Accounts"),
                 trailing: Icon(Icons.person),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => AccountPage(user: user)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AccountPage(user: user)));
                 },
               ),
               ListTile(
-                title: Text("Chats"),
+                title: Text("Chat"),
                 trailing: Icon(Icons.message),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return ChatContainer(uid: user.uid);
+                  }));
+                },
               ),
               ListTile(
-                title: Text("Media"),
+                title: Text("Noticeboard"),
                 trailing: Icon(Icons.photo),
                 onTap: () {
                   Navigator.push(context,

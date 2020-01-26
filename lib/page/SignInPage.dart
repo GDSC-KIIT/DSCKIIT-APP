@@ -59,7 +59,6 @@ class _SigninPageState extends State<SigninPage> {
   void signin() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-
       try {
         FirebaseUser user = (await _auth.signInWithEmailAndPassword(
             email: _email, password: _password)).user;

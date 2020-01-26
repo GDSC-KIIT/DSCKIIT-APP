@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AccountPage extends StatelessWidget {
   AccountPage({this.user});
 
-  FirebaseUser user;
+  final FirebaseUser user;
 
   @override
   Widget build(BuildContext context) {

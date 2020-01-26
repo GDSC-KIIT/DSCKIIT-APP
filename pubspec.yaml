@@ -20,8 +20,15 @@ dependencies:
   cloud_firestore:
   firebase_storage:
   firebase_core:
-
-  
+  intl:
+  cached_network_image:
+  image_picker:
+  shared_preferences:
+  firebase_database: ^3.0.7
+  fluttertoast:
+  google_sign_in:
+  firebase_analytics:
+  url_launcher:
 
 
 dev_dependencies:
@@ -54,6 +61,7 @@ flutter:
    - assets/welcome.png
    - assets/collab.png
    - assets/events.png
+   - assets/google_logo.png
   #  - images/a_dot_ham.jpeg
 
   
