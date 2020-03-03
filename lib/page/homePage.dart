@@ -1,4 +1,5 @@
 import 'package:dsckiit_app/page/chatPage.dart';
+import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/media_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -186,7 +187,7 @@ class _HomePageState extends State<HomePage> {
           
         drawer: Drawer(
           child: ListView(
-            padding: EdgeInsets.only(top: 10),
+            padding: EdgeInsets.only(top: 0),
             children: <Widget>[
               DrawerHeader(
                 decoration: BoxDecoration(
@@ -197,7 +198,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                       fit: BoxFit.cover,
                     )),
-
                 //child: Text('Header'),
               ),
               ListTile(
@@ -217,6 +217,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
                     return ChatPage();
+                    return ChatContainer(uid: user.uid);
                   }));
                 },
               ),
