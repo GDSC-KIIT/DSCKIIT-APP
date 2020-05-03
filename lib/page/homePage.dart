@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                           return new Text('Error: ${snapshot.error}');
                         switch (snapshot.connectionState) {
                           case ConnectionState.waiting:
-                            return new Text('Loading...');
+                            return Center(child: CircularProgressIndicator());
                           default:
                             return new ListView(
                               physics: BouncingScrollPhysics(),
