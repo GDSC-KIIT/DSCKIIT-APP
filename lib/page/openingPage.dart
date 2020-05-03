@@ -1,5 +1,6 @@
 import 'package:dsckiit_app/Widgets/rounded_button.dart';
 import 'package:dsckiit_app/page/homePage.dart';
+import 'package:dsckiit_app/screen/animatorLoader.dart';
 import 'package:flutter/material.dart';
 import 'package:dsckiit_app/page/SignUpPage.dart';
 import 'package:dsckiit_app/page/SignInPage.dart';
@@ -17,6 +18,7 @@ class OpeningPage extends StatefulWidget {
 }
 
 class _OpeningPageState extends State<OpeningPage> {
+  
   FirebaseUser _user;
   // If this._busy=true, the buttons are not clickable. This is to avoid
   // clicking buttons while a previous onTap function is not finished.
@@ -47,7 +49,8 @@ class _OpeningPageState extends State<OpeningPage> {
         (await FirebaseAuth.instance.signInWithCredential(credential)).user;
     kFirebaseAnalytics.logLogin();
     setState(() => this._user = user);
-    return user;
+  return user;
+    
   }
 
   Future<Null> _signOut() async {
@@ -66,7 +69,7 @@ class _OpeningPageState extends State<OpeningPage> {
   void _showUserProfilePage(FirebaseUser user) {
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (BuildContext context) {
-      return HomePage();
+      return Loader();
     }));
   }
 

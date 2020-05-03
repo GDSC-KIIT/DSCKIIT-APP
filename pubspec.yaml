@@ -29,6 +29,7 @@ dependencies:
   google_sign_in: 4.4.4
   firebase_analytics: ^5.0.11
   url_launcher: ^5.4.5
+  meet_network_image: ^0.1.2
     
   
 
@@ -65,7 +66,8 @@ flutter:
    - assets/collab.png
    - assets/events.png
    - assets/google_logo.png
-  #  - images/a_dot_ham.jpeg
+   - assets/mascot.png
+   - assets/animator.gif
 
   
   # An image asset can refer to one or more resolution-specific "variants", see
