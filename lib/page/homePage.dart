@@ -184,7 +184,6 @@ class _HomePageState extends State<HomePage> {
             : CircleAvatar(
                 child: Text(user.displayName[0]),
               ),
-          
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.only(top: 0),
