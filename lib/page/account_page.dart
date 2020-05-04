@@ -12,7 +12,6 @@ class AccountPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Account"),
         centerTitle: true,
-        backgroundColor: Colors.indigoAccent[200],
       ),
       body: Container(
         child: Column(
@@ -31,13 +30,13 @@ class AccountPage extends StatelessWidget {
               height: 20,
             ),
             Text(
-              "User name",
+              user.displayName,
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 40),
             ),
             SizedBox(
               height: 20,
             ),
-            Text("User email", style: TextStyle(fontSize: 20))
+            Text(user.email, style: TextStyle(fontSize: 20))
           ],
         ),
       ),
