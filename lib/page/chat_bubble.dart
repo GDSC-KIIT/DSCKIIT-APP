@@ -49,29 +49,21 @@ class _ChatBubbleState extends State<ChatBubble> {
     return Align(
       alignment: fromMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Column(
+        crossAxisAlignment: fromMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Container(
             padding: EdgeInsets.all(10.0),
-            margin: fromMe
-                ? EdgeInsets.only(
-              right: 5.0,
-              bottom: 15.0,
-            )
-                : EdgeInsets.only(
-              left: 5.0,
-              bottom: 15.0,
-            ),
-            decoration: BoxDecoration(
+              decoration: BoxDecoration(
               gradient: fromMe ? chatBubbleGradient : chatBubbleGradient2,
               borderRadius: fromMe
                   ? BorderRadius.only(
-                topLeft: Radius.circular(9.0),
-                bottomLeft: Radius.circular(9.0),
-                topRight: Radius.circular(9.0),
+                topLeft: Radius.circular(30.0),
+                bottomLeft: Radius.circular(30.0),
+                topRight: Radius.circular(30.0),
               ) : BorderRadius.only(
-                topRight: Radius.circular(9.0),
-                topLeft: Radius.circular(9.0),
-                bottomRight: Radius.circular(9.0),
+                topRight: Radius.circular(30.0),
+                topLeft: Radius.circular(30.0),
+                bottomRight: Radius.circular(30.0),
               ),
             ),
             constraints: BoxConstraints(
@@ -119,21 +111,13 @@ class _ChatBubbleState extends State<ChatBubble> {
                         ),
                       ),
                     )
-                ): Text(
-                  messageBody,
-                  style: TextStyle(
-                    color: fromMe ? Colors.white70 : Colors.black,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Align(
-                  alignment: fromMe ? Alignment.centerRight : Alignment.centerRight,
+                ): Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
                   child: Text(
-                    timeString,
+                    messageBody,
                     style: TextStyle(
-                      color: fromMe ? Colors.white70 : Colors.black,
-                      fontSize: 11.0,
+                      color: fromMe ? Colors.white : Colors.black,
+                      fontSize: 16.0,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -141,6 +125,14 @@ class _ChatBubbleState extends State<ChatBubble> {
               ],
             ),
           ),
+          Text(
+            timeString,
+            style: TextStyle(
+              color: Colors.blueGrey,
+              fontSize: 14.0,
+            ),
+          ),
+          SizedBox(height: 5)
         ],
       ),
     );

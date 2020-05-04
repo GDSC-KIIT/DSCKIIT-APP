@@ -164,6 +164,7 @@ class ChatScreenState extends State<ChatPage> {
             color: Colors.grey.shade200,
           ),
           child: new Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               new Container(
                 margin: new EdgeInsets.symmetric(horizontal: 4.0),
@@ -213,7 +214,7 @@ class ChatScreenState extends State<ChatPage> {
                   ),
                 ),
               ),
-              new Container(
+              Container(
                 margin: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: Theme.of(context).platform == TargetPlatform.iOS
                     ? getIOSSendButton()
