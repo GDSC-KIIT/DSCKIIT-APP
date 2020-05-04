@@ -17,13 +17,15 @@ class _ChatContainerState extends State<ChatContainer> {
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           bottom: TabBar(
             tabs: [
               Tab(text: "Group\'s",),
               Tab(text: "Personal",),
             ],
           ),
-          title: Text('Chat'),
+          title: Text('Messages', style: TextStyle(fontSize: 30)),
+          centerTitle: true,
         ),
         backgroundColor: Color(0xfffff2f2f2),
         body: TabBarView(

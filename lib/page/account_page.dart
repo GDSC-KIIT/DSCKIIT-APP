@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class AccountPage extends StatelessWidget {
   AccountPage({this.user});
@@ -15,13 +16,16 @@ class AccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Color(0xff183E8D),
         title: Text("Account"),
         centerTitle: true,
       ),
       body: Container(
+        width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SizedBox(
               height: 50,
@@ -29,7 +33,8 @@ class AccountPage extends StatelessWidget {
             CircleAvatar(
               backgroundColor: Colors.white,
               minRadius: 30,
-              child: Image.network(user.photoUrl),
+              maxRadius: 60,
+              child: user.photoUrl == null ? Image.asset('assets/user.png', fit: BoxFit.fill,) : Image.network(user.photoUrl),
             ),
             SizedBox(
               height: 20,
@@ -42,9 +47,10 @@ class AccountPage extends StatelessWidget {
               //height: MediaQuery.of(context).size.height,
             ),
             Text(user.email, style: TextStyle(fontSize: 20)),
+            SizedBox(height: 20,),
             RaisedButton(
               color: Color(0xff183E8D),
-                child: Text("Sign Out"),
+                child: Text("Sign Out", style: TextStyle(color: Colors.white),),
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
                 })
