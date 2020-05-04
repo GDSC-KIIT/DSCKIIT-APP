@@ -1,4 +1,3 @@
-import 'package:dsckiit_app/screen/chatScreen.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
@@ -17,7 +16,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
           elevation: 5.0,
       ),
-      body: ChatScreen(),
+      body: ChatPage(),
     );
   }
 }

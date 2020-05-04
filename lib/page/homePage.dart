@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dsckiit_app/page/chatPage.dart';
 import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/media_page.dart';
@@ -185,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                   backgroundColor: Colors.transparent,
                 )
               : CircleAvatar(
-                  backgroundImage: NetworkImage(user.photoUrl),
+                  backgroundImage: user!=null ? user.photoUrl!=null ? NetworkImage(user.photoUrl) : AssetImage('assets/user.png') : AssetImage('assets/user.png'),
                   backgroundColor: Colors.transparent,
                 ),
           drawer: Drawer(
@@ -219,8 +218,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return ChatPage();
-                      return ChatContainer(uid: user.uid);
+                      return ChatContainer();
                     }));
                   },
                 ),

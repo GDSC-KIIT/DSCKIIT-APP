@@ -1,5 +1,4 @@
 import 'package:dsckiit_app/page/personal_chat_list.dart';
-import 'package:dsckiit_app/screen/chatScreen.dart';
 import 'package:flutter/material.dart';
 
 class ChatContainer extends StatefulWidget {
