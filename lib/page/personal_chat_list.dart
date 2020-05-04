@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsckiit_app/page/chat_page.dart';
 import 'package:dsckiit_app/page/user_list.dart';

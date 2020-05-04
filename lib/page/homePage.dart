@@ -1,4 +1,3 @@
-import 'package:dsckiit_app/page/chatPage.dart';
 import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/media_page.dart';
 import 'package:flutter/material.dart';

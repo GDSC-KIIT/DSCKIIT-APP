@@ -1,5 +1,4 @@
 import 'package:dsckiit_app/Widgets/rounded_button.dart';
-import 'package:dsckiit_app/page/homePage.dart';
 import 'package:dsckiit_app/screen/animatorLoader.dart';
 import 'package:flutter/material.dart';
 import 'package:dsckiit_app/page/SignUpPage.dart';
