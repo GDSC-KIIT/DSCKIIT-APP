@@ -8,7 +8,6 @@ class MediaPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Media"),
         centerTitle: true,
-        backgroundColor: Colors.indigoAccent[200],
       ),
       body: Container(
           child: ListView.builder(
