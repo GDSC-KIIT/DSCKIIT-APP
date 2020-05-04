@@ -1,5 +1,7 @@
 import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/media_page.dart';
+import 'package:dsckiit_app/page/mentorPage.dart';
+import 'package:dsckiit_app/page/teamPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dsckiit_app/Widgets/custom_card.dart';
@@ -203,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   ListTile(
                     title: Text("Accounts"),
-                    trailing: Icon(Icons.person),
+                    trailing: Icon(Icons.perm_identity),
                     onTap: () {
                       Navigator.push(
                           context,
@@ -215,10 +217,20 @@ class _HomePageState extends State<HomePage> {
                     title: Text("Mentors"),
                     trailing: Icon(Icons.person),
                     onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => AccountPage(user: user)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MentorPage()));
+                    },
+                  ),
+                  ListTile(
+                    title: Text("Team"),
+                    trailing: Icon(Icons.group),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TeamPage()));
                     },
                   ),
                   ListTile(
@@ -263,6 +275,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xff183E8D),
           child: Icon(
             Icons.add,
             color: Colors.white,

@@ -5,11 +5,17 @@ class AccountPage extends StatelessWidget {
   AccountPage({this.user});
 
   final FirebaseUser user;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  signOut() async {
+    _auth.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff183E8D),
         title: Text("Account"),
         centerTitle: true,
       ),
@@ -23,8 +29,7 @@ class AccountPage extends StatelessWidget {
             CircleAvatar(
               backgroundColor: Colors.white,
               minRadius: 30,
-              child: Image.network(
-                  "https://static.thenounproject.com/png/17241-200.png"),
+              child: Image.network(user.photoUrl),
             ),
             SizedBox(
               height: 20,
@@ -34,9 +39,15 @@ class AccountPage extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 40),
             ),
             SizedBox(
-              height: 20,
+              //height: MediaQuery.of(context).size.height,
             ),
-            Text(user.email, style: TextStyle(fontSize: 20))
+            Text(user.email, style: TextStyle(fontSize: 20)),
+            RaisedButton(
+              color: Color(0xff183E8D),
+                child: Text("Sign Out"),
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                })
           ],
         ),
       ),

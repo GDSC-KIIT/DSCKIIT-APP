@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Color(0xFF78849E),
+        primaryColor: Color(0xFF183E8D),
       ),
       home: SplashScreen(),
       routes: <String, WidgetBuilder>{
