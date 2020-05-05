@@ -16,6 +16,7 @@ import 'package:dsckiit_app/page/account_page.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:dsckiit_app/screen/notification_screen.dart';
 import 'package:dsckiit_app/projects/addProject.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -29,13 +30,13 @@ class _HomePageState extends State<HomePage> {
   FirebaseUser user;
   bool isSignedIn = false;
 
-  // checkAuthentication() async {
-  //   _auth.onAuthStateChanged.listen((user) {
-  //     if (user == null) {
-  //       Navigator.pushReplacementNamed(context, "/OpeningPage");
-  //     }
-  //   });
-  // }
+  checkAuthentication() async {
+    _auth.onAuthStateChanged.listen((user) {
+      if (user == null) {
+        Navigator.pushReplacementNamed(context, "/OpeningPage");
+      }
+    });
+  }
 
   getUser() async {
     FirebaseUser firebaseUser = await _auth.currentUser();
@@ -45,7 +46,6 @@ class _HomePageState extends State<HomePage> {
     if (firebaseUser != null) {
       setState(() {
         this.user = firebaseUser;
-
         this.isSignedIn = true;
       });
     }
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    //this.checkAuthentication();
+    this.checkAuthentication();
     this.getUser();
   }
 
@@ -111,22 +111,80 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
+                  // Container(
+                  //   height: 150,
+                  //   child: ListView.builder(
+                  //     physics: BouncingScrollPhysics(),
+                  //     shrinkWrap: true,
+                  //     scrollDirection: Axis.horizontal,
+                  //     itemCount: 3,
+                  //     itemBuilder: (context, int index) {
+                  //       return CustomCard(
+                  //         title: 'American Sign Language Recognition',
+                  //         members: index + 1,
+                  //         color: Colors.indigo,
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                   Container(
-                    height: 150,
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 3,
-                      itemBuilder: (context, int index) {
-                        return CustomCard(
-                          title: 'American Sign Language Recognition',
-                          members: index + 1,
-                          color: Colors.indigo,
-                        );
-                      },
-                    ),
+                    child: FirebaseAnimatedList(
+                        query: _databaseReference,
+                        itemBuilder: (BuildContext context,
+                            DataSnapshot snapshot,
+                            Animation<double> animation,
+                            int index) {
+                          return GestureDetector(
+                            onTap: () {
+                              navigateToViewProjects(snapshot.key);
+                            },
+                            child: Card(
+                              color: Colors.white,
+                              elevation: 2.0,
+                              child: Container(
+                                  margin: EdgeInsets.all(10.0),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Container(
+                                        height: 50.0,
+                                        width: 50.0,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: snapshot.value[
+                                                            'photoUrl'] ==
+                                                        "empty"
+                                                    ? AssetImage(
+                                                        "assets/mascot.png")
+                                                    : NetworkImage(snapshot
+                                                        .value['photoUrl']))),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.all(10.0),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              "${snapshot.value['projectName']}",
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "Roboto"),
+                                            ),
+                                            Text("${snapshot.value['domain']}"),
+                                            SizedBox(height: 4),
+                                            Text("${snapshot.value['phone']}")
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                            ),
+                          );
+                        }),
                   ),
+
                   SizedBox(
                     height: 20,
                   ),

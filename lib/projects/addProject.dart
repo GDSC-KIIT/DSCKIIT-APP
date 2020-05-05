@@ -21,7 +21,7 @@ class _AddProjectState extends State<AddProject> {
   String _repo = '';
   String _photoUrl = "empty";
 
-  saveContact(BuildContext context) async {
+  saveProject(BuildContext context) async {
     if (_projectName.isNotEmpty &&
         _leadName.isNotEmpty &&
         _domain.isNotEmpty &&
@@ -97,12 +97,12 @@ class _AddProjectState extends State<AddProject> {
                           height: 100,
                           width: 100,
                           decoration: BoxDecoration(
-                              shape: BoxShape.circle,
+                              shape: BoxShape.rectangle,
                               image: DecorationImage(
                                   image: _photoUrl == "empty"
                                       ? AssetImage("assets/mascot.png")
                                       : NetworkImage(_photoUrl),
-                                  fit: BoxFit.cover))),
+                                  fit: BoxFit.contain))),
                     )),
               ),
               //Project Name
@@ -186,7 +186,7 @@ class _AddProjectState extends State<AddProject> {
                   child: RaisedButton(
                     padding: EdgeInsets.fromLTRB(100, 20, 100, 20),
                     onPressed: () {
-                      saveContact(context);
+                      saveProject(context);
                     },
                     color: Color(0xff183E8D),
                     child: Text('SAVE',

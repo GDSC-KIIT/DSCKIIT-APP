@@ -20,7 +20,7 @@ class _ViewProjectState extends State<ViewProject> {
   Project _project;
   bool isLoading = true;
 
-  getContact(id) async {
+  getProject(id) async {
     _databaseReference.child(id).onValue.listen((event) {
       setState(() {
         _project = Project.fromSnapshot(event.snapshot);
@@ -38,7 +38,7 @@ class _ViewProjectState extends State<ViewProject> {
     }
   }
 
-  deleteContact() {
+  deleteProject() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -76,7 +76,7 @@ class _ViewProjectState extends State<ViewProject> {
   @override
   void initState() {
     super.initState();
-    this.getContact(id);
+    this.getProject(id);
   }
 
   @override
@@ -216,7 +216,7 @@ class _ViewProjectState extends State<ViewProject> {
                               icon: Icon(Icons.delete),
                               color: Colors.red,
                               onPressed: () {
-                                deleteContact();
+                                deleteProject();
                               },
                             )
                           ],

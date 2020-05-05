@@ -23,15 +23,17 @@ class Project {
   String get repo => this._repo;
   String get photoUrl => this._photoUrl;
 
-  set firstName(String projectName) {
+
+  //Adding Setters
+  set projectName(String projectName) {
     this._projectName = projectName;
   }
 
-  set lastName(String leadName) {
+  set leadName(String leadName) {
     this._leadName = leadName;
   }
 
-  set phone(String domain) {
+  set domain(String domain) {
     this._domain = domain;
   }
 
