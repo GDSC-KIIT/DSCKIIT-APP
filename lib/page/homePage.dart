@@ -247,6 +247,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ), // Home screen
+      ChatContainer(
       !isSignedIn ?CircularProgressIndicator() :ChatContainer(
         uid: user.uid ?? "",
       ),
@@ -268,7 +269,6 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-//                  FirebaseAuth.instance.signOut();
                 },
               ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
