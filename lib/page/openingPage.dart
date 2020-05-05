@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsckiit_app/Widgets/rounded_button.dart';
 import 'package:dsckiit_app/screen/animatorLoader.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +18,9 @@ class OpeningPage extends StatefulWidget {
 }
 
 class _OpeningPageState extends State<OpeningPage> {
-  
   FirebaseUser _user;
+  final Firestore _db = Firestore.instance;
+
   // If this._busy=true, the buttons are not clickable. This is to avoid
   // clicking buttons while a previous onTap function is not finished.
   bool _busy = false;
@@ -48,8 +50,21 @@ class _OpeningPageState extends State<OpeningPage> {
         (await FirebaseAuth.instance.signInWithCredential(credential)).user;
     kFirebaseAnalytics.logLogin();
     setState(() => this._user = user);
-  return user;
-    
+    updateUserData(user);
+    return user;
+  }
+
+  void updateUserData(FirebaseUser user) async {
+    DocumentReference ref = _db.collection('users').document(user.uid);
+
+    return ref.setData({
+      'uid': user.uid,
+      'email': user.email,
+      'photoURL': user.photoUrl,
+      'displayName': user.displayName,
+      'admin': false,
+      'lastSeen': DateTime.now()
+    }, merge: true);
   }
 
   Future<Null> _signOut() async {
