@@ -31,10 +31,19 @@ class _LoaderState extends State<Loader> {
     }
   }
 
+  checkAuthentication() async {
+    _auth.onAuthStateChanged.listen((user) {
+      if (user == null) {
+        Navigator.pushReplacementNamed(context, "/OpeningPage");
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     this.getUser();
+    this.checkAuthentication();
   }
 
   _LoaderState() {

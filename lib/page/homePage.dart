@@ -2,6 +2,7 @@ import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/media_page.dart';
 import 'package:dsckiit_app/page/mentorPage.dart';
 import 'package:dsckiit_app/page/teamPage.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dsckiit_app/Widgets/custom_card.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:dsckiit_app/page/account_page.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:dsckiit_app/screen/notification_screen.dart';
+import 'package:dsckiit_app/projects/addProject.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -21,17 +23,19 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  DatabaseReference _databaseReference = FirebaseDatabase.instance.reference();
+
 
   FirebaseUser user;
   bool isSignedIn = false;
 
-  checkAuthentication() async {
-    _auth.onAuthStateChanged.listen((user) {
-      if (user == null) {
-        Navigator.pushReplacementNamed(context, "/OpeningPage");
-      }
-    });
-  }
+  // checkAuthentication() async {
+  //   _auth.onAuthStateChanged.listen((user) {
+  //     if (user == null) {
+  //       Navigator.pushReplacementNamed(context, "/OpeningPage");
+  //     }
+  //   });
+  // }
 
   getUser() async {
     FirebaseUser firebaseUser = await _auth.currentUser();
@@ -54,8 +58,15 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    this.checkAuthentication();
+    //this.checkAuthentication();
     this.getUser();
+  }
+
+  navigateToAddContacts() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return AddProject();
+    }));
   }
 
   int _currentNavBarIndex = 0;
