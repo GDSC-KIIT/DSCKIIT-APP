@@ -247,13 +247,12 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ), // Home screen
-      ChatContainer(
       !isSignedIn ?CircularProgressIndicator() :ChatContainer(
         uid: user.uid ?? "",
       ),
       NotificationScreen(),
       AccountPage(user: user),
-    ];
+      ];
 
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
     return SafeArea(
