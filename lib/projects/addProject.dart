@@ -81,8 +81,120 @@ class _AddProjectState extends State<AddProject> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Add ')
+      appBar: AppBar(title: Text('Add a Project')),
+      body: Container(
+        child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: ListView(children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 20.0),
+                child: GestureDetector(
+                    onTap: () {
+                      this.pickImage();
+                    },
+                    child: Center(
+                      child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: _photoUrl == "empty"
+                                      ? AssetImage("assets/mascot.png")
+                                      : NetworkImage(_photoUrl),
+                                  fit: BoxFit.cover))),
+                    )),
+              ),
+              //Project Name
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _projectName = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'Project Name',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                ),
+              ),
+              //Lead Name
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _leadName = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'Project Lead',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                ),
+              ),
+              //Domain
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _domain = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'Project Domain',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                ),
+              ),
+              //Number of members
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _number = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'Number of Members',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                ),
+              ),
+              //Url
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _url = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'Github Repository Link',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                ),
+              ),
+              // Save BUtton
+              Container(
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: RaisedButton(
+                    padding: EdgeInsets.fromLTRB(100, 20, 100, 20),
+                    onPressed: () {
+                      saveContact(context);
+                    },
+                    color: Color(0xff183E8D),
+                    child: Text('SAVE',
+                        style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                  ))
+            ])),
       ),
     );
   }
