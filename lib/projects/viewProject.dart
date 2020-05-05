@@ -179,7 +179,7 @@ class _ViewProjectState extends State<ViewProject> {
                           ],
                         )),
                   ),
-                  // call & sms
+                  // 
                   Card(
                     elevation: 2.0,
                     child: Container(
@@ -188,18 +188,13 @@ class _ViewProjectState extends State<ViewProject> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            IconButton(
-                              iconSize: 30.0,
-                              icon: Icon(Icons.phone),
-                              color: Colors.red,
-                              onPressed: () {
-                                _launchURL(_project.repo);
-                              },
-                            ),
+                            FlatButton(
+                                onPressed: () => _launchURL(_project.repo),
+                                child: Image.asset("assets/githubLogo.jpg"))
                           ],
                         )),
                   ),
-                  // edit and delete
+                  // Edit and Delete
                   Card(
                     elevation: 2.0,
                     child: Container(
