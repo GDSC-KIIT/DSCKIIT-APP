@@ -38,7 +38,7 @@ class _LoaderState extends State<Loader> {
   }
 
   _LoaderState() {
-    _timer = new Timer(const Duration(seconds: 2), () {
+    _timer = new Timer(const Duration(seconds: 4), () {
       setState(() {});
       Navigator.pushReplacement(
         //<-- Navigate to loginPage on Timeout
