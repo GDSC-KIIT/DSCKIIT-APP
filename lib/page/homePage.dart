@@ -241,7 +241,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ), // Home screen
       ChatContainer(
-        uid: user==null ? "" : user.uid,
+        uid: user.uid ?? "",
       ),
       NotificationScreen(),
       AccountPage(user: user),

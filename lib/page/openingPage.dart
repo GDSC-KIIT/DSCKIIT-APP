@@ -44,10 +44,12 @@ class _OpeningPageState extends State<OpeningPage> {
       idToken: googleAuth.idToken,
     );
     // Note: user.providerData[0].photoUrl == googleUser.photoUrl.
-    final user = (await FirebaseAuth.instance.signInWithCredential(credential)).user;
+    final user =
+        (await FirebaseAuth.instance.signInWithCredential(credential)).user;
     kFirebaseAnalytics.logLogin();
     setState(() => this._user = user);
-    return user;
+  return user;
+    
   }
 
   Future<Null> _signOut() async {
