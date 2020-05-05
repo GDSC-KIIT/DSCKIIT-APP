@@ -54,8 +54,7 @@ class _ChatBubbleState extends State<ChatBubble> {
           Container(
             padding: EdgeInsets.all(10.0),
               decoration: BoxDecoration(
-                color: fromMe? null: Colors.blue[900],
-              gradient: fromMe ? chatBubbleGradient : null,
+              gradient: fromMe ? chatBubbleGradient : chatBubbleGradient2,
               borderRadius: fromMe
                   ? BorderRadius.only(
                 topLeft: Radius.circular(30.0),
@@ -117,7 +116,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                   child: Text(
                     messageBody,
                     style: TextStyle(
-                      color: fromMe ? Colors.white : Colors.white,
+                      color: fromMe ? Colors.white : Colors.black,
                       fontSize: 16.0,
                       fontWeight: FontWeight.w600,
                     ),
