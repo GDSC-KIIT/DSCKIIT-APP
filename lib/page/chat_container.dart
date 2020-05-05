@@ -31,7 +31,7 @@ class _ChatContainerState extends State<ChatContainer> {
         body: TabBarView(
           children: [
             new SizedBox(),
-            new PersonalChat(uid: widget.uid,),
+            new PersonalChat(uid: widget.uid,)
           ],
         ),
       ),
