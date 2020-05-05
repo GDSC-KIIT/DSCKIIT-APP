@@ -18,7 +18,7 @@ class _AddProjectState extends State<AddProject> {
   String _leadName = '';
   String _domain = '';
   String _number = '';
-  String _url = '';
+  String _repo = '';
   String _photoUrl = "empty";
 
   saveContact(BuildContext context) async {
@@ -26,9 +26,9 @@ class _AddProjectState extends State<AddProject> {
         _leadName.isNotEmpty &&
         _domain.isNotEmpty &&
         _number.isNotEmpty &&
-        _url.isNotEmpty) {
+        _repo.isNotEmpty) {
       Project project = Project(this._projectName, this._leadName, this._domain,
-          this._number, this._url, this._photoUrl);
+          this._number, this._repo, this._photoUrl);
 
       await _databaseReference.push().set(project.toJson());
       navigateToLastScreen(context);
@@ -171,7 +171,7 @@ class _AddProjectState extends State<AddProject> {
                 child: TextField(
                   onChanged: (value) {
                     setState(() {
-                      _url = value;
+                      _repo = value;
                     });
                   },
                   decoration: InputDecoration(

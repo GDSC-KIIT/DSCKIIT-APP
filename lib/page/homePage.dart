@@ -2,6 +2,7 @@ import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/media_page.dart';
 import 'package:dsckiit_app/page/mentorPage.dart';
 import 'package:dsckiit_app/page/teamPage.dart';
+import 'package:dsckiit_app/projects/viewProject.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -65,6 +66,13 @@ class _HomePageState extends State<HomePage> {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
       return AddProject();
+    }));
+  }
+
+  navigateToViewProjects(id) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return ViewProject(id);
     }));
   }
 

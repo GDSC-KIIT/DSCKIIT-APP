@@ -6,13 +6,13 @@ class Project {
   String _leadName;
   String _domain;
   String _number;
-  String _url;
+  String _repo;
   String _photoUrl;
 
   Project(this._projectName, this._leadName, this._domain, this._number,
-      this._url, this._photoUrl);
+      this._repo, this._photoUrl);
   Project.withId(this._id, this._projectName, this._leadName, this._domain,
-      this._number, this._url, this._photoUrl);
+      this._number, this._repo, this._photoUrl);
 
   //Adding getters
   String get id => this._id;
@@ -20,7 +20,7 @@ class Project {
   String get leadName => this._leadName;
   String get domain => this._domain;
   String get number => this._number;
-  String get url => this._url;
+  String get repo => this._repo;
   String get photoUrl => this._photoUrl;
 
   set firstName(String projectName) {
@@ -35,12 +35,12 @@ class Project {
     this._domain = domain;
   }
 
-  set address(String number) {
+  set number(String number) {
     this._number = number;
   }
 
-  set email(String url) {
-    this._url = url;
+  set repo(String repo) {
+    this._repo = repo;
   }
 
   set photoUrl(String photoUrl) {
@@ -53,7 +53,7 @@ class Project {
     this._leadName = snapshot.value['leadName'];
     this._domain = snapshot.value['domain'];
     this._number = snapshot.value['number'];
-    this._url = snapshot.value['url'];
+    this._repo = snapshot.value['repo'];
     this._photoUrl = snapshot.value['photoUrl'];
   }
 
@@ -63,7 +63,7 @@ class Project {
       "leadName": _leadName,
       "domain": _domain,
       "number": _number,
-      "url": _url,
+      "repo": _repo,
       "photoUrl": _photoUrl,
     };
   }
