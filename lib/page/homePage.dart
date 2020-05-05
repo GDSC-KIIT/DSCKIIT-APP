@@ -179,59 +179,66 @@ class _HomePageState extends State<HomePage> {
                   backgroundColor: Colors.transparent,
                 ),
           drawer: Drawer(
-            child: ListView(
-              children: <Widget>[
-                DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    image: DecorationImage(
-                      image: AssetImage(
-                        'assets/logo.png',
+            child: !isSignedIn
+                ? CircularProgressIndicator()
+                : ListView(
+                    children: <Widget>[
+                      UserAccountsDrawerHeader(
+                        accountName: Text('${user.displayName}'),
+                        accountEmail: Text('${user.email}'),
+                        decoration: BoxDecoration(color: Color(0xFF183E8D)),
+                        currentAccountPicture: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            radius: 50,
+                            backgroundImage: user.photoUrl != null
+                                ? NetworkImage(user.photoUrl)
+                                : AssetImage("assets/user.png")),
                       ),
-                      fit: BoxFit.contain,
-                    ),
+                      ListTile(
+                        title: Text("Mentors"),
+                        trailing: Icon(Icons.person),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MentorPage()));
+                        },
+                      ),
+                      ListTile(
+                        title: Text("Team"),
+                        trailing: Icon(Icons.group),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TeamPage()));
+                        },
+                      ),
+                      ListTile(
+                        title: Text("Noticeboard"),
+                        trailing: Icon(Icons.photo),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MediaPage()));
+                        },
+                      ),
+                      ListTile(
+                        title: Text("Feedback From"),
+                        trailing: Icon(Icons.feedback),
+                        onTap: () {},
+                      ),
+                      Divider(),
+                      ListTile(
+                        title: Text("Close"),
+                        trailing: Icon(Icons.close),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
                   ),
-                  //child: Text('Header'),
-                ),
-                ListTile(
-                  title: Text("Mentors"),
-                  trailing: Icon(Icons.person),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MentorPage()));
-                  },
-                ),
-                ListTile(
-                  title: Text("Team"),
-                  trailing: Icon(Icons.group),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => TeamPage()));
-                  },
-                ),
-                ListTile(
-                  title: Text("Noticeboard"),
-                  trailing: Icon(Icons.photo),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MediaPage()));
-                  },
-                ),
-                ListTile(
-                  title: Text("Feedback From"),
-                  trailing: Icon(Icons.feedback),
-                  onTap: () {},
-                ),
-                Divider(),
-                ListTile(
-                  title: Text("Close"),
-                  trailing: Icon(Icons.close),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
           ),
           onChanged: (String value) {},
           onTap: () {},
@@ -241,6 +248,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ), // Home screen
       ChatContainer(
+      !isSignedIn ?CircularProgressIndicator() :ChatContainer(
         uid: user.uid ?? "",
       ),
       NotificationScreen(),
@@ -261,7 +269,6 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-//                  FirebaseAuth.instance.signOut();
                 },
               ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
