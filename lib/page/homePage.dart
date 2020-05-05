@@ -247,11 +247,9 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ), // Home screen
-      !isSignedIn
-          ? CircularProgressIndicator()
-          : ChatContainer(
-              uid: user.uid ?? "",
-            ),
+      !isSignedIn ? CircularProgressIndicator() : ChatContainer(
+        uid: user.uid ?? "",
+      ),
       NotificationScreen(),
       AccountPage(user: user),
     ];
