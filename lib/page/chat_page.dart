@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dsckiit_app/page/chat_bubble.dart';
+import 'package:dsckiit_app/page/group_details_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -17,21 +18,31 @@ var currentUserEmail;
 class ChatPage extends StatefulWidget {
   @override
   ChatScreenState createState() => new ChatScreenState();
-  final String to,from,groupName,groupId,url,uid;
-  ChatPage({Key key,this.to,this.from,this.groupId,this.url,this.groupName,this.uid}): super(key:key);
+  final String to, from, groupName, groupId, url, uid,name;
+
+  ChatPage({Key key,
+    this.to,
+    this.from,
+    this.groupId,
+    this.url,
+    this.groupName,
+    this.uid,this.name})
+      : super(key: key);
 }
 
 class ChatScreenState extends State<ChatPage> {
-  final TextEditingController _textEditingController = new TextEditingController();
+  final TextEditingController _textEditingController =
+  new TextEditingController();
   bool _isComposingMessage = false;
   var _scaffoldContext;
   DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
 
   @override
   void initState() {
-    if(widget.groupId!=null){
-      databaseReference = databaseReference.child('messages/groupMessage/${widget.groupId}');
-    }else{
+    if (widget.groupId != null) {
+      databaseReference =
+          databaseReference.child('messages/groupMessage/${widget.groupId}');
+    } else {
       databaseReference = databaseReference.child('messages/personalMessage');
     }
     super.initState();
@@ -41,41 +52,120 @@ class ChatScreenState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              GestureDetector(
-                  child: Row(
-                    children: <Widget>[
-                      widget.url !=null ?
-                      Container(
-                        height: 35.0,
-                        width: 35.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: CachedNetworkImageProvider(widget.url),
-                            fit: BoxFit.cover,
+          leading: IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: (){
+            Navigator.of(context).pop();
+          },),
+          iconTheme: IconThemeData(color: Colors.black),
+          title: GestureDetector(
+            onTap: widget.groupId!=null?  () => Navigator.push(context, MaterialPageRoute(builder: (context) => new GroupDetailsPage(userId: widget.groupId,uid: widget.from))) : (){},
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                    child: Row(
+                      children: <Widget>[
+                        widget.url != null
+                            ? Container(
+                          height: 35.0,
+                          width: 35.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: CachedNetworkImageProvider(widget.url),
+                              fit: BoxFit.cover,
+                            ),
+                            shape: BoxShape.circle,
                           ),
-                          shape: BoxShape.circle,
+                        )
+                            : CircleAvatar(
+                          backgroundColor: null,
+                          child: Image.asset('assets/user.png'),
                         ),
-                      ) : CircleAvatar(
-                        backgroundColor: null,
-                        child: Image.asset('assets/professional.png'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: new Text("${widget.groupName}",style: TextStyle(color: Colors.white),),
-                      ),
-                    ],
-                  )
-              ),
-            ],
+                        SizedBox(width: 20,),
+                        new Text(
+                          "${widget.groupName}",
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    )),
+              ],
+            ),
           ),
-          elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
+          elevation: 0.0,
+          backgroundColor: Colors.white,
         ),
         body: new Container(
+          color: Colors.white,
           child: new Column(
             children: <Widget>[
+              Container(
+                height: 4,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                            borderRadius: BorderRadius.circular(50),
+                            boxShadow: [BoxShadow(
+                              color: Colors.blue,
+                              blurRadius: 3.0,
+                              spreadRadius: 2.0,
+                              offset: Offset(0.0,1.0)
+                            )]
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                            borderRadius: BorderRadius.circular(50),
+                            boxShadow: [BoxShadow(
+                                color: Colors.red,
+                                blurRadius: 3.0,
+                                spreadRadius: 2.0,
+                                offset: Offset(0.0,1.0)
+                            )]
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.yellow,
+                            borderRadius: BorderRadius.circular(50),
+                            boxShadow: [BoxShadow(
+                                color: Colors.yellow,
+                                blurRadius: 3.0,
+                                spreadRadius: 2.0,
+                                offset: Offset(0.0,1.0)
+                            )]
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(50),
+                            boxShadow: [BoxShadow(
+                                color: Colors.green,
+                                blurRadius: 3.0,
+                                spreadRadius: 2.0,
+                                offset: Offset(0.0,1.0)
+                            )]
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
               new Flexible(
                 child: new FirebaseAnimatedList(
                   query: databaseReference,
@@ -85,37 +175,34 @@ class ChatScreenState extends State<ChatPage> {
                   //comparing timestamp of messages to check which one would appear first
                   itemBuilder: (_, DataSnapshot snapshot,
                       Animation<double> animation, int x) {
-//                    return new ListTile(
-//                      subtitle: new Text(snapshot.value['message']),
-//                    );
-                  if(widget.groupId == null) {
-                    if ((snapshot.value['from'] == widget.from  &&
-                        snapshot.value['to'] == widget.to) ||
-                        (snapshot.value['to'] == widget.from &&
-                        snapshot.value['from'] == widget.to)) {
-                      return ChatBubble(isGroup: widget.groupId != null,
+                    if (widget.groupId == null) {
+                      if ((snapshot.value['from'] == widget.from &&
+                          snapshot.value['to'] == widget.to) ||
+                          (snapshot.value['to'] == widget.from &&
+                              snapshot.value['from'] == widget.to)) {
+                        return ChatBubble(
+                          isGroup: widget.groupId != null,
+                          message: snapshot,
+                          fromMeBool: (widget.from == snapshot.value['from']
+                              ? true
+                              : false),
+                        );
+                      }
+                    } else {
+                      return ChatBubble(
+                        isGroup: widget.groupId != null,
                         message: snapshot,
                         fromMeBool: (widget.from == snapshot.value['from']
                             ? true
                             : false),
                       );
                     }
-                  } else {
-                    return ChatBubble(isGroup: widget.groupId != null,
-                      message: snapshot,
-                      fromMeBool: (widget.from == snapshot.value['from']
-                          ? true
-                          : false),
-                    );
-                  }
-                  return new SizedBox(height: 0.0);
+                    return new SizedBox(height: 0.0);
                   },
                 ),
               ),
-              new Divider(height: 1.0),
+              //new Divider(height: 1.0),
               new Container(
-                decoration:
-                new BoxDecoration(color: Theme.of(context).cardColor),
                 child: _buildTextComposer(),
               ),
               new Builder(builder: (BuildContext context) {
@@ -124,7 +211,9 @@ class ChatScreenState extends State<ChatPage> {
               })
             ],
           ),
-          decoration: Theme.of(context).platform == TargetPlatform.iOS
+          decoration: Theme
+              .of(context)
+              .platform == TargetPlatform.iOS
               ? new BoxDecoration(
               border: new Border(
                   top: new BorderSide(
@@ -134,7 +223,7 @@ class ChatScreenState extends State<ChatPage> {
         ));
   }
 
-  CupertinoButton getIOSSendButton() {
+  Widget getIOSSendButton() {
     return new CupertinoButton(
       child: new Text("Send"),
       onPressed: _isComposingMessage
@@ -143,85 +232,140 @@ class ChatScreenState extends State<ChatPage> {
     );
   }
 
-  IconButton getDefaultSendButton() {
-    return new IconButton(
-      icon: new Icon(Icons.send),
-      onPressed: _isComposingMessage
-          ? () => _textMessageSubmitted(_textEditingController.text)
-          : null,
+  Widget getDefaultSendButton() {
+    return CircleAvatar(
+      maxRadius: 30,
+      minRadius: 15,
+      backgroundColor: Colors.amber,
+      child: new IconButton(
+        icon: new Icon(
+          Icons.send,
+          color: Colors.white,
+          size: 30,
+        ),
+        onPressed: _isComposingMessage
+            ? () => _textMessageSubmitted(_textEditingController.text)
+            : null,
+      ),
     );
   }
 
   Widget _buildTextComposer() {
     return new IconTheme(
-        data: new IconThemeData(
-          color: _isComposingMessage
-              ? Theme.of(context).accentColor
-              : Theme.of(context).disabledColor,
-        ),
-        child: new Container(
-          decoration: BoxDecoration(
-            color: Colors.grey.shade200,
-          ),
-          child: new Row(
-            children: <Widget>[
-              new Container(
-                margin: new EdgeInsets.symmetric(horizontal: 4.0),
-                child: new IconButton(
-                    icon: new Icon(
-                      Icons.photo_camera,
-                      color: Theme.of(context).accentColor,
-                    ),
-                    onPressed: () async {
-                      File imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
-                      int timestamp = new DateTime.now().millisecondsSinceEpoch;
-                      StorageReference storageReference = FirebaseStorage
-                          .instance
-                          .ref()
-                          .child("img_" + timestamp.toString() + ".jpg");
-                      StorageUploadTask uploadTask = storageReference.put(imageFile);
-                      final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
-                      final String url = (await downloadUrl.ref.getDownloadURL());
-                      _sendMessage(
-                          messageText: null, imageUrl: url);
-                    }),
-              ),
-              new Flexible(
-                child: Container(
-                  padding: EdgeInsets.only(left: 10,right: 10,bottom: 10),
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    color: Colors.white,
-                  ),
-                  child: new TextField(
-                    controller: _textEditingController,
-                    onChanged: (String messageText) {
-                      setState(() {
-                        _isComposingMessage = messageText.length > 0;
-                      });
-                    },
-                    onSubmitted: _textMessageSubmitted,
-                    decoration:
-                    new InputDecoration.collapsed(
-                        hintText: "Type a message",
-                        focusColor: Colors.white,
-                        hintStyle:  TextStyle(
-                          color: Colors.grey.withOpacity(0.6),
-                          fontWeight: FontWeight.w600,
-                    )),
+      data: new IconThemeData(
+        color: _isComposingMessage
+            ? Theme
+            .of(context)
+            .accentColor
+            : Theme
+            .of(context)
+            .disabledColor,
+      ),
+      child: new Container(
+        padding: EdgeInsets.only(bottom: 8.0, left: 10.0, right: 10.0),
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Flexible(
+              flex: 7,
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey[300]),
+                    borderRadius: BorderRadius.circular(100)),
+                child: Center(
+                  child: Row(
+                    children: <Widget>[
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100.0),
+                              color: Colors.white,
+                            ),
+                            child: new TextField(
+                              autofocus: false,
+                              minLines: 1,
+                              maxLines: 6,
+                              controller: _textEditingController,
+                              onChanged: (String messageText) {
+                                setState(() {
+                                  _isComposingMessage = messageText.length > 0;
+                                });
+                              },
+                              onSubmitted: _textMessageSubmitted,
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                  hintText: "Type a message",
+                                  focusColor: Colors.white,
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey.withOpacity(0.6),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  contentPadding: EdgeInsets.all(10)
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            right: 10.0, left: 5, top: 5, bottom: 5),
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                              color: Theme
+                                  .of(context)
+                                  .accentColor,
+                              borderRadius: BorderRadius.circular(40)),
+                          child: new IconButton(
+                              icon: new Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
+                              onPressed: () async {
+                                File imageFile = await ImagePicker.pickImage(
+                                    source: ImageSource.gallery);
+                                int timestamp =
+                                    new DateTime.now().millisecondsSinceEpoch;
+                                StorageReference storageReference =
+                                FirebaseStorage.instance.ref().child(
+                                    "img_" + timestamp.toString() + ".jpg");
+                                StorageUploadTask uploadTask =
+                                storageReference.put(imageFile);
+                                final StorageTaskSnapshot downloadUrl =
+                                (await uploadTask.onComplete);
+                                final String url =
+                                (await downloadUrl.ref.getDownloadURL());
+                                _sendMessage(messageText: null, imageUrl: url);
+                              }),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
-              new Container(
-                margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Theme.of(context).platform == TargetPlatform.iOS
-                    ? getIOSSendButton()
-                    : getDefaultSendButton(),
+            ),
+            SizedBox(
+              width: 6,
+            ),
+            Flexible(
+              flex: 1,
+              child: Container(
+                child: getDefaultSendButton(),
               ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<Null> _textMessageSubmitted(String text) async {
@@ -234,11 +378,25 @@ class ChatScreenState extends State<ChatPage> {
   }
 
   void _sendMessage({String messageText, String imageUrl}) {
-    databaseReference.push().set({
-      'message': messageText ,
-      'from': widget.from,
-      'to': widget.to,
-      'timeStamp': DateTime.now().millisecondsSinceEpoch
-    });
+    if(widget.groupId !=null){
+      databaseReference.push().set({
+        'message': messageText,
+        'from': widget.from,
+        'fromName':widget.name,
+        'to': widget.to,
+        'timeStamp': DateTime
+            .now()
+            .millisecondsSinceEpoch
+      });
+    }else{
+      databaseReference.push().set({
+        'message': messageText,
+        'from': widget.from,
+        'to': widget.to,
+        'timeStamp': DateTime
+            .now()
+            .millisecondsSinceEpoch
+      });
+    }
   }
 }

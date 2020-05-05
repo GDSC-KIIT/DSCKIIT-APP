@@ -5,7 +5,8 @@ import 'package:dsckiit_app/page/welcomePage.dart';
 import 'package:dsckiit_app/page/SignInPage.dart';
 import 'package:dsckiit_app/page/SignUpPage.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-import 'package:dsckiit_app/page/animationLoader.dart';
+
+import 'screen/splashScreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.blue,
+        primaryColor: Color(0xFF183E8D),
       ),
       home: SplashScreen(),
       routes: <String, WidgetBuilder>{

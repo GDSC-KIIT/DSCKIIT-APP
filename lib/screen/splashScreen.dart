@@ -1,4 +1,5 @@
 import 'package:dsckiit_app/page/homePage.dart';
+import 'package:dsckiit_app/screen/animatorLoader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'dart:async';
@@ -22,14 +23,14 @@ class _SplashScreenState extends State<SplashScreen>
       if (user == null) {
         Navigator.pushReplacementNamed(context, "/OpeningPage");
       }else{
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Loader()));
       }
     });
   }
 
   void handleTimeOut() {
     Navigator.of(context).pushReplacement(new MaterialPageRoute(
-        builder: (BuildContext context) => new HomePage()));
+        builder: (BuildContext context) => new Loader()));
   }
 
   startTimeout() async {
@@ -52,7 +53,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
+    FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),

@@ -1,5 +1,8 @@
 import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/media_page.dart';
+import 'package:dsckiit_app/page/mentorPage.dart';
+import 'package:dsckiit_app/page/teamPage.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dsckiit_app/Widgets/custom_card.dart';
@@ -9,6 +12,9 @@ import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:dsckiit_app/page/account_page.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:dsckiit_app/screen/notification_screen.dart';
+import 'package:dsckiit_app/projects/addProject.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,17 +23,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  DatabaseReference _databaseReference = FirebaseDatabase.instance.reference();
 
   FirebaseUser user;
   bool isSignedIn = false;
 
-  checkAuthentication() async {
-    _auth.onAuthStateChanged.listen((user) {
-      if (user == null) {
-        Navigator.pushReplacementNamed(context, "/OpeningPage");
-      }
-    });
-  }
+  // checkAuthentication() async {
+  //   _auth.onAuthStateChanged.listen((user) {
+  //     if (user == null) {
+  //       Navigator.pushReplacementNamed(context, "/OpeningPage");
+  //     }
+  //   });
+  // }
 
   getUser() async {
     FirebaseUser firebaseUser = await _auth.currentUser();
@@ -50,20 +57,30 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    this.checkAuthentication();
+    //this.checkAuthentication();
     this.getUser();
   }
 
+  navigateToAddProjects() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return AddProject();
+    }));
+  }
+
+  int _currentNavBarIndex = 0;
+
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: FloatingSearchBar.builder(
-        itemCount: 1,
-        itemBuilder: (BuildContext context, int index) {
-          return SafeArea(
-            child: SingleChildScrollView(
+    final tabs = [
+      Padding(
+        padding: const EdgeInsets.only(top: 12.0),
+        child: FloatingSearchBar.builder(
+          pinned: true,
+          itemCount: 1,
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 8.0),
               child: Column(
                 children: <Widget>[
                   Padding(
@@ -136,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                           return new Text('Error: ${snapshot.error}');
                         switch (snapshot.connectionState) {
                           case ConnectionState.waiting:
-                            return new Text('Loading...');
+                            return Center(child: CircularProgressIndicator());
                           default:
                             return new ListView(
                               physics: BouncingScrollPhysics(),
@@ -155,108 +172,172 @@ class _HomePageState extends State<HomePage> {
                         }
                       },
                     ),
-                    // child: ListView.builder(
-                    //   physics: BouncingScrollPhysics(),
-                    //   shrinkWrap: true,
-                    //   scrollDirection: Axis.horizontal,
-                    //   itemCount: 10,
-                    //   itemBuilder: (context, int index) {
-                    //     return CustomEventCard(
-                    //       title: 'Sample title',
-                    //       imgURL:
-                    //           'https://www.invensis.net/blog/wp-content/uploads/2015/05/Benefits-of-Python-over-other-programming-languages-invensis.jpg',
-                    //       date: '31st October',
-                    //     );
-                    //   },
-                    // ),
                   ),
                 ],
               ),
-            ),
-          );
-        },
-        trailing: user.photoUrl != null
-            ? CircleAvatar(
-                backgroundImage: NetworkImage(user.photoUrl),
-                backgroundColor: Colors.transparent,
-              )
-            : CircleAvatar(
-                child: Text(user.displayName[0]),
-              ),
-          
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.only(top: 0),
-            children: <Widget>[
-              DrawerHeader(
-                decoration: BoxDecoration(
-                    color: Colors.black,
-                    image: DecorationImage(
-                      image: AssetImage(
-                        'assets/logo.png',
+            );
+          },
+          trailing: !isSignedIn
+              ? CircleAvatar(
+                  backgroundImage: AssetImage("assets/animator.gif"),
+                  backgroundColor: Colors.transparent,
+                )
+              : CircleAvatar(
+                  backgroundImage: user.photoUrl != null
+                      ? NetworkImage(user.photoUrl)
+                      : AssetImage('assets/user.png'),
+                  backgroundColor: Colors.transparent,
+                ),
+          drawer: Drawer(
+            child: !isSignedIn
+                ? CircularProgressIndicator()
+                : ListView(
+                    children: <Widget>[
+                      UserAccountsDrawerHeader(
+                        accountName: Text('${user.displayName}'),
+                        accountEmail: Text('${user.email}'),
+                        decoration: BoxDecoration(color: Color(0xFF183E8D)),
+                        currentAccountPicture: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            radius: 50,
+                            backgroundImage: user.photoUrl != null
+                                ? NetworkImage(user.photoUrl)
+                                : AssetImage("assets/user.png")),
                       ),
-                      fit: BoxFit.cover,
-                    )),
-                //child: Text('Header'),
-              ),
-              ListTile(
-                title: Text("Accounts"),
-                trailing: Icon(Icons.person),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AccountPage(user: user)));
-                },
-              ),
-              ListTile(
-                title: Text("Chat"),
-                trailing: Icon(Icons.message),
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return ChatContainer(uid: user.uid);
-                  }));
-                },
-              ),
-              ListTile(
-                title: Text("Noticeboard"),
-                trailing: Icon(Icons.photo),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MediaPage()));
-                },
-              ),
-              ListTile(
-                title: Text("Feedback From"),
-                trailing: Icon(Icons.feedback),
-                onTap: () {},
-              ),
-              Divider(),
-              ListTile(
-                title: Text("Close"),
-                trailing: Icon(Icons.close),
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
+                      ListTile(
+                        title: Text("Mentors"),
+                        trailing: Icon(Icons.person),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MentorPage()));
+                        },
+                      ),
+                      ListTile(
+                        title: Text("Team"),
+                        trailing: Icon(Icons.group),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TeamPage()));
+                        },
+                      ),
+                      ListTile(
+                        title: Text("Noticeboard"),
+                        trailing: Icon(Icons.photo),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MediaPage()));
+                        },
+                      ),
+                      ListTile(
+                        title: Text("Feedback From"),
+                        trailing: Icon(Icons.feedback),
+                        onTap: () {},
+                      ),
+                      Divider(),
+                      ListTile(
+                        title: Text("Close"),
+                        trailing: Icon(Icons.close),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+          ),
+          onChanged: (String value) {},
+          onTap: () {},
+          decoration: InputDecoration.collapsed(
+            hintText: "Search events, people etc.",
           ),
         ),
-        onChanged: (String value) {},
-        onTap: () {},
-        decoration: InputDecoration.collapsed(
-          hintText: "Search events, people etc.",
+      ), // Home screen
+      !isSignedIn
+          ? CircularProgressIndicator()
+          : ChatContainer(
+              uid: user.uid ?? "",
+            ),
+      NotificationScreen(),
+      AccountPage(user: user),
+    ];
+
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: tabs[_currentNavBarIndex],
+        floatingActionButton: _currentNavBarIndex != 0
+            ? null
+            : FloatingActionButton(
+                backgroundColor: Color(0xff183E8D),
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                onPressed: navigateToAddProjects,
+              ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          elevation: 10,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          iconSize: 35,
+          unselectedIconTheme: IconThemeData(size: 30),
+          currentIndex: _currentNavBarIndex,
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(
+                  LineIcons.home,
+                  color: Colors.black45,
+                ),
+                title: Text("Home"),
+                activeIcon: Icon(
+                  LineIcons.home,
+                  color: Colors.black,
+                )),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  LineIcons.comments,
+                  color: Colors.black45,
+                ),
+                title: Text("Messages"),
+                activeIcon: Icon(
+                  LineIcons.comments,
+                  color: Colors.amber,
+                )),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  LineIcons.bell,
+                  color: Colors.black45,
+                ),
+                title: Text("Notifications"),
+                activeIcon: Icon(
+                  LineIcons.bell,
+                  color: Colors.black,
+                )),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  LineIcons.user,
+                  color: Colors.black45,
+                ),
+                title: Text("Account"),
+                activeIcon: Icon(
+                  LineIcons.user,
+                  color: Colors.black,
+                )),
+          ],
+          onTap: (index) {
+            setState(() {
+              _currentNavBarIndex = index;
+            });
+          },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          FirebaseAuth.instance.signOut();
-        },
       ),
     );
   }

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsckiit_app/page/chat_page.dart';
 import 'package:dsckiit_app/page/user_list.dart';
@@ -66,7 +65,7 @@ class _PersonalChatState extends State<PersonalChat> {
                     .then((DocumentSnapshot ds) {
                   setState(() {
                   });
-                  return ds['name'];
+                  return ds['displayName'];
                 });
                 Navigator.push(context, MaterialPageRoute(builder: (context) =>
                     ChatPage(
@@ -105,9 +104,9 @@ class _PersonalChatState extends State<PersonalChat> {
                                 .get()
                                 .then((DocumentSnapshot ds) {
                               setState(() {
-                                nameData.add(ds['name']);
+                                nameData.add(ds['displayName']);
                               });
-                              return ds['name'];
+                              return ds['displayName'];
                             }),
                             builder: (context,snapshot){
                               if(snapshot.hasData){

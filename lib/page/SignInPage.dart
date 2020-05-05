@@ -1,4 +1,5 @@
 import 'package:dsckiit_app/page/homePage.dart';
+import 'package:dsckiit_app/screen/animatorLoader.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,7 +22,7 @@ class _SigninPageState extends State<SigninPage> {
       if (user != null) {
         //Navigator.pushReplacementNamed(context, "/HomePage");
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context){
-          return HomePage();
+          return Loader();
         }));
       }
     });
