@@ -25,7 +25,6 @@ class _HomePageState extends State<HomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   DatabaseReference _databaseReference = FirebaseDatabase.instance.reference();
 
-
   FirebaseUser user;
   bool isSignedIn = false;
 
@@ -62,7 +61,7 @@ class _HomePageState extends State<HomePage> {
     this.getUser();
   }
 
-  navigateToAddContacts() {
+  navigateToAddProjects() {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
       return AddProject();
@@ -258,12 +257,14 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ), // Home screen
-      !isSignedIn ?CircularProgressIndicator() :ChatContainer(
-        uid: user.uid ?? "",
-      ),
+      !isSignedIn
+          ? CircularProgressIndicator()
+          : ChatContainer(
+              uid: user.uid ?? "",
+            ),
       NotificationScreen(),
       AccountPage(user: user),
-      ];
+    ];
 
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
     return SafeArea(
@@ -278,8 +279,7 @@ class _HomePageState extends State<HomePage> {
                   Icons.add,
                   color: Colors.white,
                 ),
-                onPressed: () {
-                },
+                onPressed: navigateToAddProjects,
               ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
