@@ -8,20 +8,14 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            image: DecorationImage(
-              image: AssetImage(
-                'assets/dsckiitLogo.png',
-              ),
-              //fit: BoxFit.
-            ),
-          ),
-        ),
-      ),
-    );
+        backgroundColor: Colors.white,
+        body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image.asset("assets/animator.gif"),
+            Text('Comming Soon', style: TextStyle(color: Color(0xFF183E8D), fontSize: 20.0, fontFamily: "Roboto"))
+          ],
+        )));
   }
 }
