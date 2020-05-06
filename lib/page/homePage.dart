@@ -1,9 +1,10 @@
+import 'dart:async';
+import 'package:dsckiit_app/model/project.dart';
 import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/media_page.dart';
 import 'package:dsckiit_app/page/mentorPage.dart';
 import 'package:dsckiit_app/page/teamPage.dart';
-import 'package:dsckiit_app/projects/viewProject.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:dsckiit_app/services/crud.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dsckiit_app/Widgets/custom_card.dart';
@@ -16,7 +17,6 @@ import 'package:dsckiit_app/page/account_page.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:dsckiit_app/screen/notification_screen.dart';
 import 'package:dsckiit_app/projects/addProject.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -25,10 +25,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  DatabaseReference _databaseReference = FirebaseDatabase.instance.reference();
 
   FirebaseUser user;
   bool isSignedIn = false;
+
+  List<Project> items;
+  FirebaseFirestoreService db = new FirebaseFirestoreService();
+
+  StreamSubscription<QuerySnapshot> projectSub;
 
   checkAuthentication() async {
     _auth.onAuthStateChanged.listen((user) {
@@ -60,20 +64,42 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     this.checkAuthentication();
     this.getUser();
+
+    items = new List();
+
+    projectSub?.cancel();
+    projectSub = db.getProjectList().listen((QuerySnapshot snapshot) {
+      final List<Project> project = snapshot.documents
+          .map((documentSnapshot) => Project.fromMap(documentSnapshot.data))
+          .toList();
+
+      setState(() {
+        this.items = project;
+      });
+    });
   }
 
-  navigateToAddProjects() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) {
-      return AddProject();
-    }));
+  void _deleteProject(BuildContext context, Project project, int position) async {
+    db.deleteProject(project.id).then((project) {
+      setState(() {
+        items.removeAt(position);
+      });
+    });
   }
 
-  navigateToViewProjects(id) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) {
-      return ViewProject(id);
-    }));
+  void _navigateToProject(BuildContext context, Project project) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ProjectScreen(project)),
+    );
+  }
+
+  void _createNewProject(BuildContext context) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ProjectScreen(Project(null, '', ''))),
+    );
   }
 
   int _currentNavBarIndex = 0;
@@ -128,63 +154,60 @@ class _HomePageState extends State<HomePage> {
                   //   ),
                   // ),
                   Container(
-                    child: FirebaseAnimatedList(
-                        query: _databaseReference,
-                        itemBuilder: (BuildContext context,
-                            DataSnapshot snapshot,
-                            Animation<double> animation,
-                            int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              navigateToViewProjects(snapshot.key);
-                            },
-                            child: Card(
-                              color: Colors.white,
-                              elevation: 2.0,
-                              child: Container(
-                                  margin: EdgeInsets.all(10.0),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Container(
-                                        height: 50.0,
-                                        width: 50.0,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                                image: snapshot.value[
-                                                            'photoUrl'] ==
-                                                        "empty"
-                                                    ? AssetImage(
-                                                        "assets/mascot.png")
-                                                    : NetworkImage(snapshot
-                                                        .value['photoUrl']))),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.all(10.0),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              "${snapshot.value['projectName']}",
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: "Roboto"),
-                                            ),
-                                            Text("${snapshot.value['domain']}"),
-                                            SizedBox(height: 4),
-                                            Text("${snapshot.value['phone']}")
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  )),
+                    height: 150,
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: items.length,
+                      itemBuilder: (context, position) {
+                        return GestureDetector(
+                          onTap: () =>
+                              _navigateToProject(context, items[position]),
+                          onLongPress: () => _deleteProject(
+                              context, items[position], position),
+                          child: Card(
+                            margin: EdgeInsets.only(right: 5, left: 10),
+                            color: Color(0xFF183E8D),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
                             ),
-                          );
-                        }),
+                            child: Container(
+                              width: 200,
+                              height: 100,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text('${items[position].projectName}',
+                                        style: kTitleStyle.copyWith(
+                                          color: Colors.white,
+                                        )),
+                                    Text(
+                                      "${items[position].number} members",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    // IconButton(
+                                    //     icon: const Icon(Icons.remove_circle_outline),
+                                    //     onPressed: () => _deleteProject(
+                                    //         context, items[position], position)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-
                   SizedBox(
                     height: 20,
                   ),
@@ -345,7 +368,7 @@ class _HomePageState extends State<HomePage> {
                   Icons.add,
                   color: Colors.white,
                 ),
-                onPressed: navigateToAddProjects,
+                onPressed: () => _createNewProject(context),
               ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
