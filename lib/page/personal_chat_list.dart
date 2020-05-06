@@ -65,7 +65,7 @@ class _PersonalChatState extends State<PersonalChat> {
                     .then((DocumentSnapshot ds) {
                   setState(() {
                   });
-                  return ds['name'];
+                  return ds['displayName'];
                 });
                 Navigator.push(context, MaterialPageRoute(builder: (context) =>
                     ChatPage(
@@ -104,9 +104,9 @@ class _PersonalChatState extends State<PersonalChat> {
                                 .get()
                                 .then((DocumentSnapshot ds) {
                               setState(() {
-                                nameData.add(ds['name']);
+                                nameData.add(ds['displayName']);
                               });
-                              return ds['name'];
+                              return ds['displayName'];
                             }),
                             builder: (context,snapshot){
                               if(snapshot.hasData){

@@ -41,7 +41,7 @@ class _ShowUsersListState extends State<ShowUsersList> {
                             from: widget.uid,
                             groupId: null,
                             url:'https://firebasestorage.googleapis.com/v0/b/myra-health.appspot.com/o/pf.png?alt=media&token=0a4f0eef-0aac-4b76-9cea-5f0f2bcde42f',
-                            groupName: document['name'],
+                            groupName: document['displayName'],
                           )));
                     },
                     child: Container(
@@ -72,7 +72,7 @@ class _ShowUsersListState extends State<ShowUsersList> {
                                 children: <Widget>[
                                   Padding(
                                     padding: const EdgeInsets.only(top: 10.0,bottom: 5),
-                                    child: new Text(document['name'],style: TextStyle(fontWeight: FontWeight.bold),),
+                                    child: new Text(document['displayName'],style: TextStyle(fontWeight: FontWeight.bold),),
                                   ),
                                 ],
                               )

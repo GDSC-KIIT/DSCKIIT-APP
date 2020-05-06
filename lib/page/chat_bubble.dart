@@ -21,16 +21,7 @@ class _ChatBubbleState extends State<ChatBubble> {
     Colors.red,
     Colors.green,
     Colors.blue,
-    Colors.deepOrange,
-    Colors.lightBlue,
-    Colors.lightGreen,
-    Colors.blueGrey,
-    Colors.brown,
-    Colors.teal,
-    Colors.deepPurple,
-    Colors.pinkAccent,
-    Colors.indigo,
-    Colors.purple
+    Colors.yellow
   ];
 
   Random random = new Random();
@@ -39,7 +30,6 @@ class _ChatBubbleState extends State<ChatBubble> {
   Widget build(BuildContext context) {
     final messageBody = widget.message.value['message'];
     final messageUrl = widget.message.value['imageUrl'];
-    final name = widget.message.value['name'];
     var date = new DateTime.fromMillisecondsSinceEpoch(widget.message.value['timeStamp']);
     var format = new DateFormat("yMMMd");
     var format1 = new DateFormat("Hm");
@@ -77,7 +67,7 @@ class _ChatBubbleState extends State<ChatBubble> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 widget.isGroup && (!fromMe) ? Text(
-                  widget.message.value['authorName'],
+                  widget.message.value['fromName'],
                   style: TextStyle(
                     color: colors[random.nextInt(12)],
                     fontSize: 15.0,

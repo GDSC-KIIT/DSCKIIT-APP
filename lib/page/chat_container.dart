@@ -1,3 +1,4 @@
+import 'package:dsckiit_app/page/groups_list.dart';
 import 'package:dsckiit_app/page/personal_chat_list.dart';
 import 'package:flutter/material.dart';
 
@@ -13,14 +14,16 @@ class _ChatContainerState extends State<ChatContainer> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           bottom: TabBar(
+            isScrollable: true,
             tabs: [
-              Tab(text: "Group\'s",),
+              Tab(text: "Group\'s Available",),
+              Tab(text: "Group\'s Joined",),
               Tab(text: "Personal",),
             ],
           ),
@@ -30,8 +33,9 @@ class _ChatContainerState extends State<ChatContainer> {
         backgroundColor: Color(0xfffff2f2f2),
         body: TabBarView(
           children: [
-            new SizedBox(),
-            new PersonalChat(uid: widget.uid,)
+            new GroupsList(joined: false,uid: widget.uid,),
+            new GroupsList(joined: true,uid: widget.uid,),
+            new PersonalChat(uid: widget.uid)
           ],
         ),
       ),

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dsckiit_app/page/chat_bubble.dart';
+import 'package:dsckiit_app/page/group_details_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -17,7 +18,7 @@ var currentUserEmail;
 class ChatPage extends StatefulWidget {
   @override
   ChatScreenState createState() => new ChatScreenState();
-  final String to, from, groupName, groupId, url, uid;
+  final String to, from, groupName, groupId, url, uid,name;
 
   ChatPage({Key key,
     this.to,
@@ -25,7 +26,7 @@ class ChatPage extends StatefulWidget {
     this.groupId,
     this.url,
     this.groupName,
-    this.uid})
+    this.uid,this.name})
       : super(key: key);
 }
 
@@ -55,38 +56,41 @@ class ChatScreenState extends State<ChatPage> {
             Navigator.of(context).pop();
           },),
           iconTheme: IconThemeData(color: Colors.black),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              GestureDetector(
-                  child: Row(
-                    children: <Widget>[
-                      widget.url != null
-                          ? Container(
-                        height: 35.0,
-                        width: 35.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: CachedNetworkImageProvider(widget.url),
-                            fit: BoxFit.cover,
+          title: GestureDetector(
+            onTap: widget.groupId!=null?  () => Navigator.push(context, MaterialPageRoute(builder: (context) => new GroupDetailsPage(userId: widget.groupId,uid: widget.from))) : (){},
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                    child: Row(
+                      children: <Widget>[
+                        widget.url != null
+                            ? Container(
+                          height: 35.0,
+                          width: 35.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: CachedNetworkImageProvider(widget.url),
+                              fit: BoxFit.cover,
+                            ),
+                            shape: BoxShape.circle,
                           ),
-                          shape: BoxShape.circle,
+                        )
+                            : CircleAvatar(
+                          backgroundColor: null,
+                          child: Image.asset('assets/user.png'),
                         ),
-                      )
-                          : CircleAvatar(
-                        backgroundColor: null,
-                        child: Image.asset('assets/professional.png'),
-                      ),
-                      SizedBox(width: 20,),
-                      new Text(
-                        "${widget.groupName}",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  )),
-            ],
+                        SizedBox(width: 20,),
+                        new Text(
+                          "${widget.groupName}",
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    )),
+              ],
+            ),
           ),
           elevation: 0.0,
           backgroundColor: Colors.white,
@@ -171,9 +175,6 @@ class ChatScreenState extends State<ChatPage> {
                   //comparing timestamp of messages to check which one would appear first
                   itemBuilder: (_, DataSnapshot snapshot,
                       Animation<double> animation, int x) {
-//                    return new ListTile(
-//                      subtitle: new Text(snapshot.value['message']),
-//                    );
                     if (widget.groupId == null) {
                       if ((snapshot.value['from'] == widget.from &&
                           snapshot.value['to'] == widget.to) ||
@@ -359,9 +360,6 @@ class ChatScreenState extends State<ChatPage> {
               flex: 1,
               child: Container(
                 child: getDefaultSendButton(),
-//                      Theme.of(context).platform == TargetPlatform.iOS
-//                    ? getIOSSendButton()
-//                    : getDefaultSendButton(),
               ),
             ),
           ],
@@ -380,13 +378,25 @@ class ChatScreenState extends State<ChatPage> {
   }
 
   void _sendMessage({String messageText, String imageUrl}) {
-    databaseReference.push().set({
-      'message': messageText,
-      'from': widget.from,
-      'to': widget.to,
-      'timeStamp': DateTime
-          .now()
-          .millisecondsSinceEpoch
-    });
+    if(widget.groupId !=null){
+      databaseReference.push().set({
+        'message': messageText,
+        'from': widget.from,
+        'fromName':widget.name,
+        'to': widget.to,
+        'timeStamp': DateTime
+            .now()
+            .millisecondsSinceEpoch
+      });
+    }else{
+      databaseReference.push().set({
+        'message': messageText,
+        'from': widget.from,
+        'to': widget.to,
+        'timeStamp': DateTime
+            .now()
+            .millisecondsSinceEpoch
+      });
+    }
   }
 }
