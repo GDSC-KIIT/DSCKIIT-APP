@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsckiit_app/constants.dart';
 import 'package:dsckiit_app/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class _GroupsListState extends State<GroupsList> {
                 MaterialPageRoute(builder: (context) => new CreateGroup(uid: widget.uid)
                 ),
               ),
-          backgroundColor: primaryColor,
+          backgroundColor: kFabColor,
           child: Icon(Icons.add),
         ),
       body: FutureBuilder<FirebaseUser>(

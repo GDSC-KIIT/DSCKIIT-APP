@@ -6,7 +6,9 @@ class MediaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Media"),
+        backgroundColor: AppBarTheme.of(context).color,
+        iconTheme: AppBarTheme.of(context).iconTheme,
+        title: Text("Media", style: AppBarTheme.of(context).textTheme.title,),
         centerTitle: true,
       ),
       body: Container(

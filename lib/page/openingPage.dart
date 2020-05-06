@@ -142,20 +142,28 @@ class _OpeningPageState extends State<OpeningPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  child: Image.asset(
-                    'assets/logo.png',
-                    width: 150,
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.05,
+                      ),
+                      Image.asset(
+                        'assets/logo.png',
+                        width: 150,
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: MediaQuery.of(context).size.height * 0.03,
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Row(
                     children: <Widget>[
                       SizedBox(
-                        width: 20,
+                        width: MediaQuery.of(context).size.width * 0.05,
                       ),
                       Image.asset(
                         'assets/writting.png',
@@ -164,39 +172,39 @@ class _OpeningPageState extends State<OpeningPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: MediaQuery.of(context).size.height * 0.03,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    RoundedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute<Null>(
-                            builder: (BuildContext context) {
-                          return SignupPage();
-                        }));
-                      },
-                      color: Colors.blue,
-                      textColor: Colors.white,
-                      text: 'Sign up',
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    RoundedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute<Null>(
-                            builder: (BuildContext context) {
-                          return SigninPage();
-                        }));
-                      },
-                      color: Colors.grey[50],
-                      textColor: Colors.black,
-                      text: 'Sign in',
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 30),
+//                Row(
+//                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                  children: <Widget>[
+//                    RoundedButton(
+//                      onPressed: () {
+//                        Navigator.of(context).push(MaterialPageRoute<Null>(
+//                            builder: (BuildContext context) {
+//                          return SignupPage();
+//                        }));
+//                      },
+//                      color: Colors.blue,
+//                      textColor: Colors.white,
+//                      text: 'Sign up',
+//                    ),
+//                    SizedBox(
+//                      width: 20,
+//                    ),
+//                    RoundedButton(
+//                      onPressed: () {
+//                        Navigator.of(context).push(MaterialPageRoute<Null>(
+//                            builder: (BuildContext context) {
+//                          return SigninPage();
+//                        }));
+//                      },
+//                      color: Colors.grey[50],
+//                      textColor: Colors.black,
+//                      text: 'Sign in',
+//                    ),
+//                  ],
+//                ),
+//                const SizedBox(height: 30),
                 Padding(
                   padding: EdgeInsets.only(top: 50),
                 ),

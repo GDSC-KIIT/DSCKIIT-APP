@@ -50,136 +50,145 @@ class ChatScreenState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(
-          leading: IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: (){
-            Navigator.of(context).pop();
-          },),
-          iconTheme: IconThemeData(color: Colors.black),
-          title: GestureDetector(
-            onTap: widget.groupId!=null?  () => Navigator.push(context, MaterialPageRoute(builder: (context) => new GroupDetailsPage(userId: widget.groupId,uid: widget.from))) : (){},
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                GestureDetector(
-                    child: Row(
-                      children: <Widget>[
-                        widget.url != null
-                            ? Container(
-                          height: 35.0,
-                          width: 35.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: CachedNetworkImageProvider(widget.url),
-                              fit: BoxFit.cover,
+    return SafeArea(
+      child: new Scaffold(
+          appBar: new AppBar(
+            leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: (){
+              Navigator.of(context).pop();
+            },),
+            iconTheme: AppBarTheme.of(context).iconTheme,
+            title: GestureDetector(
+              onTap: widget.groupId!=null?  () => Navigator.push(context, MaterialPageRoute(builder: (context) => new GroupDetailsPage(userId: widget.groupId,uid: widget.from))) : (){},
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  GestureDetector(
+                      child: Row(
+                        children: <Widget>[
+                          widget.url != null
+                              ? Container(
+                            height: 35.0,
+                            width: 35.0,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: CachedNetworkImageProvider(widget.url),
+                                fit: BoxFit.cover,
+                              ),
+                              shape: BoxShape.circle,
                             ),
-                            shape: BoxShape.circle,
+                          )
+                              : CircleAvatar(
+                            backgroundColor: null,
+                            child: Image.asset('assets/user.png'),
                           ),
-                        )
-                            : CircleAvatar(
-                          backgroundColor: null,
-                          child: Image.asset('assets/user.png'),
-                        ),
-                        SizedBox(width: 20,),
-                        new Text(
-                          "${widget.groupName}",
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    )),
-              ],
-            ),
-          ),
-          elevation: 0.0,
-          backgroundColor: Colors.white,
-        ),
-        body: new Container(
-          color: Colors.white,
-          child: new Column(
-            children: <Widget>[
-              Container(
-                height: 4,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                            borderRadius: BorderRadius.circular(50),
-                            boxShadow: [BoxShadow(
-                              color: Colors.blue,
-                              blurRadius: 3.0,
-                              spreadRadius: 2.0,
-                              offset: Offset(0.0,1.0)
-                            )]
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                            borderRadius: BorderRadius.circular(50),
-                            boxShadow: [BoxShadow(
-                                color: Colors.red,
-                                blurRadius: 3.0,
-                                spreadRadius: 2.0,
-                                offset: Offset(0.0,1.0)
-                            )]
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.yellow,
-                            borderRadius: BorderRadius.circular(50),
-                            boxShadow: [BoxShadow(
-                                color: Colors.yellow,
-                                blurRadius: 3.0,
-                                spreadRadius: 2.0,
-                                offset: Offset(0.0,1.0)
-                            )]
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(50),
-                            boxShadow: [BoxShadow(
-                                color: Colors.green,
-                                blurRadius: 3.0,
-                                spreadRadius: 2.0,
-                                offset: Offset(0.0,1.0)
-                            )]
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                          SizedBox(width: 20,),
+                          new Text(
+                            "${widget.groupName}",
+                            style: AppBarTheme.of(context).textTheme.title.copyWith(fontSize: 20, fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      )),
+                ],
               ),
-              new Flexible(
-                child: new FirebaseAnimatedList(
-                  query: databaseReference,
-                  padding: const EdgeInsets.all(8.0),
-                  reverse: true,
-                  sort: (a, b) => b.key.compareTo(a.key),
-                  //comparing timestamp of messages to check which one would appear first
-                  itemBuilder: (_, DataSnapshot snapshot,
-                      Animation<double> animation, int x) {
-                    if (widget.groupId == null) {
-                      if ((snapshot.value['from'] == widget.from &&
-                          snapshot.value['to'] == widget.to) ||
-                          (snapshot.value['to'] == widget.from &&
-                              snapshot.value['from'] == widget.to)) {
+            ),
+            elevation: 0.0,
+            backgroundColor: Colors.white,
+          ),
+          body: new Container(
+            color: Colors.white,
+            child: new Column(
+              children: <Widget>[
+                Container(
+                  height: 4,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                              borderRadius: BorderRadius.circular(50),
+                              boxShadow: [BoxShadow(
+                                color: Colors.blue,
+                                blurRadius: 3.0,
+                                spreadRadius: 2.0,
+                                offset: Offset(0.0,1.0)
+                              )]
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                              borderRadius: BorderRadius.circular(50),
+                              boxShadow: [BoxShadow(
+                                  color: Colors.red,
+                                  blurRadius: 3.0,
+                                  spreadRadius: 2.0,
+                                  offset: Offset(0.0,1.0)
+                              )]
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.yellow,
+                              borderRadius: BorderRadius.circular(50),
+                              boxShadow: [BoxShadow(
+                                  color: Colors.yellow,
+                                  blurRadius: 3.0,
+                                  spreadRadius: 2.0,
+                                  offset: Offset(0.0,1.0)
+                              )]
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(50),
+                              boxShadow: [BoxShadow(
+                                  color: Colors.green,
+                                  blurRadius: 3.0,
+                                  spreadRadius: 2.0,
+                                  offset: Offset(0.0,1.0)
+                              )]
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                new Flexible(
+                  child: new FirebaseAnimatedList(
+                    query: databaseReference,
+                    padding: const EdgeInsets.all(8.0),
+                    reverse: true,
+                    sort: (a, b) => b.key.compareTo(a.key),
+                    //comparing timestamp of messages to check which one would appear first
+                    itemBuilder: (_, DataSnapshot snapshot,
+                        Animation<double> animation, int x) {
+                      if (widget.groupId == null) {
+                        if ((snapshot.value['from'] == widget.from &&
+                            snapshot.value['to'] == widget.to) ||
+                            (snapshot.value['to'] == widget.from &&
+                                snapshot.value['from'] == widget.to)) {
+                          return ChatBubble(
+                            isGroup: widget.groupId != null,
+                            message: snapshot,
+                            fromMeBool: (widget.from == snapshot.value['from']
+                                ? true
+                                : false),
+                          );
+                        }
+                      } else {
                         return ChatBubble(
                           isGroup: widget.groupId != null,
                           message: snapshot,
@@ -188,39 +197,31 @@ class ChatScreenState extends State<ChatPage> {
                               : false),
                         );
                       }
-                    } else {
-                      return ChatBubble(
-                        isGroup: widget.groupId != null,
-                        message: snapshot,
-                        fromMeBool: (widget.from == snapshot.value['from']
-                            ? true
-                            : false),
-                      );
-                    }
-                    return new SizedBox(height: 0.0);
-                  },
+                      return new SizedBox(height: 0.0);
+                    },
+                  ),
                 ),
-              ),
-              //new Divider(height: 1.0),
-              new Container(
-                child: _buildTextComposer(),
-              ),
-              new Builder(builder: (BuildContext context) {
-                _scaffoldContext = context;
-                return new Container(width: 0.0, height: 0.0);
-              })
-            ],
-          ),
-          decoration: Theme
-              .of(context)
-              .platform == TargetPlatform.iOS
-              ? new BoxDecoration(
-              border: new Border(
-                  top: new BorderSide(
-                    color: Colors.grey[200],
-                  )))
-              : null,
-        ));
+                //new Divider(height: 1.0),
+                new Container(
+                  child: _buildTextComposer(),
+                ),
+                new Builder(builder: (BuildContext context) {
+                  _scaffoldContext = context;
+                  return new Container(width: 0.0, height: 0.0);
+                })
+              ],
+            ),
+            decoration: Theme
+                .of(context)
+                .platform == TargetPlatform.iOS
+                ? new BoxDecoration(
+                border: new Border(
+                    top: new BorderSide(
+                      color: Colors.grey[200],
+                    )))
+                : null,
+          )),
+    );
   }
 
   Widget getIOSSendButton() {
@@ -278,7 +279,7 @@ class ChatScreenState extends State<ChatPage> {
                     children: <Widget>[
                       Flexible(
                         child: Padding(
-                          padding: const EdgeInsets.all(5.0),
+                          padding: const EdgeInsets.only(left:5.0, right: 5.0),
                           child: Container(
                             margin: EdgeInsets.only(left: 10),
                             decoration: BoxDecoration(
@@ -316,7 +317,7 @@ class ChatScreenState extends State<ChatPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                            right: 10.0, left: 5, top: 5, bottom: 5),
+                            right: 10.0, left: 5,),
                         child: Container(
                           height: 40,
                           width: 40,

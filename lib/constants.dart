@@ -10,3 +10,5 @@ const kTitleStyle = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w500,
 );
+
+const kFabColor = Color(0xff183E8D);

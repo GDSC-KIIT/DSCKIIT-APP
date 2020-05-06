@@ -10,7 +10,10 @@ class _MentorPageState extends State<MentorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff183E8D)
+        backgroundColor: AppBarTheme.of(context).color,
+        iconTheme: AppBarTheme.of(context).iconTheme,
+        title: Text("Mentors"),
+        centerTitle: true,
       ),
     );
   }

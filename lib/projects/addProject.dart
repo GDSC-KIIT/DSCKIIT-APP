@@ -1,3 +1,4 @@
+import 'package:dsckiit_app/constants.dart';
 import 'package:dsckiit_app/services/crud.dart';
 import 'package:flutter/material.dart';
 import 'package:dsckiit_app/model/project.dart';
@@ -29,8 +30,9 @@ class _ProjectScreenState extends State<ProjectScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Project Add'),
-        backgroundColor: Color(0xFF183E8D),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text('Add Project', style: AppBarTheme.of(context).textTheme.title.copyWith(color: Colors.white, fontSize: 20),),
+        backgroundColor: kFabColor,
       ),
       body: Container(
         margin: EdgeInsets.all(15.0),

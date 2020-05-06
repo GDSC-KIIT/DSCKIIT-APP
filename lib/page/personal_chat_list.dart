@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsckiit_app/constants.dart';
 import 'package:dsckiit_app/page/chat_page.dart';
 import 'package:dsckiit_app/page/user_list.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -46,6 +47,7 @@ class _PersonalChatState extends State<PersonalChat> {
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
+        backgroundColor: kFabColor,
           child: Icon(
             Icons.add
           ),

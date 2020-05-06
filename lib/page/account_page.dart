@@ -1,3 +1,4 @@
+import 'package:dsckiit_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,9 +18,10 @@ class AccountPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xff183E8D),
-        title: Text("Account"),
+        //title: Text("Account", style: AppBarTheme.of(context).textTheme.title.copyWith(fontSize: 30),),
         centerTitle: true,
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -28,16 +30,16 @@ class AccountPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              height: 50,
+              height: MediaQuery.of(context).size.height*0.1,
             ),
             CircleAvatar(
               backgroundColor: Colors.white,
               minRadius: 30,
               maxRadius: 60,
-              child: user.photoUrl == null ? Image.asset('assets/user.png', fit: BoxFit.fill,) : Image.network(user.photoUrl),
+              backgroundImage: user.photoUrl == null ? AssetImage('assets/user.png') : NetworkImage(user.photoUrl),
             ),
             SizedBox(
-              height: 20,
+              height: MediaQuery.of(context).size.height*0.05,
             ),
             Text(
               user.displayName,
@@ -47,13 +49,23 @@ class AccountPage extends StatelessWidget {
               //height: MediaQuery.of(context).size.height,
             ),
             Text(user.email, style: TextStyle(fontSize: 20)),
-            SizedBox(height: 20,),
-            RaisedButton(
-              color: Color(0xff183E8D),
-                child: Text("Sign Out", style: TextStyle(color: Colors.white),),
-                onPressed: () {
+            SizedBox(
+              height: MediaQuery.of(context).size.height*0.05,
+            ),
+            GestureDetector(
+              child: Container(
+                height: 50,
+                width: 100,
+                decoration: BoxDecoration(
+                  color: kFabColor,
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: Center(child: Text("Sign Out", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
+              ),
+                onTap: () {
                   FirebaseAuth.instance.signOut();
-                })
+                }
+            )
           ],
         ),
       ),

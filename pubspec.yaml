@@ -34,6 +34,7 @@ dependencies:
   random_string: ^1.1.0
   progress_dialog: ^1.1.0+1
   toast: ^0.1.5
+  random_color: ^1.0.5
 
 dev_dependencies:
   flutter_test:

@@ -70,7 +70,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                 widget.isGroup && (!fromMe) ? Text(
                   widget.message.value['fromName'],
                   style: TextStyle(
-                    color: colors[random.nextInt(12)],
+                    color: Colors.white,  // Was causing errors when you were sending the image.
                     fontSize: 15.0,
                     fontWeight: FontWeight.w600,
                   ),

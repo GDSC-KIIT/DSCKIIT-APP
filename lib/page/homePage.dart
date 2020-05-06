@@ -2,20 +2,18 @@ import 'dart:async';
 import 'package:dsckiit_app/model/project.dart';
 import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/media_page.dart';
-import 'package:dsckiit_app/page/mentorPage.dart';
-import 'package:dsckiit_app/page/teamPage.dart';
 import 'package:dsckiit_app/services/crud.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dsckiit_app/Widgets/custom_event_card.dart';
 import 'package:dsckiit_app/constants.dart';
-import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:dsckiit_app/page/account_page.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:dsckiit_app/screen/notification_screen.dart';
 import 'package:dsckiit_app/projects/addProject.dart';
+import 'package:random_color/random_color.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -102,21 +100,82 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void _launchUrl(url) async {
+    if(await canLaunch(url)){
+      await launch(url);
+    }
+  }
+
+  static const String urlToMentorPage = "https://dsckiit.tech/mentors.html";
+  static const String urlToTeamPage = "https://dsckiit.tech/team.html";
+
   int _currentNavBarIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final tabs = [
-      Padding(
-        padding: const EdgeInsets.only(top: 12.0),
-        child: FloatingSearchBar.builder(
-          pinned: true,
-          itemCount: 1,
-          itemBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Column(
+      Builder(
+        builder:(context) => Column(
                 children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 8.0, left: 10.0, right: 10.0, bottom: 8.0),
+                    child: Material(
+                      borderRadius: BorderRadius.circular(10),
+                      elevation: 7.0,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.08,
+                        width: MediaQuery.of(context).size.width * 0.98,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(left: 18.1, right: 10, top: 8.0, bottom: 8.0),
+                              child: IconButton(
+                                onPressed: () {
+                                    Scaffold.of(context).openDrawer();
+                                },
+                                icon: Icon(
+                                  Icons.menu,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(),
+                            ),
+                            !isSignedIn
+                                ? Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        right: 18.1,
+                                        top: 8.0,
+                                        bottom: 8.0),
+                                    child: CircleAvatar(
+                                      backgroundImage:
+                                          AssetImage("assets/animator.gif"),
+                                      backgroundColor: Colors.transparent,
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                        right: 18.1,
+                                        top: 8.0,
+                                        bottom: 8.0),
+                                    child: CircleAvatar(
+                                      backgroundImage: user.photoUrl != null
+                                          ? NetworkImage(user.photoUrl)
+                                          : AssetImage('assets/user.png'),
+//                                      backgroundImage: AssetImage('assets/mascot.svg'),
+                                      backgroundColor: Colors.transparent,
+                                    ),
+                                  ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
@@ -164,14 +223,15 @@ class _HomePageState extends State<HomePage> {
                         return GestureDetector(
                           onTap: () =>
                               _navigateToProject(context, items[position]),
-                          onLongPress: () => _deleteProject(
-                              context, items[position], position),
+                          onLongPress: () =>
+                              _deleteProject(context, items[position], position),
                           child: Card(
                             margin: EdgeInsets.only(right: 5, left: 10),
-                            color: Color(0xFF183E8D),
+                            color: RandomColor().randomColor(
+                              colorBrightness: ColorBrightness.veryDark,
+                            ),
                             shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
                             ),
                             child: Container(
                               width: 200,
@@ -234,8 +294,7 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     height: 150,
                     child: StreamBuilder<QuerySnapshot>(
-                      stream:
-                          Firestore.instance.collection('events').snapshots(),
+                      stream: Firestore.instance.collection('events').snapshots(),
                       builder: (BuildContext context,
                           AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.hasError)
@@ -264,87 +323,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-            );
-          },
-          trailing: !isSignedIn
-              ? CircleAvatar(
-                  backgroundImage: AssetImage("assets/animator.gif"),
-                  backgroundColor: Colors.transparent,
-                )
-              : CircleAvatar(
-                  backgroundImage: user.photoUrl != null
-                      ? NetworkImage(user.photoUrl)
-                      : AssetImage('assets/user.png'),
-                  backgroundColor: Colors.transparent,
-                ),
-          drawer: Drawer(
-            child: !isSignedIn
-                ? CircularProgressIndicator()
-                : ListView(
-                    children: <Widget>[
-                      UserAccountsDrawerHeader(
-                        accountName: Text('${user.displayName}'),
-                        accountEmail: Text('${user.email}'),
-                        decoration: BoxDecoration(color: Color(0xFF183E8D)),
-                        currentAccountPicture: CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            radius: 50,
-                            backgroundImage: user.photoUrl != null
-                                ? NetworkImage(user.photoUrl)
-                                : AssetImage("assets/user.png")),
-                      ),
-                      ListTile(
-                        title: Text("Mentors"),
-                        trailing: Icon(Icons.person),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MentorPage()));
-                        },
-                      ),
-                      ListTile(
-                        title: Text("Team"),
-                        trailing: Icon(Icons.group),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => TeamPage()));
-                        },
-                      ),
-                      ListTile(
-                        title: Text("Noticeboard"),
-                        trailing: Icon(Icons.photo),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MediaPage()));
-                        },
-                      ),
-                      ListTile(
-                        title: Text("Feedback From"),
-                        trailing: Icon(Icons.feedback),
-                        onTap: () {},
-                      ),
-                      Divider(),
-                      ListTile(
-                        title: Text("Close"),
-                        trailing: Icon(Icons.close),
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  ),
-          ),
-          onChanged: (String value) {},
-          onTap: () {},
-          decoration: InputDecoration.collapsed(
-            hintText: "Search events, people etc.",
-          ),
-        ),
       ), // Home screen
       !isSignedIn
           ? CircularProgressIndicator()
@@ -355,7 +333,6 @@ class _HomePageState extends State<HomePage> {
       AccountPage(user: user),
     ];
 
-    FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -363,7 +340,7 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: _currentNavBarIndex != 0
             ? null
             : FloatingActionButton(
-                backgroundColor: Color(0xff183E8D),
+                backgroundColor: kFabColor,
                 child: Icon(
                   Icons.add,
                   color: Colors.white,
@@ -381,15 +358,16 @@ class _HomePageState extends State<HomePage> {
           currentIndex: _currentNavBarIndex,
           items: [
             BottomNavigationBarItem(
-                icon: Icon(
-                  LineIcons.home,
-                  color: Colors.black45,
-                ),
-                title: Text("Home"),
-                activeIcon: Icon(
-                  LineIcons.home,
-                  color: Colors.black,
-                )),
+              icon: Icon(
+                LineIcons.home,
+                color: Colors.black45,
+              ),
+              title: Text("Home"),
+              activeIcon: Icon(
+                LineIcons.home,
+                color: Colors.black,
+              ),
+            ),
             BottomNavigationBarItem(
                 icon: Icon(
                   LineIcons.comments,
@@ -426,6 +404,62 @@ class _HomePageState extends State<HomePage> {
               _currentNavBarIndex = index;
             });
           },
+        ),
+        drawer: Drawer(
+          child: !isSignedIn
+              ? CircularProgressIndicator()
+              : ListView(
+            children: <Widget>[
+              UserAccountsDrawerHeader(
+                accountName: Text('${user.displayName}', style: TextStyle(fontSize:20),),
+                accountEmail: Text('${user.email}', style: TextStyle(fontSize: 13),),
+                decoration: BoxDecoration(color: Color(0xFF183E8D)),
+                currentAccountPicture: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 50,
+                    backgroundImage: user.photoUrl != null
+                        ? NetworkImage(user.photoUrl)
+                        : AssetImage("assets/user.png")),
+              ),
+              ListTile(
+                title: Text("Mentors"),
+                trailing: Icon(Icons.person),
+                onTap: () {
+                  _launchUrl(urlToMentorPage);
+                },
+              ),
+              ListTile(
+                title: Text("Team"),
+                trailing: Icon(Icons.group),
+                onTap: () {
+                  _launchUrl(urlToTeamPage);
+                },
+              ),
+              ListTile(
+                title: Text("Noticeboard"),
+                trailing: Icon(Icons.photo),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MediaPage()));
+                },
+              ),
+              ListTile(
+                title: Text("Feedback Form"),
+                trailing: Icon(Icons.feedback),
+                onTap: () {},
+              ),
+              Divider(),
+              ListTile(
+                title: Text("Close"),
+                trailing: Icon(Icons.close),
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
