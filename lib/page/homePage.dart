@@ -7,7 +7,6 @@ import 'package:dsckiit_app/page/teamPage.dart';
 import 'package:dsckiit_app/services/crud.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:dsckiit_app/Widgets/custom_card.dart';
 import 'package:dsckiit_app/Widgets/custom_event_card.dart';
 import 'package:dsckiit_app/constants.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
@@ -79,7 +78,8 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void _deleteProject(BuildContext context, Project project, int position) async {
+  void _deleteProject(
+      BuildContext context, Project project, int position) async {
     db.deleteProject(project.id).then((project) {
       setState(() {
         items.removeAt(position);
