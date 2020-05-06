@@ -384,6 +384,7 @@ class ChatScreenState extends State<ChatPage> {
         'from': widget.from,
         'fromName':widget.name,
         'to': widget.to,
+        'imageUrl': imageUrl,
         'timeStamp': DateTime
             .now()
             .millisecondsSinceEpoch
@@ -393,6 +394,7 @@ class ChatScreenState extends State<ChatPage> {
         'message': messageText,
         'from': widget.from,
         'to': widget.to,
+        'imageUrl': imageUrl,
         'timeStamp': DateTime
             .now()
             .millisecondsSinceEpoch

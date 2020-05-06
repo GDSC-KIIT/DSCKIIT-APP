@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dsckiit_app/page/image_page.dart';
 import 'package:dsckiit_app/utils/colors.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +86,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                 new Hero(
                     tag: messageUrl,
                     child: new GestureDetector(
-//                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new ImagePage(url: messageUrl,))),
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new ImagePage(url: messageUrl,))),
                       child: new Padding(
                         padding: EdgeInsets.all(4),
                         child: new Container(
