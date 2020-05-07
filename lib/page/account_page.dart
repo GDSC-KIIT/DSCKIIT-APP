@@ -16,7 +16,7 @@ class AccountPage extends StatelessWidget {
     _auth.signOut();
   }
 
-  List<String> _titles = ['Design', 'ML', 'Web', 'Content Writing', 'Marketing', 'Flutter'];
+  List<String> _titles = ['Design', 'Machine Learning', 'Web Developer', 'Content Writing', 'Marketing', 'Flutter', 'Cloud and Network Security', 'Photography and Videography', 'Actions on Google', '3D Modelling'];
 
   @override
   Widget build(BuildContext context) {
