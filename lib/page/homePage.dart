@@ -115,7 +115,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Color(0xff183E8D));
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
     final tabs = [
       Builder(
         builder:(context) => SingleChildScrollView(
@@ -196,22 +196,6 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    // Container(
-                    //   height: 150,
-                    //   child: ListView.builder(
-                    //     physics: BouncingScrollPhysics(),
-                    //     shrinkWrap: true,
-                    //     scrollDirection: Axis.horizontal,
-                    //     itemCount: 3,
-                    //     itemBuilder: (context, int index) {
-                    //       return CustomCard(
-                    //         title: 'American Sign Language Recognition',
-                    //         members: index + 1,
-                    //         color: Colors.indigo,
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
                     Container(
                       height: 150,
                       child: ListView.builder(

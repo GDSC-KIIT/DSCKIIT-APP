@@ -29,7 +29,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
+    FlutterStatusbarcolor.setStatusBarColor(Color(0xFF183E8D));
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),

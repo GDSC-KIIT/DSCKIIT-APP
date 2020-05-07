@@ -25,10 +25,10 @@ class AccountPage extends StatelessWidget {
     FlutterStatusbarcolor.setStatusBarColor(Color(0xff183E8D));
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text("Account", style: AppBarTheme.of(context).textTheme.title.copyWith(fontSize: 30),),
+        title: Text('Account',
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)
+        ),
         centerTitle: true,
-        elevation: 0.0,
         backgroundColor: Color(0xff183E8D),
       ),
       body: Padding(
@@ -55,7 +55,7 @@ class AccountPage extends StatelessWidget {
                       : NetworkImage(user.photoUrl),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.15,
+                  height: MediaQuery.of(context).size.height * 0.07,
                 ),
                 CustomContainer(
                   icon: Icons.person,
