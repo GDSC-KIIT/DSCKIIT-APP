@@ -3,6 +3,7 @@ import 'package:dsckiit_app/services/crud.dart';
 import 'package:flutter/material.dart';
 import 'package:dsckiit_app/model/project.dart';
 import 'package:dsckiit_app/services/crud.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class ProjectScreen extends StatefulWidget {
   final Project project;
@@ -28,6 +29,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),

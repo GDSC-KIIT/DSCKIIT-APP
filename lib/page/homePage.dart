@@ -10,6 +10,7 @@ import 'package:dsckiit_app/Widgets/custom_event_card.dart';
 import 'package:dsckiit_app/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsckiit_app/page/account_page.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:dsckiit_app/screen/notification_screen.dart';
 import 'package:dsckiit_app/projects/addProject.dart';
@@ -102,7 +103,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _launchUrl(url) async {
-    if(await canLaunch(url)){
+    if (await canLaunch(url)) {
       await launch(url);
     }
   }
@@ -114,6 +115,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Color(0xff183E8D));
     final tabs = [
       Builder(
         builder:(context) => SingleChildScrollView(
@@ -405,57 +407,63 @@ class _HomePageState extends State<HomePage> {
           child: !isSignedIn
               ? CircularProgressIndicator()
               : ListView(
-            children: <Widget>[
-              UserAccountsDrawerHeader(
-                accountName: Text('${user.displayName}', style: TextStyle(fontSize:20),),
-                accountEmail: Text('${user.email}', style: TextStyle(fontSize: 13),),
-                decoration: BoxDecoration(color: Color(0xFF183E8D)),
-                currentAccountPicture: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: 50,
-                    backgroundImage: user.photoUrl != null
-                        ? NetworkImage(user.photoUrl)
-                        : AssetImage("assets/user.png")),
-              ),
-              ListTile(
-                title: Text("Mentors"),
-                trailing: Icon(Icons.person),
-                onTap: () {
-                  _launchUrl(urlToMentorPage);
-                },
-              ),
-              ListTile(
-                title: Text("Team"),
-                trailing: Icon(Icons.group),
-                onTap: () {
-                  _launchUrl(urlToTeamPage);
-                },
-              ),
-              ListTile(
-                title: Text("Noticeboard"),
-                trailing: Icon(Icons.photo),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MediaPage()));
-                },
-              ),
-              ListTile(
-                title: Text("Feedback Form"),
-                trailing: Icon(Icons.feedback),
-                onTap: () {},
-              ),
-              Divider(),
-              ListTile(
-                title: Text("Close"),
-                trailing: Icon(Icons.close),
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
+                  children: <Widget>[
+                    UserAccountsDrawerHeader(
+                      accountName: Text(
+                        '${user.displayName}',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      accountEmail: Text(
+                        '${user.email}',
+                        style: TextStyle(fontSize: 13),
+                      ),
+                      decoration: BoxDecoration(color: Color(0xFF183E8D)),
+                      currentAccountPicture: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          radius: 50,
+                          backgroundImage: user.photoUrl != null
+                              ? NetworkImage(user.photoUrl)
+                              : AssetImage("assets/user.png")),
+                    ),
+                    ListTile(
+                      title: Text("Mentors"),
+                      trailing: Icon(Icons.person),
+                      onTap: () {
+                        _launchUrl(urlToMentorPage);
+                      },
+                    ),
+                    ListTile(
+                      title: Text("Team"),
+                      trailing: Icon(Icons.group),
+                      onTap: () {
+                        _launchUrl(urlToTeamPage);
+                      },
+                    ),
+                    ListTile(
+                      title: Text("Noticeboard"),
+                      trailing: Icon(Icons.photo),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MediaPage()));
+                      },
+                    ),
+                    ListTile(
+                      title: Text("Feedback Form"),
+                      trailing: Icon(Icons.feedback),
+                      onTap: () {},
+                    ),
+                    Divider(),
+                    ListTile(
+                      title: Text("Close"),
+                      trailing: Icon(Icons.close),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
         ),
       ),
     );

@@ -13,7 +13,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
+    //FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
