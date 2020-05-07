@@ -335,7 +335,6 @@ class _HomePageState extends State<HomePage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: tabs[_currentNavBarIndex],
         floatingActionButton: _currentNavBarIndex != 0
             ? null
