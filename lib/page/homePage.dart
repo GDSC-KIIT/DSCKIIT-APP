@@ -3,6 +3,7 @@ import 'package:dsckiit_app/model/project.dart';
 import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/media_page.dart';
 import 'package:dsckiit_app/services/crud.dart';
+import 'package:dsckiit_app/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dsckiit_app/Widgets/custom_event_card.dart';
@@ -115,54 +116,51 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final tabs = [
       Builder(
-        builder:(context) => Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 8.0, left: 10.0, right: 10.0, bottom: 8.0),
-                    child: Material(
-                      borderRadius: BorderRadius.circular(10),
-                      elevation: 7.0,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        width: MediaQuery.of(context).size.width * 0.98,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(left: 18.1, right: 10, top: 8.0, bottom: 8.0),
-                              child: IconButton(
-                                onPressed: () {
-                                    Scaffold.of(context).openDrawer();
-                                },
-                                icon: Icon(
-                                  Icons.menu,
-                                  color: Colors.grey[700],
+        builder:(context) => SingleChildScrollView(
+          child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 10.0, top: 8.0),
+                      child: Material(
+                        borderRadius: BorderRadius.circular(10),
+                        elevation: 7.0,
+                        child: Container(
+                          height: 55,
+                          width: MediaQuery.of(context).size.width * 0.95,
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(left:8.0),
+                                child: IconButton(
+                                  onPressed: () {
+                                      Scaffold.of(context).openDrawer();
+                                  },
+                                  icon: Icon(
+                                    Icons.menu,
+                                    color: Colors.grey[700],
+                                  ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Container(),
-                            ),
-                            !isSignedIn
-                                ? Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        right: 18.1,
-                                        top: 8.0,
-                                        bottom: 8.0),
-                                    child: CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage("assets/animator.gif"),
-                                      backgroundColor: Colors.transparent,
-                                    ),
+                              Expanded(
+                                child: TextField(
+                                  cursorColor: Colors.black,
+                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.go,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                                      hintText: "Search..."),
+                                ),
+                              ),
+                              !isSignedIn
+                                  ? CircleAvatar(
+                                    backgroundImage:
+                                        AssetImage("assets/animator.gif"),
+                                    backgroundColor: Colors.transparent,
                                   )
-                                : Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0,
-                                        right: 18.1,
-                                        top: 8.0,
-                                        bottom: 8.0),
+                                  : Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
                                     child: CircleAvatar(
                                       backgroundImage: user.photoUrl != null
                                           ? NetworkImage(user.photoUrl)
@@ -171,158 +169,157 @@ class _HomePageState extends State<HomePage> {
                                       backgroundColor: Colors.transparent,
                                     ),
                                   ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          "Ongoing",
-                          style: kHeadingStyle,
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.arrow_forward,
-                            color: Colors.grey[900],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Ongoing",
+                            style: kHeadingStyle,
                           ),
-                          iconSize: 27,
-                          onPressed: () {},
-                        ),
-                      ],
+                          IconButton(
+                            icon: Icon(
+                              Icons.arrow_forward,
+                              color: Colors.grey[900],
+                            ),
+                            iconSize: 27,
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  // Container(
-                  //   height: 150,
-                  //   child: ListView.builder(
-                  //     physics: BouncingScrollPhysics(),
-                  //     shrinkWrap: true,
-                  //     scrollDirection: Axis.horizontal,
-                  //     itemCount: 3,
-                  //     itemBuilder: (context, int index) {
-                  //       return CustomCard(
-                  //         title: 'American Sign Language Recognition',
-                  //         members: index + 1,
-                  //         color: Colors.indigo,
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
-                  Container(
-                    height: 150,
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: items.length,
-                      itemBuilder: (context, position) {
-                        return GestureDetector(
-                          onTap: () =>
-                              _navigateToProject(context, items[position]),
-                          onLongPress: () =>
-                              _deleteProject(context, items[position], position),
-                          child: Card(
-                            margin: EdgeInsets.only(right: 5, left: 10),
-                            color: RandomColor().randomColor(
-                              colorBrightness: ColorBrightness.veryDark,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: Container(
-                              width: 200,
-                              height: 100,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text('${items[position].projectName}',
-                                        style: kTitleStyle.copyWith(
+                    // Container(
+                    //   height: 150,
+                    //   child: ListView.builder(
+                    //     physics: BouncingScrollPhysics(),
+                    //     shrinkWrap: true,
+                    //     scrollDirection: Axis.horizontal,
+                    //     itemCount: 3,
+                    //     itemBuilder: (context, int index) {
+                    //       return CustomCard(
+                    //         title: 'American Sign Language Recognition',
+                    //         members: index + 1,
+                    //         color: Colors.indigo,
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
+                    Container(
+                      height: 150,
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: items.length,
+                        itemBuilder: (context, position) {
+                          return GestureDetector(
+                            onTap: () =>
+                                _navigateToProject(context, items[position]),
+                            onLongPress: () =>
+                                _deleteProject(context, items[position], position),
+                            child: Card(
+                              margin: EdgeInsets.only(right: 5, left: 10),
+                              color: primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                              ),
+                              child: Container(
+                                width: 200,
+                                height: 100,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text('${items[position].projectName}',
+                                          style: kTitleStyle.copyWith(
+                                            color: Colors.white,
+                                          )),
+                                      Text(
+                                        "${items[position].number} members",
+                                        style: TextStyle(
                                           color: Colors.white,
-                                        )),
-                                    Text(
-                                      "${items[position].number} members",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 12,
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 12,
+                                        ),
                                       ),
-                                    ),
-                                    // IconButton(
-                                    //     icon: const Icon(Icons.remove_circle_outline),
-                                    //     onPressed: () => _deleteProject(
-                                    //         context, items[position], position)),
-                                  ],
+                                      // IconButton(
+                                      //     icon: const Icon(Icons.remove_circle_outline),
+                                      //     onPressed: () => _deleteProject(
+                                      //         context, items[position], position)),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Events and Schedules",
+                            style: kHeadingStyle,
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          "Events and Schedules",
-                          style: kHeadingStyle,
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.arrow_forward,
-                            color: Colors.grey[900],
+                          IconButton(
+                            icon: Icon(
+                              Icons.arrow_forward,
+                              color: Colors.grey[900],
+                            ),
+                            iconSize: 27,
+                            onPressed: () {},
                           ),
-                          iconSize: 27,
-                          onPressed: () {},
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 150,
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance.collection('events').snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError)
-                          return new Text('Error: ${snapshot.error}');
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.waiting:
-                            return Center(child: CircularProgressIndicator());
-                          default:
-                            return new ListView(
-                              physics: BouncingScrollPhysics(),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              children: snapshot.data.documents
-                                  .map((DocumentSnapshot document) {
-                                return new CustomEventCard(
-                                  title: document['title'],
-                                  imgURL: document['image'],
-                                  date: document['date'],
-                                  registerUrl: document['register'],
-                                );
-                              }).toList(),
-                            );
-                        }
-                      },
+                    Container(
+                      height: 150,
+                      child: StreamBuilder<QuerySnapshot>(
+                        stream: Firestore.instance.collection('events').snapshots(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasError)
+                            return new Text('Error: ${snapshot.error}');
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.waiting:
+                              return Center(child: CircularProgressIndicator());
+                            default:
+                              return new ListView(
+                                physics: BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                children: snapshot.data.documents
+                                    .map((DocumentSnapshot document) {
+                                  return new CustomEventCard(
+                                    title: document['title'],
+                                    imgURL: document['image'],
+                                    date: document['date'],
+                                    registerUrl: document['register'],
+                                  );
+                                }).toList(),
+                              );
+                          }
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+        ),
       ), // Home screen
       !isSignedIn
           ? CircularProgressIndicator()
@@ -463,4 +460,49 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+class FloatAppBar extends StatelessWidget with PreferredSizeWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Positioned(
+          top: 10,
+          right: 15,
+          left: 15,
+          child: Container(
+            color: Colors.white,
+            child: Row(
+              children: <Widget>[
+                Material(
+                  type: MaterialType.transparency,
+                  child: IconButton(
+                    splashColor: Colors.grey,
+                    icon: Icon(Icons.menu),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: TextField(
+                    cursorColor: Colors.black,
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.go,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                        hintText: "Search..."),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
