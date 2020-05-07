@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+
 
 class AccountPage extends StatelessWidget {
   AccountPage({this.user});
@@ -20,17 +22,18 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Color(0xff183E8D));
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        //title: Text("Account", style: AppBarTheme.of(context).textTheme.title.copyWith(fontSize: 30),),
+        title: Text("Account", style: AppBarTheme.of(context).textTheme.title.copyWith(fontSize: 30),),
         centerTitle: true,
         elevation: 0.0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Color(0xff183E8D),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.08,
+            horizontal: MediaQuery.of(context).size.width * 0.02,
             vertical: 0.0),
         child: SingleChildScrollView(
           child: Container(
