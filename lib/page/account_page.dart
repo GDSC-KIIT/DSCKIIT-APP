@@ -51,7 +51,7 @@ class AccountPage extends StatelessWidget {
                   minRadius: 30,
                   maxRadius: 60,
                   backgroundImage: user.photoUrl == null
-                      ? AssetImage('assets/user.png')
+                      ? AssetImage('assets/mascot.png')
                       : NetworkImage(user.photoUrl),
                 ),
                 SizedBox(

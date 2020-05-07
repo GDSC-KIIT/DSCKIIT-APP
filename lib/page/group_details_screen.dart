@@ -94,7 +94,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                                       .toString()
                                       .isNotEmpty ? CachedNetworkImageProvider(
                                       ds1['image_url']
-                                  ) : Image.asset('assets/user.png'),
+                                  ) : Image.asset('assets/mascot.png'),
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -230,7 +230,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                                                               ),
                                                               child: ClipOval(
                                                                 child: FadeInImage.assetNetwork(
-                                                                    placeholder: "assets/user.png",
+                                                                    placeholder: "assets/mascot.png",
                                                                     image: snapshot.data['photoURL'].toString().isNotEmpty ? snapshot.data['photoURL'] :
                                                                     'https://firebasestorage.googleapis.com/v0/b/myra-health.appspot.com/o/pf.png?alt=media&token=0a4f0eef-0aac-4b76-9cea-5f0f2bcde42f',
                                                                     fit: BoxFit.cover,

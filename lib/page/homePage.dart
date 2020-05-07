@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                                     child: CircleAvatar(
                                       backgroundImage: user.photoUrl != null
                                           ? NetworkImage(user.photoUrl)
-                                          : AssetImage('assets/user.png'),
+                                          : AssetImage('assets/mascot.png'),
 //                                      backgroundImage: AssetImage('assets/mascot.svg'),
                                       backgroundColor: Colors.transparent,
                                     ),
@@ -407,7 +407,7 @@ class _HomePageState extends State<HomePage> {
                           radius: 50,
                           backgroundImage: user.photoUrl != null
                               ? NetworkImage(user.photoUrl)
-                              : AssetImage("assets/user.png")),
+                              : AssetImage("assets/mascot.png")),
                     ),
                     ListTile(
                       title: Text("Mentors"),

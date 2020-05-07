@@ -80,7 +80,7 @@ class ChatScreenState extends State<ChatPage> {
                           )
                               : CircleAvatar(
                             backgroundColor: null,
-                            child: Image.asset('assets/user.png'),
+                            child: Image.asset('assets/mascot.png'),
                           ),
                           SizedBox(width: 20,),
                           new Text(
