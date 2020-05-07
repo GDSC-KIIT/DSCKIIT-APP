@@ -9,6 +9,7 @@ import 'package:dsckiit_app/Widgets/custom_event_card.dart';
 import 'package:dsckiit_app/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsckiit_app/page/account_page.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:dsckiit_app/screen/notification_screen.dart';
 import 'package:dsckiit_app/projects/addProject.dart';
@@ -113,6 +114,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Color(0xff183E8D));
     final tabs = [
       Builder(
         builder: (context) => Column(
