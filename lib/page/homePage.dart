@@ -18,6 +18,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:dsckiit_app/screen/notification_screen.dart';
 import 'package:dsckiit_app/projects/addProject.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -351,6 +352,8 @@ class _HomePageState extends State<HomePage> {
                   )
                 ]),
               ),
+              SizedBox(height: MediaQuery.of(context).size.height*.030),
+              Container(child: socialActions(context))
             ],
           ),
         ),
@@ -514,6 +517,61 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Widget socialActions(context) => FittedBox(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(FontAwesomeIcons.facebookF),
+              onPressed: () async {
+                await _launchURL("https://facebook.com/dsckiit");
+              },
+            ),
+            IconButton(
+              icon: Icon(FontAwesomeIcons.twitter),
+              onPressed: () async {
+                await _launchURL("https://twitter.com/dsckiit");
+              },
+            ),
+            IconButton(
+              icon: Icon(FontAwesomeIcons.linkedinIn),
+              onPressed: () async {
+                _launchURL("https://linkedin.com/in/dsckiit");
+              },
+            ),
+            IconButton(
+              icon: Icon(FontAwesomeIcons.youtube),
+              onPressed: () async {
+                await _launchURL("https://youtube.com/dsckiit");
+              },
+            ),
+            IconButton(
+              icon: Icon(FontAwesomeIcons.instagram),
+              onPressed: () async {
+                await _launchURL("https://instagram.com/dsckiit");
+              },
+            ),
+            IconButton(
+              icon: Icon(FontAwesomeIcons.envelope),
+              onPressed: () async {
+                var emailUrl =
+                    '''mailto:dsckiit@gmail.com?subject=Support Needed For DevExpo App&body={Name: Sayan Nath},Email: dsckiit@gmail.com}''';
+                var out = Uri.encodeFull(emailUrl);
+                await _launchURL(out);
+              },
+            ),
+          ],
+        ),
+      );
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
 
