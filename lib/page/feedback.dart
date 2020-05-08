@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-class MediaPage extends StatefulWidget {
+class FeedBackPage extends StatefulWidget {
+  FeedBackPage({Key key}) : super(key: key);
+
   @override
-  _MediaPageState createState() => _MediaPageState();
+  _FeedBackPageState createState() => _FeedBackPageState();
 }
 
-class _MediaPageState extends State<MediaPage> {
+class _FeedBackPageState extends State<FeedBackPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +15,7 @@ class _MediaPageState extends State<MediaPage> {
         backgroundColor: AppBarTheme.of(context).color,
         iconTheme: AppBarTheme.of(context).iconTheme,
         title: Text(
-          "Noticeboard",
+          "Feedback Forms",
           style: AppBarTheme.of(context).textTheme.title,
         ),
         centerTitle: true,

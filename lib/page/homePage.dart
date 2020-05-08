@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dsckiit_app/model/project.dart';
 import 'package:dsckiit_app/notes/notePage.dart';
 import 'package:dsckiit_app/page/chat_container.dart';
+import 'package:dsckiit_app/page/feedback.dart';
 import 'package:dsckiit_app/page/media_page.dart';
 import 'package:dsckiit_app/services/crud.dart';
 import 'package:dsckiit_app/utils/colors.dart';
@@ -454,7 +455,12 @@ class _HomePageState extends State<HomePage> {
                     ListTile(
                       title: Text("Feedback Form"),
                       trailing: Icon(Icons.feedback),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FeedBackPage()));
+                      },
                     ),
                     Divider(),
                     ListTile(
