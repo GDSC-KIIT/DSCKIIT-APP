@@ -25,6 +25,7 @@ class AccountPage extends StatelessWidget {
     FlutterStatusbarcolor.setStatusBarColor(Color(0xff183E8D));
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Account',
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)
         ),
@@ -35,79 +36,78 @@ class AccountPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width * 0.02,
             vertical: 0.0),
-        child: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.035,
+              ),
+              CircleAvatar(
+                backgroundColor: Colors.white,
+                minRadius: 30,
+                maxRadius: 60,
+                backgroundImage: user.photoUrl == null
+                    ? AssetImage('assets/mascot.png')
+                    : NetworkImage(user.photoUrl),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.07,
+              ),
+              CustomContainer(
+                icon: Icons.person,
+                title: "Name",
+                height: MediaQuery.of(context).size.height * 0.1,
+                widget: Text(
+                  user.displayName,
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.035,
+              ),
+              CustomContainer(
+                icon: Icons.info_outline,
+                title: "Domains",
+                widget: DomainContainer(title: "Flutter"),
+                height: MediaQuery.of(context).size.height * 0.15,
+              ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.03,
+                  height: MediaQuery.of(context).size.height * 0.02,
                 ),
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  minRadius: 30,
-                  maxRadius: 60,
-                  backgroundImage: user.photoUrl == null
-                      ? AssetImage('assets/mascot.png')
-                      : NetworkImage(user.photoUrl),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.07,
-                ),
-                CustomContainer(
-                  icon: Icons.person,
-                  title: "Name",
-                  height: MediaQuery.of(context).size.height * 0.1,
-                  widget: Text(
-                    user.displayName,
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
-                  ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
-                ),
-                CustomContainer(
-                  icon: Icons.info_outline,
-                  title: "Domains",
-                  widget: DomainContainer(title: "Flutter"),
-                  height: MediaQuery.of(context).size.height * 0.15,
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
-                ),
-                CustomContainer(
-                  icon: Icons.mail,
-                  title: "Email id",
-                  height: MediaQuery.of(context).size.height * 0.1,
-                  widget: Text(user.email,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
-                ),
-                GestureDetector(
-                    child: Container(
-                      height: 50,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        color: kFabColor,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: Center(
-                          child: Text("Sign Out",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold))),
+              CustomContainer(
+                icon: Icons.mail,
+                title: "Email id",
+                height: MediaQuery.of(context).size.height * 0.1,
+                widget: Text(user.email,
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
+              ),
+              GestureDetector(
+                  child: Container(
+                    height: 50,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      color: kFabColor,
+                      borderRadius: BorderRadius.circular(100),
                     ),
-                    onTap: () {
-                      FirebaseAuth.instance.signOut();
-                    })
-              ],
-            ),
+                    child: Center(
+                        child: Text("Sign Out",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold))),
+                  ),
+                  onTap: () {
+                    FirebaseAuth.instance.signOut();
+                  })
+            ],
           ),
         ),
       ),
