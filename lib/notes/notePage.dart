@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsckiit_app/Widgets/rounded_button.dart';
 import 'package:dsckiit_app/model/note.dart';
 import 'package:dsckiit_app/notes/addNotes.dart';
+import 'package:dsckiit_app/utils/colors.dart';
 
 import 'package:flutter/material.dart';
 import 'package:dsckiit_app/services/firebase.dart';
@@ -54,39 +56,49 @@ class _NotePageState extends State<NotePage> {
       body: ListView.builder(
           itemCount: items.length,
           itemBuilder: (context, position) {
-            return GestureDetector(
-              onTap: () => _navigateToNote(context, items[position]),
-              child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+            return Column(
+              children: <Widget>[
+                SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  color: Color(0xFF183E8D),
-                  elevation: 5.0,
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage(
-                        'assets/mascot.png',
+                  height: 75,
+                  width: MediaQuery.of(context).size.width*0.95,
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () => _navigateToNote(context, items[position]),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          minRadius: 10,
+                          maxRadius: 22,
+                          backgroundImage: AssetImage(
+                            'assets/mascot.png',
+                          ),
+                          backgroundColor: Colors.white,
+                        ),
+                        title: Text(
+                          this.items[position].title,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 22.0,
+                          ),
+                        ),
+                        trailing: GestureDetector(
+                          child: Icon(
+                            Icons.remove_circle,
+                            color: Colors.white,
+                          ),
+                          onTap: () =>
+                              _deleteNote(context, items[position], position),
+                        ),
                       ),
-                      backgroundColor: Colors.transparent,
-                      radius: 32.0,
                     ),
-                    title: Text(
-                      this.items[position].title,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25.0,
-                      ),
-                    ),
-                    trailing: GestureDetector(
-                      child: Icon(
-                        Icons.remove_circle,
-                        color: Colors.white,
-                      ),
-                      onTap: () =>
-                          _deleteNote(context, items[position], position),
-                    ),
-                  )),
+                  ),
+                ),
+              ],
             );
           }),
       floatingActionButton: FloatingActionButton(
