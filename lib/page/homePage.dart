@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:dsckiit_app/model/project.dart';
+import 'package:dsckiit_app/notes/notePage.dart';
 import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/media_page.dart';
 import 'package:dsckiit_app/services/crud.dart';
@@ -438,6 +439,16 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MediaPage()));
+                      },
+                    ),
+                    ListTile(
+                      title: Text("Meeting Notes"),
+                      trailing: Icon(Icons.edit),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NotePage()));
                       },
                     ),
                     ListTile(
