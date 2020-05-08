@@ -16,7 +16,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:dsckiit_app/screen/notification_screen.dart';
 import 'package:dsckiit_app/projects/addProject.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -82,18 +82,8 @@ class _HomePageState extends State<HomePage> {
       });
     });
 
-    scrollController = ScrollController()
-      ..addListener(() {
-        setDialVisible(scrollController.position.userScrollDirection ==
-            ScrollDirection.forward);
-      });
   }
 
-  void setDialVisible(bool value) {
-    setState(() {
-      dialVisible = value;
-    });
-  }
 
   void _deleteProject(
       BuildContext context, Project project, int position) async {
@@ -123,35 +113,6 @@ class _HomePageState extends State<HomePage> {
     if (await canLaunch(url)) {
       await launch(url);
     }
-  }
-  SpeedDial buildSpeedDial() {
-    return SpeedDial(
-      animatedIcon: AnimatedIcons.menu_close,
-      animatedIconTheme: IconThemeData(size: 22.0),
-      child: Icon(Icons.add),
-      onOpen: () => print('OPENING DIAL'),
-      onClose: () => print('DIAL CLOSED'),
-      visible: dialVisible,
-      curve: Curves.bounceIn,
-      children: [
-        SpeedDialChild(
-          child: Icon(Icons.accessibility, color: Colors.white),
-          backgroundColor: Colors.deepOrange,
-          onTap: () => _createNewProject(context),
-          label: 'New Project',
-          labelStyle: TextStyle(fontWeight: FontWeight.w500),
-          labelBackgroundColor: Colors.deepOrangeAccent,
-        ),
-        SpeedDialChild(
-          child: Icon(Icons.brush, color: Colors.white),
-          backgroundColor: Colors.green,
-          onTap: () => NotificationScreen(),
-          label: 'New Note',
-          labelStyle: TextStyle(fontWeight: FontWeight.w500),
-          labelBackgroundColor: Colors.green,
-        ),
-      ],
-    );
   }
 
   static const String urlToMentorPage = "https://dsckiit.tech/mentors.html";
@@ -367,7 +328,6 @@ class _HomePageState extends State<HomePage> {
         body: tabs[_currentNavBarIndex],
         floatingActionButton: _currentNavBarIndex != 0
             ? null
-            //: buildSpeedDial(),
             : FloatingActionButton(
                 backgroundColor: kFabColor,
                 child: Icon(
