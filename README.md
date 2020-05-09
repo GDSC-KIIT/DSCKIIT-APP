@@ -1,7 +1,7 @@
 # dsckiit_app
 
 An app, made by DSCKIIT, for DSCKIIT.
-(To be made for the public in the latter iterations)
+(To be made for the public in the later iterations)
 
 # Features:
   * Authentication for members along with their domains
