@@ -502,7 +502,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => FeedBackPage()));
+                                builder: (context) => AdditionalInfoScreen()));
                       },
                     ),
                     Divider(),
