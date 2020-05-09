@@ -20,6 +20,7 @@ import 'package:dsckiit_app/screen/notification_screen.dart';
 import 'package:dsckiit_app/projects/addProject.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:dsckiit_app/Widgets/google_button.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -353,7 +354,7 @@ class _HomePageState extends State<HomePage> {
                   )
                 ]),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height*.030),
+              SizedBox(height: MediaQuery.of(context).size.height * .030),
               Container(child: socialActions(context))
             ],
           ),
@@ -374,17 +375,18 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: _currentNavBarIndex != 0
             ? null
             : FloatingActionButton(
-                backgroundColor: kFabColor,
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
+                backgroundColor: Color(0xFF183E8D),
+                child: CustomPaint(
+                  child: Container(),
+                  foregroundPainter: FloatingPainterGButton(),
                 ),
                 onPressed: () => _createNewProject(context),
               ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.white,
           type: BottomNavigationBarType.fixed,
-          elevation: 10,
+          elevation: 20,
           showSelectedLabels: false,
           showUnselectedLabels: false,
           iconSize: 35,
@@ -397,10 +399,7 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.black45,
               ),
               title: Text("Home"),
-              activeIcon: Icon(
-                LineIcons.home,
-                color: Colors.black,
-              ),
+              activeIcon: Icon(LineIcons.home, color: Colors.lightBlue),
             ),
             BottomNavigationBarItem(
                 icon: Icon(
@@ -410,7 +409,7 @@ class _HomePageState extends State<HomePage> {
                 title: Text("Messages"),
                 activeIcon: Icon(
                   LineIcons.comments,
-                  color: Colors.amber,
+                  color: Colors.red,
                 )),
             BottomNavigationBarItem(
                 icon: Icon(
@@ -420,7 +419,7 @@ class _HomePageState extends State<HomePage> {
                 title: Text("Notifications"),
                 activeIcon: Icon(
                   LineIcons.bell,
-                  color: Colors.black,
+                  color: Colors.amber,
                 )),
             BottomNavigationBarItem(
                 icon: Icon(
@@ -428,10 +427,7 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.black45,
                 ),
                 title: Text("Account"),
-                activeIcon: Icon(
-                  LineIcons.user,
-                  color: Colors.black,
-                )),
+                activeIcon: Icon(LineIcons.user, color: Colors.green)),
           ],
           onTap: (index) {
             setState(() {
