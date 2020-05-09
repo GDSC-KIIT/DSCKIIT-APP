@@ -103,6 +103,7 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Additional Info'),
         centerTitle: true,
       ),
