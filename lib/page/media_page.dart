@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dsckiit_app/Widgets/google_button.dart';
 
 class MediaPage extends StatefulWidget {
   @override
@@ -23,50 +24,9 @@ class _MediaPageState extends State<MediaPage> {
           backgroundColor: Colors.white,
           child: CustomPaint(
             child: Container(),
-            foregroundPainter: FloatingPainter(),
+            foregroundPainter: FloatingPainterGButton(),
           ),
           onPressed: () {}),
     );
   }
-}
-
-class FloatingPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint amberPaint = Paint()
-      ..color = Colors.amber
-      ..strokeWidth = 5;
-
-    Paint greenPaint = Paint()
-      ..color = Colors.green
-      ..strokeWidth = 5;
-
-    Paint bluePaint = Paint()
-      ..color = Colors.blue
-      ..strokeWidth = 5;
-
-    Paint redPaint = Paint()
-      ..color = Colors.red
-      ..strokeWidth = 5;
-
-    canvas.drawLine(Offset(size.width * 0.27, size.height * 0.5),
-        Offset(size.width * 0.5, size.height * 0.5), amberPaint);
-
-    canvas.drawLine(
-        Offset(size.width * 0.5, size.height * 0.5),
-        Offset(size.width * 0.5, size.height - (size.height * 0.27)),
-        greenPaint);
-
-    canvas.drawLine(Offset(size.width * 0.5, size.height * 0.5),
-        Offset(size.width - (size.width * 0.27), size.height * 0.5), bluePaint);
-
-    canvas.drawLine(Offset(size.width * 0.5, size.height * 0.5),
-        Offset(size.width * 0.5, size.height * 0.27), redPaint);
-  }
-
-  @override
-  bool shouldRepaint(FloatingPainter oldDelegate) => false;
-
-  @override
-  bool shouldRebuildSemantics(FloatingPainter oldDelegate) => false;
 }
