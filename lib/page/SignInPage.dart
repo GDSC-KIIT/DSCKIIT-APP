@@ -1,9 +1,8 @@
-import 'package:dsckiit_app/page/homePage.dart';
 import 'package:dsckiit_app/screen/animatorLoader.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class SigninPage extends StatefulWidget {
   @override
@@ -14,6 +13,8 @@ class _SigninPageState extends State<SigninPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FirebaseAuth user;
+  String fcmToken;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   String _email, _password;
 
@@ -34,6 +35,7 @@ class _SigninPageState extends State<SigninPage> {
 
   @override
   void initState() {
+    _firebaseMessaging.getToken().then((value) => fcmToken = value);
     super.initState();
     this.checkAuthentication();
   }

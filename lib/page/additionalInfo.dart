@@ -5,6 +5,7 @@ import 'package:dsckiit_app/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AdditionalInfoScreen extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _db = Firestore.instance;
+  List<String> domainsFinal = [];
 
   FirebaseUser user;
   bool isSignedIn = false;
@@ -47,11 +49,10 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
 
   void updateUserData(FirebaseUser user) async {
     DocumentReference ref = _db.collection('users').document(user.uid);
-
-    return ref.setData({
-      'domains': _selectedDomains,
+    return ref.updateData({
+      'domains': FieldValue.arrayUnion(_selectedDomains.toList()),
       'contactNumber': _number,
-    }, merge: true);
+    });
   }
 
   void showUserData(FirebaseUser user) async{
@@ -131,6 +132,11 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
                     WhitelistingTextInputFormatter.digitsOnly
                   ],
                   controller: _numController,
+                  onChanged: (text){
+                    setState(() {
+                      _number = text;
+                    });
+                  },
                   decoration: InputDecoration(
                       labelText: 'Whatsapp Number',
                       border: OutlineInputBorder(
@@ -146,9 +152,11 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
                   padding: EdgeInsets.fromLTRB(100, 20, 100, 20),
                   onPressed: () {
                     if(_selectedDomains.isNotEmpty){
-                      _number = _numController.text;
+//                      _number = _numController.text;
                       updateUserData(user);
                       showUserData(user);
+                    }else{
+
                     }
                   },
                   color: Color(0xFF183E8D),

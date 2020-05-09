@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsckiit_app/Widgets/rounded_button.dart';
 import 'package:dsckiit_app/screen/animatorLoader.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:dsckiit_app/page/SignUpPage.dart';
 import 'package:dsckiit_app/page/SignInPage.dart';
@@ -20,6 +21,8 @@ class OpeningPage extends StatefulWidget {
 class _OpeningPageState extends State<OpeningPage> {
   FirebaseUser _user;
   final Firestore _db = Firestore.instance;
+  String fcmToken;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   // If this._busy=true, the buttons are not clickable. This is to avoid
   // clicking buttons while a previous onTap function is not finished.
@@ -27,6 +30,7 @@ class _OpeningPageState extends State<OpeningPage> {
 
   @override
   void initState() {
+    _firebaseMessaging.getToken().then((value) => fcmToken = value);
     super.initState();
     FirebaseAuth.instance.currentUser().then(
           (user) => setState(() => this._user = user),
@@ -63,7 +67,8 @@ class _OpeningPageState extends State<OpeningPage> {
       'photoURL': user.photoUrl,
       'displayName': user.displayName,
       'admin': false,
-      'lastSeen': DateTime.now()
+      'lastSeen': DateTime.now(),
+      'fcmToken':fcmToken
     }, merge: true);
   }
 

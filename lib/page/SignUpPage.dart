@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,6 +13,8 @@ class _SignupPageState extends State<SignupPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final db = Firestore.instance;
+  String fcmToken;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   String _name, _email, _password;
 
@@ -24,7 +27,8 @@ class _SignupPageState extends State<SignupPage> {
         'userId': uid,
         'email': email,
         'name': name,
-        'admin': false
+        'admin': false,
+        'fcmToken':fcmToken
         });
     });
   }
@@ -43,6 +47,7 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   void initState() {
+    _firebaseMessaging.getToken().then((value) => fcmToken = value);
     super.initState();
     this.checkAuthentication();
   }
