@@ -16,5 +16,6 @@ An app, made by DSCKIIT, for DSCKIIT.
   * Keeping track of all on going projects and upcoming events
   
   
-  * Note taking for ..... taking notes
+  * Note taking functionality for ..... taking notes
 
+[![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://GitHub.com/Naereen/)
