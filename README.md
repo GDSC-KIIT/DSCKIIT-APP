@@ -1,12 +1,9 @@
-# dsckiit_app
+# DSCKIIT APP
 
 An app, made by DSCKIIT, for DSCKIIT.
 (To be made for the public in the later iterations)
 
-## Technology:
-  * Flutter
-
-# Features:
+## Features:
   * Authentication for members along with their domains
   
   
@@ -20,3 +17,4 @@ An app, made by DSCKIIT, for DSCKIIT.
   
   
   * Note taking for ..... taking notes
+
