@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dsckiit_app/model/project.dart';
 import 'package:dsckiit_app/notes/notePage.dart';
+import 'package:dsckiit_app/page/additionalInfo.dart';
 import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/feedback.dart';
 import 'package:dsckiit_app/page/media_page.dart';
