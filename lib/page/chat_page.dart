@@ -384,7 +384,7 @@ class ChatScreenState extends State<ChatPage> {
         'message': messageText,
         'from': widget.from,
         'fromName':widget.name,
-        'to': widget.to,
+        'to': widget.groupId,
         'imageUrl': imageUrl,
         'timeStamp': DateTime
             .now()
