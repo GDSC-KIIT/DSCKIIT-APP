@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'chat_page.dart';
 import 'group_creator.dart';
+import 'package:dsckiit_app/Widgets/google_button.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -33,8 +34,11 @@ class _GroupsListState extends State<GroupsList> {
                   MaterialPageRoute(builder: (context) => new CreateGroup(uid: widget.uid)
                   ),
                 ),
-            backgroundColor: kFabColor,
-            child: Icon(Icons.add),
+            backgroundColor: Colors.white,
+            child: CustomPaint(
+              child: Container(),
+              foregroundPainter: FloatingPainterGButton(),
+            ),
           ),
         body: FutureBuilder<FirebaseUser>(
           future: FirebaseAuth.instance.currentUser(),
