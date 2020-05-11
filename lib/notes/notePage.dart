@@ -47,6 +47,7 @@ class _NotePageState extends State<NotePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'Meeting Notes',
           style: TextStyle(color: Colors.black),

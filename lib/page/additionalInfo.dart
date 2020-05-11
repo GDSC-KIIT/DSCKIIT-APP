@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AdditionalInfoScreen extends StatefulWidget {
+  AdditionalInfoScreen({this.number = 0});
+  int number;
   @override
   State<StatefulWidget> createState() => new _AdditionalInfoScreenState();
 }
@@ -103,7 +105,7 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: widget.number==0?false:true,
         title: Text('Additional Info'),
         centerTitle: true,
       ),

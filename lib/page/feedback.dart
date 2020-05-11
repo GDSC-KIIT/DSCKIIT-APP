@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsckiit_app/Widgets/custom_event_card.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FeedBackPage extends StatefulWidget {
   FeedBackPage({Key key}) : super(key: key);
@@ -8,6 +11,13 @@ class FeedBackPage extends StatefulWidget {
 }
 
 class _FeedBackPageState extends State<FeedBackPage> {
+
+  void _launchUrl(url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +30,38 @@ class _FeedBackPageState extends State<FeedBackPage> {
         ),
         centerTitle: true,
       ),
-      body: Container(),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance.collection('events').snapshots(),
+          builder: (BuildContext context,
+              AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError)
+              return new Text('Error: ${snapshot.error}');
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return Center(child: CircularProgressIndicator());
+              default:
+                return new ListView(
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  children: snapshot.data.documents
+                      .map((DocumentSnapshot document) {
+                    return Card(
+                      child: ListTile(
+                        onTap: (){
+                          _launchUrl(document['feedback']);
+                        },
+                        title: Text(document['title']),
+                        subtitle: Text(document['date']),
+                      ),
+                    );
+                  }).toList(),
+                );
+            }
+          },
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.white,
           child: CustomPaint(

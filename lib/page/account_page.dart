@@ -57,7 +57,8 @@ class _AccountPageState extends State<AccountPage> {
     FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        iconTheme: IconThemeData(color: Colors.white),
+        //automaticallyImplyLeading: false,
         title: Text('Account',
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         centerTitle: true,

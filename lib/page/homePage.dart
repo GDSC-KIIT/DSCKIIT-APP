@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dsckiit_app/model/project.dart';
 import 'package:dsckiit_app/notes/notePage.dart';
+import 'package:dsckiit_app/page/about_us.dart';
 import 'package:dsckiit_app/page/additionalInfo.dart';
 import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/feedback.dart';
@@ -172,12 +173,21 @@ class _HomePageState extends State<HomePage> {
                               )
                             : Padding(
                                 padding: const EdgeInsets.only(right: 10.0),
-                                child: CircleAvatar(
-                                  backgroundImage: user.photoUrl != null
-                                      ? NetworkImage(user.photoUrl)
-                                      : AssetImage('assets/mascot.png'),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) {
+                                      return AccountPage(user: user);
+                                    }));
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundImage: user.photoUrl != null
+                                        ? NetworkImage(user.photoUrl)
+                                        : AssetImage('assets/mascot.png'),
 //                                      backgroundImage: AssetImage('assets/mascot.svg'),
-                                  backgroundColor: Colors.transparent,
+                                    backgroundColor: Colors.transparent,
+                                  ),
                                 ),
                               ),
                       ],
@@ -298,11 +308,12 @@ class _HomePageState extends State<HomePage> {
                           scrollDirection: Axis.horizontal,
                           children: snapshot.data.documents
                               .map((DocumentSnapshot document) {
-                            return new CustomEventCard(
+                            return CustomEventCard(
                               title: document['title'],
                               imgURL: document['image'],
                               date: document['date'],
                               registerUrl: document['register'],
+                              feedbackUrl: document['feedback']
                             );
                           }).toList(),
                         );
@@ -354,8 +365,6 @@ class _HomePageState extends State<HomePage> {
                   )
                 ]),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * .030),
-              Container(child: socialActions(context))
             ],
           ),
         ),
@@ -365,8 +374,8 @@ class _HomePageState extends State<HomePage> {
           : ChatContainer(
               uid: user.uid ?? "",
             ),
-      NotificationScreen(),
-      AccountPage(user: user),
+      NotePage(),
+      AboutUs()
     ];
 
     return SafeArea(
@@ -413,21 +422,19 @@ class _HomePageState extends State<HomePage> {
                 )),
             BottomNavigationBarItem(
                 icon: Icon(
-                  LineIcons.bell,
+                  LineIcons.edit,
                   color: Colors.black45,
                 ),
-                title: Text("Notifications"),
+                title: Text("Meeting Notes"),
                 activeIcon: Icon(
-                  LineIcons.bell,
+                  LineIcons.edit,
                   color: Colors.amber,
                 )),
             BottomNavigationBarItem(
-                icon: Icon(
-                  LineIcons.user,
-                  color: Colors.black45,
-                ),
-                title: Text("Account"),
-                activeIcon: Icon(LineIcons.user, color: Colors.green)),
+              icon: ImageIcon(AssetImage('assets/logo.png'), size: 33),
+              title: Text("About us"),
+              activeIcon: ImageIcon(AssetImage('assets/logo.png'), size: 35, color: Colors.greenAccent),
+            )
           ],
           onTap: (index) {
             setState(() {
@@ -450,12 +457,20 @@ class _HomePageState extends State<HomePage> {
                         style: TextStyle(fontSize: 13),
                       ),
                       decoration: BoxDecoration(color: Color(0xFF183E8D)),
-                      currentAccountPicture: CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          radius: 50,
-                          backgroundImage: user.photoUrl != null
-                              ? NetworkImage(user.photoUrl)
-                              : AssetImage("assets/mascot.png")),
+                      currentAccountPicture: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) {
+                            return AccountPage(user: user);
+                          }));
+                        },
+                        child: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            radius: 50,
+                            backgroundImage: user.photoUrl != null
+                                ? NetworkImage(user.photoUrl)
+                                : AssetImage("assets/mascot.png")),
+                      ),
                     ),
                     ListTile(
                       title: Text("Mentors"),
@@ -492,13 +507,23 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                     ListTile(
-                      title: Text("Feedback Form"),
+                      title: Text("Update Information"),
+                      trailing: Icon(Icons.info),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AdditionalInfoScreen(number: 1,)));
+                      },
+                    ),
+                    ListTile(
+                      title: Text("Feedback"),
                       trailing: Icon(Icons.feedback),
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AdditionalInfoScreen()));
+                                builder: (context) => FeedBackPage()));
                       },
                     ),
                     Divider(),
@@ -515,53 +540,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-  Widget socialActions(context) => FittedBox(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(FontAwesomeIcons.facebookF),
-              onPressed: () async {
-                await _launchURL("https://facebook.com/dsckiit");
-              },
-            ),
-            IconButton(
-              icon: Icon(FontAwesomeIcons.twitter),
-              onPressed: () async {
-                await _launchURL("https://twitter.com/dsckiit");
-              },
-            ),
-            IconButton(
-              icon: Icon(FontAwesomeIcons.linkedinIn),
-              onPressed: () async {
-                _launchURL("https://linkedin.com/in/dsckiit");
-              },
-            ),
-            IconButton(
-              icon: Icon(FontAwesomeIcons.youtube),
-              onPressed: () async {
-                await _launchURL("https://youtube.com/dsckiit");
-              },
-            ),
-            IconButton(
-              icon: Icon(FontAwesomeIcons.instagram),
-              onPressed: () async {
-                await _launchURL("https://instagram.com/dsckiit");
-              },
-            ),
-            IconButton(
-              icon: Icon(FontAwesomeIcons.envelope),
-              onPressed: () async {
-                var emailUrl =
-                    '''mailto:dsckiit@gmail.com?subject=Support Needed For DevExpo App&body={Name: Sayan Nath},Email: dsckiit@gmail.com}''';
-                var out = Uri.encodeFull(emailUrl);
-                await _launchURL(out);
-              },
-            ),
-          ],
-        ),
-      );
 
   _launchURL(String url) async {
     if (await canLaunch(url)) {
