@@ -353,12 +353,15 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Align(
                     alignment: Alignment.topLeft,
-                    child: Text(
-                      "SUGGEST A PROJECT",
-                      style: TextStyle(
-                        color: Color(0xff417DF9),
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        "SUGGEST A PROJECT",
+                        style: TextStyle(
+                          color: Color(0xff417DF9),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   )
