@@ -1,14 +1,10 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsckiit_app/media/mediaScreen.dart';
 import 'package:dsckiit_app/model/media.dart';
 import 'package:dsckiit_app/services/firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:dsckiit_app/Widgets/google_button.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 
 class MediaPage extends StatefulWidget {
   @override

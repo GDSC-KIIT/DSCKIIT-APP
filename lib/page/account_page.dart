@@ -58,7 +58,7 @@ class _AccountPageState extends State<AccountPage> {
       body: FutureBuilder(
         future: getDomain(widget.user),
         builder: (BuildContext context, AsyncSnapshot snapshot){
-          return snapshot.data==null? Container() : Padding(
+          return snapshot.data==null? Center(child: CircularProgressIndicator()) : Padding(
             padding: EdgeInsets.only(
                 left: MediaQuery.of(context).size.width * 0.02),
             child: Container(

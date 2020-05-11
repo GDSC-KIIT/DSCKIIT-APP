@@ -471,16 +471,16 @@ class _HomePageState extends State<HomePage> {
                         _launchUrl(urlToTeamPage);
                       },
                     ),
-                    ListTile(
-                      title: Text("Noticeboard"),
-                      trailing: Icon(Icons.photo),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MediaPage()));
-                      },
-                    ),
+//                    ListTile(
+//                      title: Text("Noticeboard"),
+//                      trailing: Icon(Icons.photo),
+//                      onTap: () {
+//                        Navigator.push(
+//                            context,
+//                            MaterialPageRoute(
+//                                builder: (context) => MediaPage()));
+//                      },
+//                    ),
                     ListTile(
                       title: Text("Meeting Notes"),
                       trailing: Icon(Icons.edit),
