@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsckiit_app/constants.dart';
+import 'package:dsckiit_app/page/additionalInfo.dart';
 import 'package:dsckiit_app/page/media_page.dart';
 import 'package:dsckiit_app/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,8 +38,15 @@ class _AccountPageState extends State<AccountPage> {
         .get()
         .then((DocumentSnapshot) {
       print(DocumentSnapshot.data['domains']);
-      DocumentSnapshot.data['domains']
-          .forEach((domain) => {domains.add(domain)});
+      if(DocumentSnapshot.data['domains']==null){
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (BuildContext context) {
+          return AdditionalInfoScreen();
+        }));
+      }else{
+        DocumentSnapshot.data['domains']
+            .forEach((domain) => {domains.add(domain)});
+      }
     });
     print(domains);
     return domains;

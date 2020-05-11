@@ -156,8 +156,7 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
 //                      _number = _numController.text;
                       updateUserData(user);
                       showUserData(user);
-                    }else{
-
+                      Navigator.pop(context);
                     }
                   },
                   color: Color(0xFF183E8D),
