@@ -5,6 +5,7 @@ import 'package:dsckiit_app/page/user_list.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'dart:collection';
+import 'package:dsckiit_app/Widgets/google_button.dart';
 
 class PersonalChat extends StatefulWidget {
   final String uid;
@@ -47,10 +48,11 @@ class _PersonalChatState extends State<PersonalChat> {
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: kFabColor,
-          child: Icon(
-            Icons.add
-          ),
+        backgroundColor: Colors.white,
+          child: CustomPaint(
+              child: Container(),
+              foregroundPainter: FloatingPainterGButton(),
+            ),
           onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ShowUsersList(uid: widget.uid,)))
       ),
       body: (data!=null && data.length!=0) ? new ListView.builder(
