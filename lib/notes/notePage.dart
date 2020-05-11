@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsckiit_app/Widgets/google_button.dart';
 import 'package:dsckiit_app/Widgets/rounded_button.dart';
 import 'package:dsckiit_app/model/note.dart';
 import 'package:dsckiit_app/notes/addNotes.dart';
@@ -66,7 +67,7 @@ class _NotePageState extends State<NotePage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   height: 75,
-                  width: MediaQuery.of(context).size.width*0.95,
+                  width: MediaQuery.of(context).size.width * 0.95,
                   child: Center(
                     child: GestureDetector(
                       onTap: () => _navigateToNote(context, items[position]),
@@ -103,8 +104,11 @@ class _NotePageState extends State<NotePage> {
             );
           }),
       floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xFF183E8D),
-          child: Icon(Icons.add, color: Colors.white),
+          backgroundColor: Colors.white,
+          child: CustomPaint(
+            child: Container(),
+            foregroundPainter: FloatingPainterGButton(),
+          ),
           onPressed: () => _createNewNote(context)),
     );
   }
