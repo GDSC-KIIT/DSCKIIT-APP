@@ -2,11 +2,12 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsckiit_app/model/media.dart';
 
-final CollectionReference mediaCollection = Firestore.instance.collection('media');
+final CollectionReference mediaCollection =
+    Firestore.instance.collection('media');
 
 class FirebaseFirestoreService {
-
-  static final FirebaseFirestoreService _instance = new FirebaseFirestoreService.internal();
+  static final FirebaseFirestoreService _instance =
+      new FirebaseFirestoreService.internal();
 
   factory FirebaseFirestoreService() => _instance;
 
@@ -48,7 +49,8 @@ class FirebaseFirestoreService {
 
   Future<dynamic> updateMedia(Media media) async {
     final TransactionHandler updateTransaction = (Transaction tx) async {
-      final DocumentSnapshot ds = await tx.get(mediaCollection.document(media.id));
+      final DocumentSnapshot ds =
+          await tx.get(mediaCollection.document(media.id));
 
       await tx.update(ds.reference, media.toMap());
       return {'updated': true};

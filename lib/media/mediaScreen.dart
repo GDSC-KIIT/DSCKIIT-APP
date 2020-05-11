@@ -91,16 +91,13 @@ class _MediaScreenState extends State<MediaScreen> {
               onPressed: () {
                 if (widget.media.id != null) {
                   db
-                      .updateMedia(Media(widget.media.id, _titleController.text,
-                          _photoUrl))
+                      .updateMedia(Media(
+                          widget.media.id, _titleController.text, _photoUrl))
                       .then((_) {
                     Navigator.pop(context);
                   });
                 } else {
-                  db
-                      .createMedia(
-                          _titleController.text, _photoUrl)
-                      .then((_) {
+                  db.createMedia(_titleController.text, _photoUrl).then((_) {
                     Navigator.pop(context);
                   });
                 }

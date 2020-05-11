@@ -309,12 +309,11 @@ class _HomePageState extends State<HomePage> {
                           children: snapshot.data.documents
                               .map((DocumentSnapshot document) {
                             return CustomEventCard(
-                              title: document['title'],
-                              imgURL: document['image'],
-                              date: document['date'],
-                              registerUrl: document['register'],
-                              feedbackUrl: document['feedback']
-                            );
+                                title: document['title'],
+                                imgURL: document['image'],
+                                date: document['date'],
+                                registerUrl: document['register'],
+                                feedbackUrl: document['feedback']);
                           }).toList(),
                         );
                     }
@@ -433,7 +432,8 @@ class _HomePageState extends State<HomePage> {
             BottomNavigationBarItem(
               icon: ImageIcon(AssetImage('assets/logo.png'), size: 33),
               title: Text("About us"),
-              activeIcon: ImageIcon(AssetImage('assets/logo.png'), size: 35, color: Colors.greenAccent),
+              activeIcon: ImageIcon(AssetImage('assets/logo.png'),
+                  size: 35, color: Colors.greenAccent),
             )
           ],
           onTap: (index) {
@@ -513,7 +513,9 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AdditionalInfoScreen(number: 1,)));
+                                builder: (context) => AdditionalInfoScreen(
+                                      number: 1,
+                                    )));
                       },
                     ),
                     ListTile(
