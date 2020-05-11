@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:dsckiit_app/model/project.dart';
+import 'package:dsckiit_app/model/suggest.dart';
 import 'package:dsckiit_app/notes/notePage.dart';
 import 'package:dsckiit_app/page/about_us.dart';
 import 'package:dsckiit_app/page/additionalInfo.dart';
@@ -7,6 +8,7 @@ import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/feedback.dart';
 import 'package:dsckiit_app/page/media_page.dart';
 import 'package:dsckiit_app/services/crud.dart';
+import 'package:dsckiit_app/suggest/add.dart';
 import 'package:dsckiit_app/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -108,6 +110,21 @@ class _HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(
           builder: (context) => ProjectScreen(Project(null, '', ''))),
+    );
+  }
+
+  void _navigateToSuggest(BuildContext context, Suggest project) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SuggestScreen(project)),
+    );
+  }
+
+  void _createNewSuggest(BuildContext context) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => SuggestScreen(Suggest(null, '', ''))),
     );
   }
 
@@ -354,7 +371,7 @@ class _HomePageState extends State<HomePage> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () => _createNewSuggest(context),
                       child: Text(
                         "SUGGEST A PROJECT",
                         style: TextStyle(
