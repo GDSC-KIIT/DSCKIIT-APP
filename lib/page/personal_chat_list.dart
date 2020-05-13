@@ -47,7 +47,7 @@ class _PersonalChatState extends State<PersonalChat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFF2F2F2),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
           child: CustomPaint(
@@ -82,8 +82,13 @@ class _PersonalChatState extends State<PersonalChat> {
                     )));
               },
               child: Container(
-                color: Colors.white,
-                margin: EdgeInsets.all(15),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  boxShadow: [BoxShadow(color: Colors.black12),BoxShadow(color: Colors.black12),BoxShadow(color: Colors.black12),BoxShadow(color: Colors.black12)],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                margin: EdgeInsets.only(left: 7, right: 7, top: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,9 +115,9 @@ class _PersonalChatState extends State<PersonalChat> {
                                 return Row(
                                   children: <Widget>[
                                     Container(
-                                      margin: EdgeInsets.only(right: 10.0),
-                                      height: 50.0,
-                                      width: 50.0,
+                                      margin: EdgeInsets.only(right: 20.0),
+                                      height: 60.0,
+                                      width: 60.0,
                                       decoration: BoxDecoration(
                                       ),
                                       child: ClipOval(
@@ -163,7 +168,7 @@ class _PersonalChatState extends State<PersonalChat> {
                                     children: <Widget>[
                                       Padding(
                                         padding: const EdgeInsets.only(top: 10.0,bottom: 5),
-                                        child: new Text(snapshot.data,style: TextStyle(fontWeight: FontWeight.bold),),
+                                        child: new Text(snapshot.data,style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),),
                                       ),
                                     ],
                                   );
@@ -178,12 +183,12 @@ class _PersonalChatState extends State<PersonalChat> {
                         )
                       ],
                     ),
-                    Divider(
-                      height: 1.5,
-                      indent: 8.0,
-                      endIndent: 8.0,
-                      color: Color(0xffE2E2E2),
-                    )
+//                    Divider(
+//                      height: 1.5,
+//                      indent: 8.0,
+//                      endIndent: 8.0,
+//                      color: Color(0xffE2E2E2),
+//                    )
                   ],
                 ),
               ),
