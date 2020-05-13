@@ -42,6 +42,21 @@ class _ChatBubbleState extends State<ChatBubble> {
       child: Column(
         crossAxisAlignment: fromMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
+          widget.isGroup && (!fromMe) ? Text(
+            widget.message.value['fromName'],
+            style: TextStyle(
+              color: Colors.blueGrey,  // Was causing errors when you were sending the image.
+              fontSize: 15.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ): new SizedBox(
+            height: 0,
+          ),
+          fromMe ? new SizedBox(
+            height: 0.0,
+          ) : new SizedBox(
+            height: 1,
+          ),
           Container(
             padding: EdgeInsets.all(10.0),
               decoration: BoxDecoration(
@@ -67,21 +82,6 @@ class _ChatBubbleState extends State<ChatBubble> {
               mainAxisAlignment:MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                widget.isGroup && (!fromMe) ? Text(
-                  widget.message.value['fromName'],
-                  style: TextStyle(
-                    color: Colors.white,  // Was causing errors when you were sending the image.
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ): new SizedBox(
-                  height: 0,
-                ),
-                fromMe ? new SizedBox(
-                  height: 0.0,
-                ) : new SizedBox(
-                  height: 3,
-                ),
                 messageBody == null ?
                 new Hero(
                     tag: messageUrl,
@@ -124,7 +124,7 @@ class _ChatBubbleState extends State<ChatBubble> {
               fontSize: 14.0,
             ),
           ),
-          SizedBox(height: 5)
+          SizedBox(height: 10)
         ],
       ),
     );
