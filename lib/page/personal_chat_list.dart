@@ -20,6 +20,7 @@ class _PersonalChatState extends State<PersonalChat> {
   List<String> data = new List<String>();
   List<String> data1 = new List<String>();
   List<String> nameData = new List<String>();
+  List<String> photoData = new List<String>();
 
   @override
   void initState(){
@@ -76,7 +77,7 @@ class _PersonalChatState extends State<PersonalChat> {
                       to: data[index],
                       from: widget.uid,
                       groupId: null,
-                      url:'https://firebasestorage.googleapis.com/v0/b/myra-health.appspot.com/o/pf.png?alt=media&token=0a4f0eef-0aac-4b76-9cea-5f0f2bcde42f',
+                      url:photoData[index],
                       groupName: nameData[index],
                     )));
               },
@@ -93,14 +94,54 @@ class _PersonalChatState extends State<PersonalChat> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         new Padding(padding: EdgeInsets.only(left: 10),),
-                        new Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Image.network(
-                              'https://firebasestorage.googleapis.com/v0/b/myra-health.appspot.com/o/pf.png?alt=media&token=0a4f0eef-0aac-4b76-9cea-5f0f2bcde42f',
-                              height: 70,
-                              width: 70,
-                            )
+                        FutureBuilder<DocumentSnapshot>(
+                            future: Firestore.instance
+                                .collection('users')
+                                .document(data[index])
+                                .get()
+                                .then((DocumentSnapshot ds) {
+                                  setState(() {
+                                    photoData.add(ds['photoURL']);
+                                  });
+                              return ds;
+                            }),
+                            builder: (context,snapshot){
+                              if(snapshot.hasData){
+                                return Row(
+                                  children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.only(right: 10.0),
+                                      height: 50.0,
+                                      width: 50.0,
+                                      decoration: BoxDecoration(
+                                      ),
+                                      child: ClipOval(
+                                        child: FadeInImage.assetNetwork(
+                                          placeholder: "assets/mascot.png",
+                                          image: snapshot.data['photoURL'].toString().isNotEmpty ? snapshot.data['photoURL'] :
+                                          'https://firebasestorage.googleapis.com/v0/b/myra-health.appspot.com/o/pf.png?alt=media&token=0a4f0eef-0aac-4b76-9cea-5f0f2bcde42f',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }else if(snapshot.hasError){
+                                return new Center(
+                                  child: SizedBox(),
+                                );
+                              }
+                              return new Container(alignment: AlignmentDirectional.center,child: new SizedBox(height: 0,),);
+                            }
                         ),
+//                        new Padding(
+//                            padding: const EdgeInsets.all(10.0),
+//                            child: Image.network(
+//                              'https://firebasestorage.googleapis.com/v0/b/myra-health.appspot.com/o/pf.png?alt=media&token=0a4f0eef-0aac-4b76-9cea-5f0f2bcde42f',
+//                              height: 70,
+//                              width: 70,
+//                            )
+//                        ),
                         FutureBuilder<String>(
                             future: Firestore.instance
                                 .collection('users')

@@ -41,7 +41,8 @@ class _ShowUsersListState extends State<ShowUsersList> {
                               to: document.documentID,
                               from: widget.uid,
                               groupId: null,
-                              url:'https://firebasestorage.googleapis.com/v0/b/myra-health.appspot.com/o/pf.png?alt=media&token=0a4f0eef-0aac-4b76-9cea-5f0f2bcde42f',
+                              url:document['photoURL'].toString().isNotEmpty ? document['photoURL'] :
+                              'https://firebasestorage.googleapis.com/v0/b/myra-health.appspot.com/o/pf.png?alt=media&token=0a4f0eef-0aac-4b76-9cea-5f0f2bcde42f',
                               groupName: document['displayName'],
                             )));
                       },
@@ -58,13 +59,20 @@ class _ShowUsersListState extends State<ShowUsersList> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 new Padding(padding: EdgeInsets.only(left: 10),),
-                                new Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Image.network(
+                                Container(
+                                  margin: EdgeInsets.only(right: 10.0),
+                                  height: 50.0,
+                                  width: 50.0,
+                                  decoration: BoxDecoration(
+                                  ),
+                                  child: ClipOval(
+                                    child: FadeInImage.assetNetwork(
+                                      placeholder: "assets/mascot.png",
+                                      image: document['photoURL'].toString().isNotEmpty ? document['photoURL'] :
                                       'https://firebasestorage.googleapis.com/v0/b/myra-health.appspot.com/o/pf.png?alt=media&token=0a4f0eef-0aac-4b76-9cea-5f0f2bcde42f',
-                                      height: 70,
-                                      width: 70,
-                                    )
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
                                 Column(
                                   mainAxisSize: MainAxisSize.min,
