@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:dsckiit_app/services/firebase.dart';
 
 class NotePage extends StatefulWidget {
+  NotePage({this.num=0});
+  int num;
   @override
   _NotePageState createState() => new _NotePageState();
 }
@@ -48,7 +50,7 @@ class _NotePageState extends State<NotePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: widget.num==1? true: false,
         title: Text(
           'Meeting Notes',
           style: TextStyle(color: Colors.black),

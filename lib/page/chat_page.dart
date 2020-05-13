@@ -111,13 +111,13 @@ class ChatScreenState extends State<ChatPage> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.blue,
-                              borderRadius: BorderRadius.circular(50),
-                              boxShadow: [BoxShadow(
-                                color: Colors.blue,
-                                blurRadius: 3.0,
-                                spreadRadius: 2.0,
-                                offset: Offset(0.0,1.0)
-                              )]
+                              //borderRadius: BorderRadius.circular(50),
+//                              boxShadow: [BoxShadow(
+//                                color: Colors.blue,
+//                                blurRadius: 3.0,
+//                                spreadRadius: 2.0,
+//                                offset: Offset(0.0,1.0)
+//                              )]
                           ),
                         ),
                       ),
@@ -125,13 +125,13 @@ class ChatScreenState extends State<ChatPage> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.red,
-                              borderRadius: BorderRadius.circular(50),
-                              boxShadow: [BoxShadow(
-                                  color: Colors.red,
-                                  blurRadius: 3.0,
-                                  spreadRadius: 2.0,
-                                  offset: Offset(0.0,1.0)
-                              )]
+                              //borderRadius: BorderRadius.circular(50),
+//                              boxShadow: [BoxShadow(
+//                                  color: Colors.red,
+//                                  blurRadius: 3.0,
+//                                  spreadRadius: 2.0,
+//                                  offset: Offset(0.0,1.0)
+//                              )]
                           ),
                         ),
                       ),
@@ -139,13 +139,13 @@ class ChatScreenState extends State<ChatPage> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.yellow,
-                              borderRadius: BorderRadius.circular(50),
-                              boxShadow: [BoxShadow(
-                                  color: Colors.yellow,
-                                  blurRadius: 3.0,
-                                  spreadRadius: 2.0,
-                                  offset: Offset(0.0,1.0)
-                              )]
+                             // borderRadius: BorderRadius.circular(50),
+//                              boxShadow: [BoxShadow(
+//                                  color: Colors.yellow,
+//                                  blurRadius: 3.0,
+//                                  spreadRadius: 2.0,
+//                                  offset: Offset(0.0,1.0)
+//                              )]
                           ),
                         ),
                       ),
@@ -153,13 +153,13 @@ class ChatScreenState extends State<ChatPage> {
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.green,
-                              borderRadius: BorderRadius.circular(50),
-                              boxShadow: [BoxShadow(
-                                  color: Colors.green,
-                                  blurRadius: 3.0,
-                                  spreadRadius: 2.0,
-                                  offset: Offset(0.0,1.0)
-                              )]
+                              //borderRadius: BorderRadius.circular(50),
+//                              boxShadow: [BoxShadow(
+//                                  color: Colors.green,
+//                                  blurRadius: 3.0,
+//                                  spreadRadius: 2.0,
+//                                  offset: Offset(0.0,1.0)
+//                              )]
                           ),
                         ),
                       )

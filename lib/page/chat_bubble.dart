@@ -64,13 +64,13 @@ class _ChatBubbleState extends State<ChatBubble> {
               gradient: fromMe ? chatBubbleGradient : null,
               borderRadius: fromMe
                   ? BorderRadius.only(
-                topLeft: Radius.circular(30.0),
-                bottomLeft: Radius.circular(30.0),
-                topRight: Radius.circular(30.0),
+                topLeft: Radius.circular(12.0),
+                bottomLeft: Radius.circular(12.0),
+                bottomRight: Radius.circular(12.0),
               ) : BorderRadius.only(
-                topRight: Radius.circular(30.0),
-                topLeft: Radius.circular(30.0),
-                bottomRight: Radius.circular(30.0),
+                topRight: Radius.circular(12.0),
+                bottomLeft: Radius.circular(12.0),
+                bottomRight: Radius.circular(12.0),
               ),
             ),
             constraints: BoxConstraints(

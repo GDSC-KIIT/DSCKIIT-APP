@@ -523,7 +523,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => NotePage()));
+                                builder: (context) => NotePage(num: 1,)));
                       },
                     ),
                     ListTile(
