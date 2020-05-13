@@ -62,13 +62,6 @@ class _FeedBackPageState extends State<FeedBackPage> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.white,
-          child: CustomPaint(
-            child: Container(),
-            foregroundPainter: FloatingPainter(),
-          ),
-          onPressed: () {}),
     );
   }
 }
