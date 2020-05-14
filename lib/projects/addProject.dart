@@ -33,7 +33,13 @@ class _ProjectScreenState extends State<ProjectScreen> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
-        title: Text('Add Project', style: AppBarTheme.of(context).textTheme.title.copyWith(color: Colors.white, fontSize: 20),),
+        title: Text(
+          'Add Project',
+          style: AppBarTheme.of(context)
+              .textTheme
+              .title
+              .copyWith(color: Colors.white, fontSize: 20),
+        ),
         backgroundColor: kFabColor,
       ),
       body: Container(

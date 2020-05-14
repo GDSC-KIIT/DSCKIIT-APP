@@ -57,10 +57,12 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
     });
   }
 
-  void showUserData(FirebaseUser user) async{
-    await _db.collection('users').document(user.uid).get().then((DocumentSnapshot)=>{
-      print(DocumentSnapshot.data)
-    });
+  void showUserData(FirebaseUser user) async {
+    await _db
+        .collection('users')
+        .document(user.uid)
+        .get()
+        .then((DocumentSnapshot) => {print(DocumentSnapshot.data)});
   }
 
   @override
@@ -73,11 +75,15 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
   }
 
   void populateDomain() async {
-    await _db.collection('domains').document('listOfDomains').get().then((DocumentSnapshot)=>{
-      DocumentSnapshot.data.forEach((k, v){
-        domains[k] = v;
-      })
-    });
+    await _db
+        .collection('domains')
+        .document('listOfDomains')
+        .get()
+        .then((DocumentSnapshot) => {
+              DocumentSnapshot.data.forEach((k, v) {
+                domains[k] = v;
+              })
+            });
   }
 
   void populateMultiSelect() {
@@ -105,20 +111,26 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: widget.number==0?false:true,
+        automaticallyImplyLeading: widget.number == 0 ? false : true,
         title: Text('Additional Info'),
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 50.0, left: 15, right: 15, bottom: 15),
+        padding:
+            const EdgeInsets.only(top: 50.0, left: 15, right: 15, bottom: 15),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Text("Domain: ", style: TextStyle(fontSize: 20),),
-                  SizedBox(width: 10,),
+                  Text(
+                    "Domain: ",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   RoundedButton(
                     text: 'Choose Domain',
                     textColor: Colors.white,
@@ -135,7 +147,7 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
                     WhitelistingTextInputFormatter.digitsOnly
                   ],
                   controller: _numController,
-                  onChanged: (text){
+                  onChanged: (text) {
                     setState(() {
                       _number = text;
                     });
@@ -147,14 +159,15 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
                 ),
               ),
               Padding(padding: new EdgeInsets.all(5.0)),
-              Text("Your number is useful to add you to a whatsapp group in case of your participation in a project"),
+              Text(
+                  "Your number is useful to add you to a whatsapp group in case of your participation in a project"),
               Padding(padding: new EdgeInsets.all(5.0)),
               Container(
                 padding: EdgeInsets.only(top: 20.0),
                 child: RaisedButton(
                   padding: EdgeInsets.fromLTRB(100, 20, 100, 20),
                   onPressed: () {
-                    if(_selectedDomains.isNotEmpty){
+                    if (_selectedDomains.isNotEmpty) {
 //                      _number = _numController.text;
                       updateUserData(user);
                       showUserData(user);

@@ -22,15 +22,16 @@ class _SplashScreenState extends State<SplashScreen>
     _auth.onAuthStateChanged.listen((user) {
       if (user == null) {
         Navigator.pushReplacementNamed(context, "/OpeningPage");
-      }else{
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Loader()));
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Loader()));
       }
     });
   }
 
   void handleTimeOut() {
-    Navigator.of(context).pushReplacement(new MaterialPageRoute(
-        builder: (BuildContext context) => new Loader()));
+    Navigator.of(context).pushReplacement(
+        new MaterialPageRoute(builder: (BuildContext context) => new Loader()));
   }
 
   startTimeout() async {
@@ -40,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 3),() => checkAuthentication());
+    Future.delayed(Duration(seconds: 3), () => checkAuthentication());
     _iconAnimationController = AnimationController(
         vsync: this, duration: new Duration(milliseconds: 2200));
     _iconAnimation = new CurvedAnimation(
@@ -61,7 +62,9 @@ class _SplashScreenState extends State<SplashScreen>
           decoration: BoxDecoration(
             color: Colors.white,
             image: DecorationImage(
-              image: AssetImage('assets/dsckiitLogo.png',),
+              image: AssetImage(
+                'assets/dsckiitLogo.png',
+              ),
               //fit: BoxFit.
             ),
           ),

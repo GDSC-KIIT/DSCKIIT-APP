@@ -5,13 +5,11 @@ import 'package:dsckiit_app/page/homePage.dart';
 import 'package:dsckiit_app/page/openingPage.dart';
 
 class Loader extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() => new _LoaderState();
 }
 
 class _LoaderState extends State<Loader> {
-
   Timer _timer;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -67,9 +65,7 @@ class _LoaderState extends State<Loader> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-           child: Image.asset("assets/animator.gif")
-        ),
+      body: Center(child: Image.asset("assets/animator.gif")),
     );
   }
 }

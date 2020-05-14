@@ -18,21 +18,23 @@ var currentUserEmail;
 class ChatPage extends StatefulWidget {
   @override
   ChatScreenState createState() => new ChatScreenState();
-  final String to, from, groupName, groupId, url, uid,name;
+  final String to, from, groupName, groupId, url, uid, name;
 
-  ChatPage({Key key,
-    this.to,
-    this.from,
-    this.groupId,
-    this.url,
-    this.groupName,
-    this.uid,this.name})
+  ChatPage(
+      {Key key,
+      this.to,
+      this.from,
+      this.groupId,
+      this.url,
+      this.groupName,
+      this.uid,
+      this.name})
       : super(key: key);
 }
 
 class ChatScreenState extends State<ChatPage> {
   final TextEditingController _textEditingController =
-  new TextEditingController();
+      new TextEditingController();
   bool _isComposingMessage = false;
   var _scaffoldContext;
   DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
@@ -53,42 +55,54 @@ class ChatScreenState extends State<ChatPage> {
     return SafeArea(
       child: new Scaffold(
           appBar: new AppBar(
-            leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: (){
-              Navigator.of(context).pop();
-            },),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
             iconTheme: AppBarTheme.of(context).iconTheme,
             title: GestureDetector(
-              onTap: widget.groupId!=null?  () => Navigator.push(context, MaterialPageRoute(builder: (context) => new GroupDetailsPage(userId: widget.groupId,uid: widget.from))) : (){},
+              onTap: widget.groupId != null
+                  ? () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => new GroupDetailsPage(
+                              userId: widget.groupId, uid: widget.from)))
+                  : () {},
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   GestureDetector(
                       child: Row(
-                        children: <Widget>[
-                          widget.url != null
-                              ? Container(
-                            height: 35.0,
-                            width: 35.0,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: CachedNetworkImageProvider(widget.url),
-                                fit: BoxFit.cover,
+                    children: <Widget>[
+                      widget.url != null
+                          ? Container(
+                              height: 35.0,
+                              width: 35.0,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: CachedNetworkImageProvider(widget.url),
+                                  fit: BoxFit.cover,
+                                ),
+                                shape: BoxShape.circle,
                               ),
-                              shape: BoxShape.circle,
+                            )
+                          : CircleAvatar(
+                              backgroundColor: null,
+                              child: Image.asset('assets/mascot.png'),
                             ),
-                          )
-                              : CircleAvatar(
-                            backgroundColor: null,
-                            child: Image.asset('assets/mascot.png'),
-                          ),
-                          SizedBox(width: 20,),
-                          new Text(
-                            "${widget.groupName}",
-                            style: AppBarTheme.of(context).textTheme.title.copyWith(fontSize: 20, fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      )),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      new Text(
+                        "${widget.groupName}",
+                        style: AppBarTheme.of(context).textTheme.title.copyWith(
+                            fontSize: 20, fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  )),
                 ],
               ),
             ),
@@ -101,17 +115,14 @@ class ChatScreenState extends State<ChatPage> {
               children: <Widget>[
                 Container(
                   height: 4,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
+                  width: MediaQuery.of(context).size.width,
                   child: Row(
                     children: <Widget>[
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.blue,
-                              //borderRadius: BorderRadius.circular(50),
+                            //borderRadius: BorderRadius.circular(50),
 //                              boxShadow: [BoxShadow(
 //                                color: Colors.blue,
 //                                blurRadius: 3.0,
@@ -125,7 +136,7 @@ class ChatScreenState extends State<ChatPage> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.red,
-                              //borderRadius: BorderRadius.circular(50),
+                            //borderRadius: BorderRadius.circular(50),
 //                              boxShadow: [BoxShadow(
 //                                  color: Colors.red,
 //                                  blurRadius: 3.0,
@@ -139,7 +150,7 @@ class ChatScreenState extends State<ChatPage> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.yellow,
-                             // borderRadius: BorderRadius.circular(50),
+                            // borderRadius: BorderRadius.circular(50),
 //                              boxShadow: [BoxShadow(
 //                                  color: Colors.yellow,
 //                                  blurRadius: 3.0,
@@ -152,8 +163,8 @@ class ChatScreenState extends State<ChatPage> {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Colors.green,
-                              //borderRadius: BorderRadius.circular(50),
+                            color: Colors.green,
+                            //borderRadius: BorderRadius.circular(50),
 //                              boxShadow: [BoxShadow(
 //                                  color: Colors.green,
 //                                  blurRadius: 3.0,
@@ -177,7 +188,7 @@ class ChatScreenState extends State<ChatPage> {
                         Animation<double> animation, int x) {
                       if (widget.groupId == null) {
                         if ((snapshot.value['from'] == widget.from &&
-                            snapshot.value['to'] == widget.to) ||
+                                snapshot.value['to'] == widget.to) ||
                             (snapshot.value['to'] == widget.from &&
                                 snapshot.value['from'] == widget.to)) {
                           return ChatBubble(
@@ -211,14 +222,12 @@ class ChatScreenState extends State<ChatPage> {
                 })
               ],
             ),
-            decoration: Theme
-                .of(context)
-                .platform == TargetPlatform.iOS
+            decoration: Theme.of(context).platform == TargetPlatform.iOS
                 ? new BoxDecoration(
-                border: new Border(
-                    top: new BorderSide(
-                      color: Colors.grey[200],
-                    )))
+                    border: new Border(
+                        top: new BorderSide(
+                    color: Colors.grey[200],
+                  )))
                 : null,
           )),
     );
@@ -255,12 +264,8 @@ class ChatScreenState extends State<ChatPage> {
     return new IconTheme(
       data: new IconThemeData(
         color: _isComposingMessage
-            ? Theme
-            .of(context)
-            .accentColor
-            : Theme
-            .of(context)
-            .disabledColor,
+            ? Theme.of(context).accentColor
+            : Theme.of(context).disabledColor,
       ),
       child: new Container(
         padding: EdgeInsets.only(bottom: 8.0, left: 10.0, right: 10.0),
@@ -279,7 +284,7 @@ class ChatScreenState extends State<ChatPage> {
                     children: <Widget>[
                       Flexible(
                         child: Padding(
-                          padding: const EdgeInsets.only(left:5.0, right: 5.0),
+                          padding: const EdgeInsets.only(left: 5.0, right: 5.0),
                           child: Container(
                             margin: EdgeInsets.only(left: 10),
                             decoration: BoxDecoration(
@@ -309,22 +314,21 @@ class ChatScreenState extends State<ChatPage> {
                                     color: Colors.grey.withOpacity(0.6),
                                     fontWeight: FontWeight.w600,
                                   ),
-                                  contentPadding: EdgeInsets.all(10)
-                              ),
+                                  contentPadding: EdgeInsets.all(10)),
                             ),
                           ),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                            right: 10.0, left: 5,),
+                          right: 10.0,
+                          left: 5,
+                        ),
                         child: Container(
                           height: 40,
                           width: 40,
                           decoration: BoxDecoration(
-                              color: Theme
-                                  .of(context)
-                                  .accentColor,
+                              color: Theme.of(context).accentColor,
                               borderRadius: BorderRadius.circular(40)),
                           child: new IconButton(
                               icon: new Icon(
@@ -337,14 +341,14 @@ class ChatScreenState extends State<ChatPage> {
                                 int timestamp =
                                     new DateTime.now().millisecondsSinceEpoch;
                                 StorageReference storageReference =
-                                FirebaseStorage.instance.ref().child(
-                                    "img_" + timestamp.toString() + ".jpg");
+                                    FirebaseStorage.instance.ref().child(
+                                        "img_" + timestamp.toString() + ".jpg");
                                 StorageUploadTask uploadTask =
-                                storageReference.put(imageFile);
+                                    storageReference.put(imageFile);
                                 final StorageTaskSnapshot downloadUrl =
-                                (await uploadTask.onComplete);
+                                    (await uploadTask.onComplete);
                                 final String url =
-                                (await downloadUrl.ref.getDownloadURL());
+                                    (await downloadUrl.ref.getDownloadURL());
                                 _sendMessage(messageText: null, imageUrl: url);
                               }),
                         ),
@@ -379,26 +383,22 @@ class ChatScreenState extends State<ChatPage> {
   }
 
   void _sendMessage({String messageText, String imageUrl}) {
-    if(widget.groupId !=null){
+    if (widget.groupId != null) {
       databaseReference.push().set({
         'message': messageText,
         'from': widget.from,
-        'fromName':widget.name,
+        'fromName': widget.name,
         'to': widget.groupId,
         'imageUrl': imageUrl,
-        'timeStamp': DateTime
-            .now()
-            .millisecondsSinceEpoch
+        'timeStamp': DateTime.now().millisecondsSinceEpoch
       });
-    }else{
+    } else {
       databaseReference.push().set({
         'message': messageText,
         'from': widget.from,
         'to': widget.to,
         'imageUrl': imageUrl,
-        'timeStamp': DateTime
-            .now()
-            .millisecondsSinceEpoch
+        'timeStamp': DateTime.now().millisecondsSinceEpoch
       });
     }
   }

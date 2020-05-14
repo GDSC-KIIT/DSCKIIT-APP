@@ -5,7 +5,12 @@ import 'package:dsckiit_app/constants.dart';
 
 class CustomEventCard extends StatelessWidget {
   CustomEventCard(
-      {this.title, this.imgURL, this.members = 0, this.date, this.registerUrl, this.feedbackUrl});
+      {this.title,
+      this.imgURL,
+      this.members = 0,
+      this.date,
+      this.registerUrl,
+      this.feedbackUrl});
 
   String title, imgURL;
   int members;
@@ -19,8 +24,8 @@ class CustomEventCard extends StatelessWidget {
       onTap: () {
         showDialog(
           context: context,
-          builder: (BuildContext context) =>
-              _buildAboutDialog(context, title, imgURL, date, registerUrl, feedbackUrl),
+          builder: (BuildContext context) => _buildAboutDialog(
+              context, title, imgURL, date, registerUrl, feedbackUrl),
         );
       },
       child: Card(
@@ -103,18 +108,14 @@ Widget _buildAboutDialog(BuildContext context, String title, String imgURL,
         onPressed: () {
           launch(feedbackUrl);
         },
-        textColor: Theme
-            .of(context)
-            .primaryColor,
+        textColor: Theme.of(context).primaryColor,
         child: const Text('FEEDBACK'),
       ),
       FlatButton(
         onPressed: () {
           launch(registerUrl);
         },
-        textColor: Theme
-            .of(context)
-            .primaryColor,
+        textColor: Theme.of(context).primaryColor,
         child: const Text('REGISTER'),
       ),
     ],

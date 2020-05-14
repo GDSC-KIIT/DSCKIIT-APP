@@ -6,7 +6,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutUs extends StatelessWidget {
-
   void _launchUrl(url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -15,7 +14,6 @@ class AboutUs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -29,9 +27,7 @@ class AboutUs extends StatelessWidget {
             decoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/logo.png'),
-                    fit: BoxFit.fitWidth
-                )
-            ),
+                    fit: BoxFit.fitWidth)),
             child: ClipRRect(
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
@@ -82,7 +78,7 @@ class AboutUs extends StatelessWidget {
                     icon: Icon(FontAwesomeIcons.envelope),
                     onPressed: () async {
                       var emailUrl =
-                      '''mailto:dsckiit@gmail.com?subject=Support Needed For DevExpo App&body={Name: Sayan Nath},Email: dsckiit@gmail.com}''';
+                          '''mailto:dsckiit@gmail.com?subject=Support Needed For DevExpo App&body={Name: Sayan Nath},Email: dsckiit@gmail.com}''';
                       var out = Uri.encodeFull(emailUrl);
                       await _launchUrl(out);
                     },
@@ -96,4 +92,3 @@ class AboutUs extends StatelessWidget {
     );
   }
 }
-

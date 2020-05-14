@@ -30,7 +30,7 @@ class _AccountPageState extends State<AccountPage> {
     _auth.signOut();
   }
 
-  Future<List<String>> getDomain(FirebaseUser user) async{
+  Future<List<String>> getDomain(FirebaseUser user) async {
     domains = List();
     await _db
         .collection('users')
@@ -38,12 +38,12 @@ class _AccountPageState extends State<AccountPage> {
         .get()
         .then((DocumentSnapshot) {
       print(DocumentSnapshot.data['domains']);
-      if(DocumentSnapshot.data['domains']==null){
+      if (DocumentSnapshot.data['domains'] == null) {
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (BuildContext context) {
           return AdditionalInfoScreen();
         }));
-      }else{
+      } else {
         DocumentSnapshot.data['domains']
             .forEach((domain) => {domains.add(domain)});
       }
@@ -66,128 +66,135 @@ class _AccountPageState extends State<AccountPage> {
       ),
       body: FutureBuilder(
         future: getDomain(widget.user),
-        builder: (BuildContext context, AsyncSnapshot snapshot){
-          return snapshot.data==null? Center(child: CircularProgressIndicator()) : Padding(
-            padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width * 0.02),
-            child: SingleChildScrollView(
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.035,
-                    ),
-                    CircleAvatar(
-                      backgroundColor: Colors.white,
-                      minRadius: 30,
-                      maxRadius: 60,
-                      backgroundImage: widget.user.photoUrl == null
-                          ? AssetImage('assets/mascot.png')
-                          : NetworkImage(widget.user.photoUrl),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.07,
-                    ),
-                    CustomContainer(
-                      icon: Icons.person,
-                      title: "Name",
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      widget: Text(
-                        widget.user.displayName,
-                        style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.035,
-                    ),
-                    Container(
-                      height: 100,
-                      width: MediaQuery.of(context).size.width * 0.95,
-                      child: Row(
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return snapshot.data == null
+              ? Center(child: CircularProgressIndicator())
+              : Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.02),
+                  child: SingleChildScrollView(
+                    child: Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Icon(
-                                Icons.info_outline,
-                                size: 30,
-                                color: primaryColor,
-                              ),
-                              Expanded(
-                                child: Container(),
-                              )
-                            ],
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.035,
                           ),
-                          SizedBox(width: 15),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text('Domains',
-                                  style:
-                                  TextStyle(color: Colors.grey, fontSize: 20)),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width*0.8,
+                          CircleAvatar(
+                            backgroundColor: Colors.white,
+                            minRadius: 30,
+                            maxRadius: 60,
+                            backgroundImage: widget.user.photoUrl == null
+                                ? AssetImage('assets/mascot.png')
+                                : NetworkImage(widget.user.photoUrl),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.07,
+                          ),
+                          CustomContainer(
+                            icon: Icons.person,
+                            title: "Name",
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            widget: Text(
+                              widget.user.displayName,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 25),
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.035,
+                          ),
+                          Container(
+                            height: 100,
+                            width: MediaQuery.of(context).size.width * 0.95,
+                            child: Row(
+                              children: <Widget>[
+                                Column(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.info_outline,
+                                      size: 30,
+                                      color: primaryColor,
+                                    ),
+                                    Expanded(
+                                      child: Container(),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(width: 15),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text('Domains',
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 20)),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
+                                      height: 50,
+                                      child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: domains.length,
+                                          itemBuilder: (context, int index) {
+                                            return Row(
+                                              children: <Widget>[
+                                                DomainContainer(
+                                                    title: domains[index]),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                              ],
+                                            );
+                                          }),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.03,
+                          ),
+                          CustomContainer(
+                            icon: Icons.mail,
+                            title: "Email id",
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            widget: Text(widget.user.email,
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w500)),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.03,
+                          ),
+                          GestureDetector(
+                              child: Container(
                                 height: 50,
-                                child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: domains.length,
-                                    itemBuilder: (context, int index) {
-                                      return Row(
-                                        children: <Widget>[
-                                          DomainContainer(title: domains[index]),
-                                          SizedBox(width: 10,),
-                                        ],
-                                      );
-                                    }),
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  color: kFabColor,
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                child: Center(
+                                    child: Text("Sign Out",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold))),
                               ),
-                            ],
-                          ),
+                              onTap: () {
+                                FirebaseAuth.instance.signOut();
+                              })
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
-                    ),
-                    CustomContainer(
-                      icon: Icons.mail,
-                      title: "Email id",
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      widget: Text(widget.user.email,
-                          style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
-                    ),
-                    GestureDetector(
-                        child: Container(
-                          height: 50,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            color: kFabColor,
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          child: Center(
-                              child: Text("Sign Out",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold))),
-                        ),
-                        onTap: () {
-                          FirebaseAuth.instance.signOut();
-                        })
-                  ],
-                ),
-              ),
-            ),
-          );
+                  ),
+                );
         },
       ),
     );

@@ -25,12 +25,10 @@ class CustomCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                title,
-                style: kTitleStyle.copyWith(
-                  color: Colors.white,
-                )
-              ),
+              Text(title,
+                  style: kTitleStyle.copyWith(
+                    color: Colors.white,
+                  )),
               Text(
                 members != 0 ? "$members members" : "",
                 style: TextStyle(
