@@ -24,6 +24,7 @@ class _PersonalChatState extends State<PersonalChat> {
 
   @override
   void initState(){
+    super.initState();
     FirebaseDatabase.instance.reference().child('messages/personalMessage').once().then((dataSnapshot){
       Map<dynamic, dynamic> values = dataSnapshot.value;
       values.forEach((key,values) {
@@ -41,7 +42,6 @@ class _PersonalChatState extends State<PersonalChat> {
         data = LinkedHashSet<String>.from(data1).toList();
       });
     });
-    super.initState();
   }
 
   @override
@@ -63,6 +63,8 @@ class _PersonalChatState extends State<PersonalChat> {
           itemBuilder: (BuildContext ctx,int index){
             return GestureDetector(
               onTap: (){
+                String name;
+                String url;
                 Firestore.instance
                     .collection('users')
                     .document(data[index])
@@ -70,16 +72,23 @@ class _PersonalChatState extends State<PersonalChat> {
                     .then((DocumentSnapshot ds) {
                   setState(() {
                   });
-                  return ds['displayName'];
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                      ChatPage(
+                        to: data[index],
+                        from: widget.uid,
+                        groupId: null,
+                        url: ds['photoURL'],
+                        groupName: ds['displayName'],
+                      )));
+//                  name = ds['displayName'];
+//                  url = ds['photoURL'];
+//                  print(name);
+//                  print(url);
+//                  print(ds['displayName']);
+//                  print(data[index]);
+//                  print(nameData[index]);
                 });
-                Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                    ChatPage(
-                      to: data[index],
-                      from: widget.uid,
-                      groupId: null,
-                      url:photoData[index],
-                      groupName: nameData[index],
-                    )));
+
               },
               child: Container(
                 padding: EdgeInsets.all(10),
