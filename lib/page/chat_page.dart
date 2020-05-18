@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dsckiit_app/page/chat_bubble.dart';
 import 'package:dsckiit_app/page/group_details_screen.dart';
@@ -19,7 +19,7 @@ class ChatPage extends StatefulWidget {
   @override
   ChatScreenState createState() => new ChatScreenState();
   final String to, from, groupName, groupId, url, uid, name;
-
+  //url = url of reciever
   ChatPage(
       {Key key,
       this.to,
@@ -38,6 +38,7 @@ class ChatScreenState extends State<ChatPage> {
   bool _isComposingMessage = false;
   var _scaffoldContext;
   DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
+  String _fromUserUrl;
 
   @override
   void initState() {
@@ -47,6 +48,12 @@ class ChatScreenState extends State<ChatPage> {
     } else {
       databaseReference = databaseReference.child('messages/personalMessage');
     }
+    Firestore.instance
+        .collection('users')
+        .document(widget.from)
+        .get().then((DocumentSnapshot documentSnapshot)=>{
+          _fromUserUrl = documentSnapshot.data['photoURL']
+        });
     super.initState();
   }
 
@@ -192,6 +199,7 @@ class ChatScreenState extends State<ChatPage> {
                             (snapshot.value['to'] == widget.from &&
                                 snapshot.value['from'] == widget.to)) {
                           return ChatBubble(
+                            toUrl: widget.url,
                             isGroup: widget.groupId != null,
                             message: snapshot,
                             fromMeBool: (widget.from == snapshot.value['from']
@@ -201,6 +209,7 @@ class ChatScreenState extends State<ChatPage> {
                         }
                       } else {
                         return ChatBubble(
+                          toUrl: snapshot.value['url'],
                           isGroup: widget.groupId != null,
                           message: snapshot,
                           fromMeBool: (widget.from == snapshot.value['from']
@@ -379,12 +388,13 @@ class ChatScreenState extends State<ChatPage> {
     setState(() {
       _isComposingMessage = false;
     });
-    _sendMessage(messageText: text, imageUrl: null);
+    _sendMessage(messageText: text.trim(), imageUrl: null);
   }
 
   void _sendMessage({String messageText, String imageUrl}) {
     if (widget.groupId != null) {
       databaseReference.push().set({
+        'url': _fromUserUrl,
         'message': messageText,
         'from': widget.from,
         'fromName': widget.name,

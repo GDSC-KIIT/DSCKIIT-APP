@@ -22,6 +22,7 @@ class _PersonalChatState extends State<PersonalChat> {
   List<String> nameData = new List<String>();
   List<String> photoData = new List<String>();
   bool _loading = false;
+
   @override
   void initState(){
     super.initState();
@@ -90,8 +91,6 @@ class _PersonalChatState extends State<PersonalChat> {
               itemBuilder: (BuildContext ctx,int index){
                 return GestureDetector(
                   onTap: (){
-                    String name;
-                    String url;
                     Firestore.instance
                         .collection('users')
                         .document(data[index])
