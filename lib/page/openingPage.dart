@@ -170,8 +170,15 @@ class _OpeningPageState extends State<OpeningPage> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.05,
                       ),
-                      Image.asset(
-                        'assets/writting.png',
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text("Companion App.", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
+                          SizedBox(height: 5),
+                          Text("Lets build good", style: TextStyle(fontSize: 30),),
+                          SizedBox(height: 5),
+                          Text("things together.", style: TextStyle(fontSize: 30),),
+                        ],
                       ),
                     ],
                   ),

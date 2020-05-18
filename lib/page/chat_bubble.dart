@@ -99,15 +99,14 @@ class _ChatBubbleState extends State<ChatBubble> {
                           child: new Padding(
                             padding: EdgeInsets.all(4),
                             child: new Container(
-                              width: MediaQuery.of(context).size.width / 1.5,
-                              height: 250.0,
+                              height: 250,
                               padding: EdgeInsets.all(4),
                               alignment: Alignment.center,
                               decoration: new BoxDecoration(
                                 image: DecorationImage(
-                                    image:
-                                        CachedNetworkImageProvider(messageUrl),
-                                    fit: BoxFit.fill),
+                                    image: CachedNetworkImageProvider(messageUrl),
+                                    fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
