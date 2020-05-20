@@ -139,6 +139,25 @@ class _HomePageState extends State<HomePage> {
 
   int _currentNavBarIndex = 0;
 
+  Future<bool> _handleBackPress() {
+    return showDialog(
+      context: context,
+      builder: (context)=> AlertDialog(
+        title: Text("Are you sure you want to exit the app?"),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("Yes"),
+            onPressed: ()=>Navigator.pop(context, true),
+          ),
+          FlatButton(
+            child: Text("No"),
+            onPressed: ()=>Navigator.pop(context, false),
+          )
+        ],
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
@@ -179,14 +198,16 @@ class _HomePageState extends State<HomePage> {
                       itemCount: items.length,
                       itemBuilder: (context, position) {
                         return GestureDetector(
-                          onTap: () => _navigateToProject(context, items[position]),
-                          onLongPress: () =>
-                              _deleteProject(context, items[position], position),
+                          onTap: () =>
+                              _navigateToProject(context, items[position]),
+                          onLongPress: () => _deleteProject(
+                              context, items[position], position),
                           child: Card(
                             margin: EdgeInsets.only(right: 5, left: 10),
                             color: primaryColor,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
                             ),
                             child: Container(
                               width: 200,
@@ -194,7 +215,8 @@ class _HomePageState extends State<HomePage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text('${items[position].projectName}',
@@ -248,7 +270,8 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     height: 150,
                     child: StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance.collection('events').snapshots(),
+                      stream:
+                          Firestore.instance.collection('events').snapshots(),
                       builder: (BuildContext context,
                           AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.hasError)
@@ -327,8 +350,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Padding(
-              padding:
-              const EdgeInsets.only(left: 10.0, right: 10.0, top: 8.0),
+              padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 8.0),
               child: Material(
                 borderRadius: BorderRadius.circular(10),
                 elevation: 7.0,
@@ -357,35 +379,34 @@ class _HomePageState extends State<HomePage> {
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               contentPadding:
-                              EdgeInsets.symmetric(horizontal: 15),
+                                  EdgeInsets.symmetric(horizontal: 15),
                               hintText: "Search..."),
                         ),
                       ),
                       !isSignedIn
                           ? CircleAvatar(
-                        backgroundImage:
-                        AssetImage("assets/animator.gif"),
-                        backgroundColor: Colors.transparent,
-                      )
+                              backgroundImage:
+                                  AssetImage("assets/animator.gif"),
+                              backgroundColor: Colors.transparent,
+                            )
                           : Padding(
-                        padding: const EdgeInsets.only(right: 10.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                                      return AccountPage(user: user);
-                                    }));
-                          },
-                          child: CircleAvatar(
-                            backgroundImage: user.photoUrl != null
-                                ? NetworkImage(user.photoUrl)
-                                : AssetImage('assets/mascot.png'),
+                              padding: const EdgeInsets.only(right: 10.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (BuildContext context) {
+                                    return AccountPage(user: user);
+                                  }));
+                                },
+                                child: CircleAvatar(
+                                  backgroundImage: user.photoUrl != null
+                                      ? NetworkImage(user.photoUrl)
+                                      : AssetImage('assets/mascot.png'),
 //                                      backgroundImage: AssetImage('assets/mascot.svg'),
-                            backgroundColor: Colors.transparent,
-                          ),
-                        ),
-                      ),
+                                  backgroundColor: Colors.transparent,
+                                ),
+                              ),
+                            ),
                     ],
                   ),
                 ),
@@ -402,116 +423,118 @@ class _HomePageState extends State<HomePage> {
       NotePage(),
       AboutUs()
     ];
-
-    return SafeArea(
-      child: Scaffold(
-        body: tabs[_currentNavBarIndex],
-        floatingActionButton: _currentNavBarIndex != 0
-            ? null
-            : FloatingActionButton(
-                backgroundColor: Color(0xFF183E8D),
-                child: CustomPaint(
-                  child: Container(),
-                  foregroundPainter: FloatingPainterGButton(),
+    return WillPopScope(
+      onWillPop: _handleBackPress,
+      child: SafeArea(
+        child: Scaffold(
+          body: tabs[_currentNavBarIndex],
+          floatingActionButton: _currentNavBarIndex != 0
+              ? null
+              : FloatingActionButton(
+                  backgroundColor: Color(0xFF183E8D),
+                  child: CustomPaint(
+                    child: Container(),
+                    foregroundPainter: FloatingPainterGButton(),
+                  ),
+                  onPressed: () => _createNewProject(context),
                 ),
-                onPressed: () => _createNewProject(context),
-              ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.white,
-          type: BottomNavigationBarType.fixed,
-          elevation: 20,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          iconSize: 35,
-          unselectedIconTheme: IconThemeData(size: 30),
-          currentIndex: _currentNavBarIndex,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(
-                LineIcons.home,
-                color: Colors.black45,
-              ),
-              title: Text("Home"),
-              activeIcon: Icon(LineIcons.home, color: Colors.lightBlue),
-            ),
-            BottomNavigationBarItem(
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: Colors.white,
+            type: BottomNavigationBarType.fixed,
+            elevation: 20,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            iconSize: 35,
+            unselectedIconTheme: IconThemeData(size: 30),
+            currentIndex: _currentNavBarIndex,
+            items: [
+              BottomNavigationBarItem(
                 icon: Icon(
-                  LineIcons.comments,
+                  LineIcons.home,
                   color: Colors.black45,
                 ),
-                title: Text("Messages"),
-                activeIcon: Icon(
-                  LineIcons.comments,
-                  color: Colors.red,
-                )),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  LineIcons.edit,
-                  color: Colors.black45,
-                ),
-                title: Text("Meeting Notes"),
-                activeIcon: Icon(
-                  LineIcons.edit,
-                  color: Colors.amber,
-                )),
-            BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('assets/logo.png'), size: 33),
-              title: Text("About us"),
-              activeIcon: ImageIcon(AssetImage('assets/logo.png'),
-                  size: 35, color: Colors.greenAccent),
-            )
-          ],
-          onTap: (index) {
-            setState(() {
-              _currentNavBarIndex = index;
-            });
-          },
-        ),
-        drawer: Drawer(
-          child: !isSignedIn
-              ? CircularProgressIndicator()
-              : ListView(
-                  children: <Widget>[
-                    UserAccountsDrawerHeader(
-                      accountName: Text(
-                        '${user.displayName}',
-                        style: TextStyle(fontSize: 20),
+                title: Text("Home"),
+                activeIcon: Icon(LineIcons.home, color: Colors.lightBlue),
+              ),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    LineIcons.comments,
+                    color: Colors.black45,
+                  ),
+                  title: Text("Messages"),
+                  activeIcon: Icon(
+                    LineIcons.comments,
+                    color: Colors.red,
+                  )),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    LineIcons.edit,
+                    color: Colors.black45,
+                  ),
+                  title: Text("Meeting Notes"),
+                  activeIcon: Icon(
+                    LineIcons.edit,
+                    color: Colors.amber,
+                  )),
+              BottomNavigationBarItem(
+                icon: ImageIcon(AssetImage('assets/logo.png'), size: 33),
+                title: Text("About us"),
+                activeIcon: ImageIcon(AssetImage('assets/logo.png'),
+                    size: 35, color: Colors.greenAccent),
+              )
+            ],
+            onTap: (index) {
+              setState(() {
+                _currentNavBarIndex = index;
+              });
+            },
+          ),
+          drawer: Drawer(
+            child: !isSignedIn
+                ? CircularProgressIndicator()
+                : ListView(
+                    children: <Widget>[
+                      UserAccountsDrawerHeader(
+                        accountName: Text(
+                          '${user.displayName}',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        accountEmail: Text(
+                          '${user.email}',
+                          style: TextStyle(fontSize: 13),
+                        ),
+                        decoration: BoxDecoration(color: Color(0xFF183E8D)),
+                        currentAccountPicture: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) {
+                              return AccountPage(user: user);
+                            }));
+                          },
+                          child: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              radius: 50,
+                              backgroundImage: user.photoUrl != null
+                                  ? NetworkImage(user.photoUrl)
+                                  : AssetImage("assets/mascot.png")),
+                        ),
                       ),
-                      accountEmail: Text(
-                        '${user.email}',
-                        style: TextStyle(fontSize: 13),
-                      ),
-                      decoration: BoxDecoration(color: Color(0xFF183E8D)),
-                      currentAccountPicture: GestureDetector(
+                      ListTile(
+                        title: Text("Mentors"),
+                        trailing: Icon(Icons.person),
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) {
-                            return AccountPage(user: user);
-                          }));
+                          _launchUrl(urlToMentorPage);
                         },
-                        child: CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            radius: 50,
-                            backgroundImage: user.photoUrl != null
-                                ? NetworkImage(user.photoUrl)
-                                : AssetImage("assets/mascot.png")),
                       ),
-                    ),
-                    ListTile(
-                      title: Text("Mentors"),
-                      trailing: Icon(Icons.person),
-                      onTap: () {
-                        _launchUrl(urlToMentorPage);
-                      },
-                    ),
-                    ListTile(
-                      title: Text("Team"),
-                      trailing: Icon(Icons.group),
-                      onTap: () {
-                        _launchUrl(urlToTeamPage);
-                      },
-                    ),
+                      ListTile(
+                        title: Text("Team"),
+                        trailing: Icon(Icons.group),
+                        onTap: () {
+                          _launchUrl(urlToTeamPage);
+                        },
+                      ),
 //                    ListTile(
 //                      title: Text("Noticeboard"),
 //                      trailing: Icon(Icons.photo),
@@ -522,48 +545,51 @@ class _HomePageState extends State<HomePage> {
 //                                builder: (context) => MediaPage()));
 //                      },
 //                    ),
-                    ListTile(
-                      title: Text("Meeting Notes"),
-                      trailing: Icon(Icons.edit),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NotePage(num: 1,)));
-                      },
-                    ),
-                    ListTile(
-                      title: Text("Update Information"),
-                      trailing: Icon(Icons.info),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AdditionalInfoScreen(
-                                      number: 1,
-                                    )));
-                      },
-                    ),
-                    ListTile(
-                      title: Text("Feedback"),
-                      trailing: Icon(Icons.feedback),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => FeedBackPage()));
-                      },
-                    ),
-                    Divider(),
-                    ListTile(
-                      title: Text("Close"),
-                      trailing: Icon(Icons.close),
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                ),
+                      ListTile(
+                        title: Text("Meeting Notes"),
+                        trailing: Icon(Icons.edit),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NotePage(
+                                        num: 1,
+                                      )));
+                        },
+                      ),
+                      ListTile(
+                        title: Text("Update Information"),
+                        trailing: Icon(Icons.info),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AdditionalInfoScreen(
+                                        number: 1,
+                                      )));
+                        },
+                      ),
+                      ListTile(
+                        title: Text("Feedback"),
+                        trailing: Icon(Icons.feedback),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FeedBackPage()));
+                        },
+                      ),
+                      Divider(),
+                      ListTile(
+                        title: Text("Close"),
+                        trailing: Icon(Icons.close),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+          ),
         ),
       ),
     );

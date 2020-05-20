@@ -42,30 +42,46 @@ class _LoaderState extends State<Loader> {
     super.initState();
     this.getUser();
     this.checkAuthentication();
+    new Timer(const Duration(seconds: 4), onClose);
   }
 
-  _LoaderState() {
-    _timer = new Timer(const Duration(seconds: 4), () {
-      setState(() {});
-      Navigator.pushReplacement(
-        //<-- Navigate to loginPage on Timeout
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
-    });
+  void onClose(){
+    Navigator.of(context).pushReplacement(new PageRouteBuilder(
+        maintainState: true,
+        opaque: true,
+        pageBuilder: (context, _, __) => new HomePage(),
+        transitionDuration: const Duration(milliseconds: 100),
+        transitionsBuilder: (context, anim1, anim2, child) {
+          return new FadeTransition(
+            child: child,
+            opacity: anim1,
+          );
+        }));
   }
+
+//  _LoaderState() {
+//    _timer = new Timer(const Duration(seconds: 4), () {
+//      setState(() {});
+//      Navigator.pushReplacement(
+//        //<-- Navigate to loginPage on Timeout
+//        context,
+//        MaterialPageRoute(builder: (context) => HomePage()),
+//      );
+//    });
+//  }
 
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(child: Image.asset("assets/animator.gif")),
+      body: Center(
+          child: Image.asset("assets/animator.gif"),
+      ),
     );
   }
 }

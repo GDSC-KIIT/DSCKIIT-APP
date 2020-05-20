@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (user == null) {
         Navigator.pushReplacementNamed(context, "/OpeningPage");
       } else {
-        Navigator.push(
+        Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Loader()));
       }
     });
