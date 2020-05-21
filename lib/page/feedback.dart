@@ -48,6 +48,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                   children: snapshot.data.documents
                       .map((DocumentSnapshot document) {
                     return Card(
+                      elevation: 2,
                       child: ListTile(
                         onTap: (){
                           _launchUrl(document['feedback']);
