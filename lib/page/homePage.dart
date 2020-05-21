@@ -441,7 +441,7 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.black45,
                 ),
                 title: Text("Home"),
-                activeIcon: Icon(LineIcons.home, color: Colors.lightBlue),
+                activeIcon: Icon(LineIcons.home, color: Color(0xFF4286F5)),
               ),
               BottomNavigationBarItem(
                   icon: Icon(
@@ -466,8 +466,7 @@ class _HomePageState extends State<HomePage> {
               BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage('assets/logo.png'), size: 33),
                 title: Text("About us"),
-                activeIcon: ImageIcon(AssetImage('assets/logo.png'),
-                    size: 35, color: Colors.greenAccent),
+                activeIcon: new Image.asset("assets/logo.png", width: 38, height: 38,),
               )
             ],
             onTap: (index) {
