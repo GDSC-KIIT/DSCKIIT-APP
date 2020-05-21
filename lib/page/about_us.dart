@@ -22,23 +22,23 @@ class AboutUs extends StatelessWidget {
       ),
       body: Stack(
         children: <Widget>[
-          Container(
-            constraints: BoxConstraints.expand(),
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/logo.png'),
-                    fit: BoxFit.fitWidth)),
-            child: ClipRRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                child: Container(
-                  alignment: Alignment.center,
-                  color: Colors.grey.withOpacity(0.1),
-                  child: Container(),
-                ),
-              ),
-            ),
-          ),
+          // Container(
+          //   constraints: BoxConstraints.expand(),
+          //   decoration: BoxDecoration(
+          //       image: DecorationImage(
+          //           image: AssetImage('assets/logo.png'),
+          //           fit: BoxFit.fitWidth)),
+          //   child: ClipRRect(
+          //     child: BackdropFilter(
+          //       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          //       child: Container(
+          //         alignment: Alignment.center,
+          //         color: Colors.grey.withOpacity(0.1),
+          //         child: Container(),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Center(
             child: FittedBox(
               child: Row(
@@ -72,6 +72,12 @@ class AboutUs extends StatelessWidget {
                     icon: Icon(FontAwesomeIcons.instagram),
                     onPressed: () async {
                       await _launchUrl("https://instagram.com/dsckiit");
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(FontAwesomeIcons.globeAmericas),
+                    onPressed: () async {
+                      await _launchUrl("https://dsckiit.tech");
                     },
                   ),
                   IconButton(
