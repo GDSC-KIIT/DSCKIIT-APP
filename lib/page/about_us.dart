@@ -39,59 +39,90 @@ class AboutUs extends StatelessWidget {
           //     ),
           //   ),
           // ),
-          Center(
-            child: FittedBox(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(FontAwesomeIcons.facebookF),
-                    onPressed: () async {
-                      await _launchUrl("https://facebook.com/dsckiit");
-                    },
+
+          Column(
+            children: <Widget>[
+              Container(
+                color: Colors.white,
+                height: MediaQuery.of(context).size.height * 0.4,
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Image(
+                    image: AssetImage('assets/dsckiitLogo.png'),
+                    height: 200.0,
                   ),
-                  IconButton(
-                    icon: Icon(FontAwesomeIcons.twitter),
-                    onPressed: () async {
-                      await _launchUrl("https://twitter.com/dsckiit");
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(FontAwesomeIcons.linkedinIn),
-                    onPressed: () async {
-                      _launchUrl("https://linkedin.com/in/dsckiit");
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(FontAwesomeIcons.youtube),
-                    onPressed: () async {
-                      await _launchUrl("https://youtube.com/dsckiit");
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(FontAwesomeIcons.instagram),
-                    onPressed: () async {
-                      await _launchUrl("https://instagram.com/dsckiit");
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(FontAwesomeIcons.globeAmericas),
-                    onPressed: () async {
-                      await _launchUrl("https://dsckiit.tech");
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(FontAwesomeIcons.envelope),
-                    onPressed: () async {
-                      var emailUrl =
-                          '''mailto:dsckiit@gmail.com?subject=Support Needed For DevExpo App&body={Name: Sayan Nath},Email: dsckiit@gmail.com}''';
-                      var out = Uri.encodeFull(emailUrl);
-                      await _launchUrl(out);
-                    },
-                  ),
-                ],
+                ),
               ),
-            ),
+              Container(
+                padding: EdgeInsets.all(8.0),
+                width: MediaQuery.of(context).size.width*0.9,
+                child: Text(
+                  "Google collaborates with university students who are enthusiastic about growing developer communities and supports them with commencing student clubs on their campuses. Developer Student Clubs is a program that recognizes and supports university students who are excited about growing developer communities that cultivate learning, sharing and collaboration.",
+                  style: TextStyle(color: Colors.black, fontSize: 17, fontFamily: 'GoogleSans'),
+                  textAlign: TextAlign.justify,
+                  maxLines: 12,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              SizedBox(
+                height: 25.0,
+              ),
+              Center(
+                child: FittedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(FontAwesomeIcons.facebookF),
+                        onPressed: () async {
+                          await _launchUrl("https://facebook.com/dsckiit");
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(FontAwesomeIcons.twitter),
+                        onPressed: () async {
+                          await _launchUrl("https://twitter.com/dsckiit");
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(FontAwesomeIcons.linkedinIn),
+                        onPressed: () async {
+                          _launchUrl("https://linkedin.com/in/dsckiit");
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(FontAwesomeIcons.youtube),
+                        onPressed: () async {
+                          await _launchUrl("https://youtube.com/dsckiit");
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(FontAwesomeIcons.instagram),
+                        onPressed: () async {
+                          await _launchUrl("https://instagram.com/dsckiit");
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(FontAwesomeIcons.globeAmericas),
+                        onPressed: () async {
+                          await _launchUrl("https://dsckiit.tech");
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(FontAwesomeIcons.envelope),
+                        onPressed: () async {
+                          var emailUrl =
+                              '''mailto:dsckiit@gmail.com?subject=Support Needed For DevExpo App&body={Name: Sayan Nath},Email: dsckiit@gmail.com}''';
+                          var out = Uri.encodeFull(emailUrl);
+                          await _launchUrl(out);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           )
         ],
       ),
