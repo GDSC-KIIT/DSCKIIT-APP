@@ -140,22 +140,7 @@ class _HomePageState extends State<HomePage> {
   int _currentNavBarIndex = 0;
 
   Future<bool> _handleBackPress() {
-    return showDialog(
-      context: context,
-      builder: (context)=> AlertDialog(
-        title: Text("Are you sure you want to exit the app?"),
-        actions: <Widget>[
-          FlatButton(
-            child: Text("Yes"),
-            onPressed: ()=>Navigator.pop(context, true),
-          ),
-          FlatButton(
-            child: Text("No"),
-            onPressed: ()=>Navigator.pop(context, false),
-          )
-        ],
-      )
-    );
+    return Future.value(true);
   }
 
   @override
