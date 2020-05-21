@@ -64,8 +64,8 @@ class _ChatBubbleState extends State<ChatBubble> {
                           ? SizedBox()
                           : widget.toUrl != null
                               ? Container(
-                                  height: 30.0,
-                                  width: 30.0,
+                                  height: 35.0,
+                                  width: 35.0,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: CachedNetworkImageProvider(widget.toUrl),
@@ -74,10 +74,18 @@ class _ChatBubbleState extends State<ChatBubble> {
                                     shape: BoxShape.circle,
                                   ),
                                 )
-                              : CircleAvatar(
-                                  backgroundColor: null,
-                                  child: Image.asset('assets/mascot.png'),
-                                ),
+                              : Container(
+                        height: 35.0,
+                        width: 35.0,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/mascot.png"),
+                            fit: BoxFit.cover,
+                          ),
+                          shape: BoxShape.circle,
+                        ),
+                      )
+                      ,
                       SizedBox(width: 5,),
                       Column(
                         crossAxisAlignment: fromMe
