@@ -99,7 +99,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                                   style: TextStyle(
                                     color: Colors.blueGrey,
                                     // Was causing errors when you were sending the image.
-                                    fontSize: 12.0,
+                                    fontSize: 13.2,
                                   ),
                                 )
                               : new SizedBox(

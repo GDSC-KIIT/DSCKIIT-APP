@@ -483,11 +483,11 @@ class _HomePageState extends State<HomePage> {
                       UserAccountsDrawerHeader(
                         accountName: Text(
                           '${user.displayName}',
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: 24),
                         ),
                         accountEmail: Text(
                           '${user.email}',
-                          style: TextStyle(fontSize: 13),
+                          style: TextStyle(fontSize: 16),
                         ),
                         decoration: BoxDecoration(color: Color(0xFF183E8D)),
                         currentAccountPicture: GestureDetector(
@@ -506,14 +506,14 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       ListTile(
-                        title: Text("Mentors"),
+                        title: Text("Mentors", style: TextStyle(fontSize: 16,),),
                         trailing: Icon(Icons.person),
                         onTap: () {
                           _launchUrl(urlToMentorPage);
                         },
                       ),
                       ListTile(
-                        title: Text("Team"),
+                        title: Text("Team", style: TextStyle(fontSize: 16,)),
                         trailing: Icon(Icons.group),
                         onTap: () {
                           _launchUrl(urlToTeamPage);
@@ -530,7 +530,7 @@ class _HomePageState extends State<HomePage> {
 //                      },
 //                    ),
                       ListTile(
-                        title: Text("Meeting Notes"),
+                        title: Text("Meeting Notes", style: TextStyle(fontSize: 16,)),
                         trailing: Icon(Icons.edit),
                         onTap: () {
                           Navigator.push(
@@ -542,7 +542,7 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        title: Text("Update Information"),
+                        title: Text("Update Information", style: TextStyle(fontSize: 16,)),
                         trailing: Icon(Icons.info),
                         onTap: () {
                           Navigator.push(
@@ -554,7 +554,7 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        title: Text("Feedback"),
+                        title: Text("Feedback", style: TextStyle(fontSize: 16,)),
                         trailing: Icon(Icons.feedback),
                         onTap: () {
                           Navigator.push(
@@ -565,7 +565,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Divider(),
                       ListTile(
-                        title: Text("Close"),
+                        title: Text("Close", style: TextStyle(fontSize: 16,)),
                         trailing: Icon(Icons.close),
                         onTap: () {
                           Navigator.of(context).pop();

@@ -22,40 +22,45 @@ class AboutUs extends StatelessWidget {
       ),
       body: Stack(
         children: <Widget>[
-          // Container(
-          //   constraints: BoxConstraints.expand(),
-          //   decoration: BoxDecoration(
-          //       image: DecorationImage(
-          //           image: AssetImage('assets/logo.png'),
-          //           fit: BoxFit.fitWidth)),
-          //   child: ClipRRect(
-          //     child: BackdropFilter(
-          //       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          //       child: Container(
-          //         alignment: Alignment.center,
-          //         color: Colors.grey.withOpacity(0.1),
-          //         child: Container(),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-
+//           Container(
+//             constraints: BoxConstraints.expand(),
+//             decoration: BoxDecoration(
+//                 image: DecorationImage(
+//                     image: AssetImage('assets/logo.png'),
+//                     fit: BoxFit.fitWidth)),
+//             child: ClipRRect(
+//               child: BackdropFilter(
+//                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+//                 child: Container(
+//                   alignment: Alignment.center,
+//                   color: Colors.grey.withOpacity(0.1),
+//                   child: Container(),
+//                 ),
+//               ),
+//             ),
+//           ),
           Column(
             children: <Widget>[
               Container(
-                color: Colors.white,
+                color: Colors.transparent,
                 height: MediaQuery.of(context).size.height * 0.4,
                 width: MediaQuery.of(context).size.width,
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
                   child: Image(
                     image: AssetImage('assets/dsckiitLogo.png'),
                     height: 200.0,
                   ),
+//                child: Column(
+//                  children: <Widget>[
+//                    Text("Developer Student Clubs", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),),
+//                    Text("Kalinga Institute of Industrial Technology")
+//                  ],
+//                ),
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
                 width: MediaQuery.of(context).size.width*0.9,
                 child: Text(
                   "Google collaborates with university students who are enthusiastic about growing developer communities and supports them with commencing student clubs on their campuses. Developer Student Clubs is a program that recognizes and supports university students who are excited about growing developer communities that cultivate learning, sharing and collaboration.",
@@ -66,7 +71,7 @@ class AboutUs extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 25.0,
+                height: 20.0,
               ),
               Center(
                 child: FittedBox(
@@ -110,7 +115,7 @@ class AboutUs extends StatelessWidget {
                         },
                       ),
                       IconButton(
-                        icon: Icon(FontAwesomeIcons.envelope),
+                        icon: Icon(Icons.mail, size: 32,),
                         onPressed: () async {
                           var emailUrl =
                               '''mailto:dsckiit@gmail.com?subject=Support Needed For DevExpo App&body={Name: Sayan Nath},Email: dsckiit@gmail.com}''';
