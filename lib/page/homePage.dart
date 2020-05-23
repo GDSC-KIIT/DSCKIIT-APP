@@ -7,6 +7,7 @@ import 'package:dsckiit_app/page/additionalInfo.dart';
 import 'package:dsckiit_app/page/chat_container.dart';
 import 'package:dsckiit_app/page/feedback.dart';
 import 'package:dsckiit_app/page/media_page.dart';
+import 'package:dsckiit_app/page/meetings.dart';
 import 'package:dsckiit_app/services/crud.dart';
 import 'package:dsckiit_app/suggest/add.dart';
 import 'package:dsckiit_app/utils/colors.dart';
@@ -603,18 +604,16 @@ class _HomePageState extends State<HomePage> {
 //                      },
 //                    ),
                       ListTile(
-                        title: Text("Meeting Notes",
+                        title: Text("Meetings",
                             style: TextStyle(
                               fontSize: 16,
                             )),
-                        trailing: Icon(Icons.edit),
+                        trailing: Icon(FontAwesomeIcons.handshake),
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => NotePage(
-                                        num: 1,
-                                      )));
+                                  builder: (context) => MeetingsPage()));
                         },
                       ),
                       ListTile(
