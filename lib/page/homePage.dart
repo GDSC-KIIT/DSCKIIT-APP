@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
   FirebaseFirestoreService db = new FirebaseFirestoreService();
 
   StreamSubscription<QuerySnapshot> projectSub;
-  bool showSnackBar = true;
+  bool showSnackBar = false;
 
   checkAuthentication() async {
     _auth.onAuthStateChanged.listen((user) {
@@ -102,22 +102,28 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  String urlToMeeting, meetingTitle, meetingTime, meetingDay;
+  String urlToMeeting, meetingTitle = "Loading...", meetingTime = "Loading...", meetingDay = "Loading...";
 
   getMeeting() {
+    var now = new DateTime.now();
+    var formatter = new DateFormat('yyyy-MM-dd');
+    String formatted = formatter.format(now);
+    print(formatted);
     Firestore.instance
         .collection('meetings')
-        .document('DQHUK6sAAM0pECuFl3Qa')
-        .get()
-        .then((DocumentSnapshot ds) {
-      DateTime date = DateTime.parse(ds['date']);
-      setState(() {
-        meetingDay = DateFormat('EEEE').format(date);
-        meetingTime = ds['time'];
-        meetingTitle = ds['title'];
-        urlToMeeting = ds['link'];
+        .where("date", isEqualTo: formatted)
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      snapshot.documents.forEach((ds) {
+        DateTime date = DateTime.parse(ds.data['date']);
+        setState(() {
+          showSnackBar = true;
+          meetingDay = DateFormat('EEEE').format(date);
+          meetingTime = ds.data['time'];
+          meetingTitle = ds.data['title'];
+          urlToMeeting = ds.data['link'];
+        });
       });
-      // print(ds['time']);
     });
   }
 
