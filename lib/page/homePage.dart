@@ -43,6 +43,7 @@ class _HomePageState extends State<HomePage> {
   FirebaseFirestoreService db = new FirebaseFirestoreService();
 
   StreamSubscription<QuerySnapshot> projectSub;
+  bool showSnackBar = false;
 
   checkAuthentication() async {
     _auth.onAuthStateChanged.listen((user) {
@@ -143,6 +144,8 @@ class _HomePageState extends State<HomePage> {
     return Future.value(true);
   }
 
+  ScrollController _controller = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
@@ -150,189 +153,189 @@ class _HomePageState extends State<HomePage> {
       Builder(
         builder: (context) => Stack(
           children: <Widget>[
-            SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 60),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          "Ongoing",
-                          style: kHeadingStyle,
+            ListView(
+              children: <Widget>[
+                SizedBox(height: 60),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Ongoing",
+                        style: kHeadingStyle,
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.grey[900],
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.arrow_forward,
-                            color: Colors.grey[900],
-                          ),
-                          iconSize: 27,
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
+                        iconSize: 27,
+                        onPressed: () {
+                          setState(() {
+                            showSnackBar = !showSnackBar;
+                          });
+                        },
+                      ),
+                    ],
                   ),
-                  Container(
-                    height: 150,
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: items.length,
-                      itemBuilder: (context, position) {
-                        return GestureDetector(
-                          onTap: () =>
-                              _navigateToProject(context, items[position]),
-                          onLongPress: () => _deleteProject(
-                              context, items[position], position),
-                          child: Card(
-                            margin: EdgeInsets.only(right: 5, left: 10),
-                            color: primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: Container(
-                              width: 200,
-                              height: 100,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text('${items[position].projectName}',
-                                        style: kTitleStyle.copyWith(
-                                          color: Colors.white,
-                                        )),
-                                    Text(
-                                      "${items[position].number} members",
-                                      style: TextStyle(
+                ),
+                Container(
+                  height: 150,
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: items.length,
+                    itemBuilder: (context, position) {
+                      return GestureDetector(
+                        onTap: () =>
+                            _navigateToProject(context, items[position]),
+                        onLongPress: () =>
+                            _deleteProject(context, items[position], position),
+                        child: Card(
+                          margin: EdgeInsets.only(right: 5, left: 10),
+                          color: primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          child: Container(
+                            width: 200,
+                            height: 100,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text('${items[position].projectName}',
+                                      style: kTitleStyle.copyWith(
                                         color: Colors.white,
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 12,
-                                      ),
+                                      )),
+                                  Text(
+                                    "${items[position].number} members",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 12,
                                     ),
-                                    // IconButton(
-                                    //     icon: const Icon(Icons.remove_circle_outline),
-                                    //     onPressed: () => _deleteProject(
-                                    //         context, items[position], position)),
-                                  ],
-                                ),
+                                  ),
+                                  // IconButton(
+                                  //     icon: const Icon(Icons.remove_circle_outline),
+                                  //     onPressed: () => _deleteProject(
+                                  //         context, items[position], position)),
+                                ],
                               ),
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          "Events and Schedules",
-                          style: kHeadingStyle,
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.arrow_forward,
-                            color: Colors.grey[900],
-                          ),
-                          iconSize: 27,
-                          onPressed: () {},
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Events and Schedules",
+                        style: kHeadingStyle,
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.grey[900],
                         ),
-                      ],
+                        iconSize: 27,
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 150,
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: Firestore.instance.collection('events').snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError)
+                        return new Text('Error: ${snapshot.error}');
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return Center(child: CircularProgressIndicator());
+                        default:
+                          return new ListView(
+                            physics: BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            children: snapshot.data.documents
+                                .map((DocumentSnapshot document) {
+                              return CustomEventCard(
+                                  title: document['title'],
+                                  imgURL: document['image'],
+                                  date: document['date'],
+                                  registerUrl: document['register'],
+                                  feedbackUrl: document['feedback']);
+                            }).toList(),
+                          );
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  padding: EdgeInsets.all(8.0),
+                  // margin: EdgeInsets.all(10),
+                  child: Column(children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Suggest a Project',
+                        style: kHeadingStyle,
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 150,
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream:
-                          Firestore.instance.collection('events').snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError)
-                          return new Text('Error: ${snapshot.error}');
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.waiting:
-                            return Center(child: CircularProgressIndicator());
-                          default:
-                            return new ListView(
-                              physics: BouncingScrollPhysics(),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              children: snapshot.data.documents
-                                  .map((DocumentSnapshot document) {
-                                return CustomEventCard(
-                                    title: document['title'],
-                                    imgURL: document['image'],
-                                    date: document['date'],
-                                    registerUrl: document['register'],
-                                    feedbackUrl: document['feedback']);
-                              }).toList(),
-                            );
-                        }
-                      },
+                    SizedBox(
+                      height: 7,
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(8.0),
-                    // margin: EdgeInsets.all(10),
-                    child: Column(children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'Suggest a Project',
-                          style: kHeadingStyle,
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Have an idea that can help the community? Share it\nwith all the members and let's see where it goes.",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          //fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(
-                        height: 7,
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: GestureDetector(
+                        onTap: () => _createNewSuggest(context),
                         child: Text(
-                          "Have an idea that can help the community? Share it\nwith all the members and let's see where it goes.",
+                          "SUGGEST A PROJECT",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Color(0xff417DF9),
                             fontSize: 15,
-                            //fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: GestureDetector(
-                          onTap: () => _createNewSuggest(context),
-                          child: Text(
-                            "SUGGEST A PROJECT",
-                            style: TextStyle(
-                              color: Color(0xff417DF9),
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      )
-                    ]),
-                  ),
-                  SizedBox(height: 50)
-                ],
-              ),
+                    )
+                  ]),
+                ),
+                showSnackBar ? SizedBox(height: 60) : SizedBox(),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 8.0),
@@ -396,7 +399,35 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-            )
+            ),
+            showSnackBar
+                ? Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                        decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.all(Radius.circular(10))
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              "MESSAGE!!!",
+                              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.search),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                : Center()
           ],
         ),
       ), // Home screen
@@ -466,7 +497,11 @@ class _HomePageState extends State<HomePage> {
               BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage('assets/logo.png'), size: 33),
                 title: Text("About us"),
-                activeIcon: new Image.asset("assets/logo.png", width: 38, height: 38,),
+                activeIcon: new Image.asset(
+                  "assets/logo.png",
+                  width: 38,
+                  height: 38,
+                ),
               )
             ],
             onTap: (index) {
@@ -506,14 +541,22 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       ListTile(
-                        title: Text("Mentors", style: TextStyle(fontSize: 16,),),
+                        title: Text(
+                          "Mentors",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
                         trailing: Icon(Icons.person),
                         onTap: () {
                           _launchUrl(urlToMentorPage);
                         },
                       ),
                       ListTile(
-                        title: Text("Team", style: TextStyle(fontSize: 16,)),
+                        title: Text("Team",
+                            style: TextStyle(
+                              fontSize: 16,
+                            )),
                         trailing: Icon(Icons.group),
                         onTap: () {
                           _launchUrl(urlToTeamPage);
@@ -530,7 +573,10 @@ class _HomePageState extends State<HomePage> {
 //                      },
 //                    ),
                       ListTile(
-                        title: Text("Meeting Notes", style: TextStyle(fontSize: 16,)),
+                        title: Text("Meeting Notes",
+                            style: TextStyle(
+                              fontSize: 16,
+                            )),
                         trailing: Icon(Icons.edit),
                         onTap: () {
                           Navigator.push(
@@ -542,7 +588,10 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        title: Text("Update Information", style: TextStyle(fontSize: 16,)),
+                        title: Text("Update Information",
+                            style: TextStyle(
+                              fontSize: 16,
+                            )),
                         trailing: Icon(Icons.info),
                         onTap: () {
                           Navigator.push(
@@ -554,7 +603,10 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        title: Text("Feedback", style: TextStyle(fontSize: 16,)),
+                        title: Text("Feedback",
+                            style: TextStyle(
+                              fontSize: 16,
+                            )),
                         trailing: Icon(Icons.feedback),
                         onTap: () {
                           Navigator.push(
@@ -565,7 +617,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Divider(),
                       ListTile(
-                        title: Text("Close", style: TextStyle(fontSize: 16,)),
+                        title: Text("Close",
+                            style: TextStyle(
+                              fontSize: 16,
+                            )),
                         trailing: Icon(Icons.close),
                         onTap: () {
                           Navigator.of(context).pop();
