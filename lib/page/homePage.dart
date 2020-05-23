@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
   FirebaseFirestoreService db = new FirebaseFirestoreService();
 
   StreamSubscription<QuerySnapshot> projectSub;
-  bool showSnackBar = false;
+  bool showSnackBar = true;
 
   checkAuthentication() async {
     _auth.onAuthStateChanged.listen((user) {
@@ -404,24 +404,53 @@ class _HomePageState extends State<HomePage> {
                 ? Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(
+                          left: 8, right: 8, top: 8, bottom: 0),
                       child: Container(
+                        height: 60,
                         padding: EdgeInsets.only(left: 8.0, right: 8.0),
                         decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.all(Radius.circular(10))
-                        ),
+                            color: Colors.blue[300].withOpacity(0.5),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                                bottomLeft: Radius.zero,
+                                bottomRight: Radius.zero)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text(
-                              "MEETING!!!",
-                              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                            Padding(
+                              padding: const EdgeInsets.all(13.0),
+                              child: Column(
+                                children: <Widget>[
+                                  Text(
+                                    "ZOOM MEETING",
+                                    style: TextStyle(
+                                        color: Color(0xFF183E8D),
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    "Sunday, 10:00 PM",
+                                    style: TextStyle(
+                                        color: Color(0xFF183E8D),
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
                             ),
-                            RaisedButton(
-                              child: Text("Insert Text here", style: TextStyle(color: Colors.blue)),
-                              color: Colors.white,
-                              onPressed: (){}
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RaisedButton(
+                                  child: Text("JOIN",
+                                      style:
+                                          TextStyle(color: Color(0xFF183E8D))),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                  ),
+                                  color: Colors.white,
+                                  onPressed: () {}),
                             )
                           ],
                         ),
