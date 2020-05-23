@@ -18,6 +18,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsckiit_app/page/account_page.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:dsckiit_app/screen/notification_screen.dart';
 import 'package:dsckiit_app/projects/addProject.dart';
@@ -75,6 +76,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     this.checkAuthentication();
     this.getUser();
+    this.getMeeting();
 
     items = new List();
 
@@ -96,6 +98,25 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         items.removeAt(position);
       });
+    });
+  }
+
+  String urlToMeeting, meetingTitle, meetingTime, meetingDay;
+
+  getMeeting() {
+    Firestore.instance
+        .collection('meetings')
+        .document('DQHUK6sAAM0pECuFl3Qa')
+        .get()
+        .then((DocumentSnapshot ds) {
+      DateTime date = DateTime.parse(ds['date']);
+      setState(() {
+        meetingDay = DateFormat('EEEE').format(date);
+        meetingTime = ds['time'];
+        meetingTitle = ds['title'];
+        urlToMeeting = ds['link'];
+      });
+      // print(ds['time']);
     });
   }
 
@@ -424,14 +445,14 @@ class _HomePageState extends State<HomePage> {
                               child: Column(
                                 children: <Widget>[
                                   Text(
-                                    "ZOOM MEETING",
+                                    '$meetingTitle',
                                     style: TextStyle(
                                         color: Color(0xFF183E8D),
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    "Sunday, 10:00 PM",
+                                    '$meetingDay, $meetingTime',
                                     style: TextStyle(
                                         color: Color(0xFF183E8D),
                                         fontSize: 10,
@@ -443,14 +464,16 @@ class _HomePageState extends State<HomePage> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: RaisedButton(
-                                  child: Text("JOIN",
-                                      style:
-                                          TextStyle(color: Color(0xFF183E8D))),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0),
-                                  ),
-                                  color: Colors.white,
-                                  onPressed: () {}),
+                                child: Text("JOIN",
+                                    style: TextStyle(color: Color(0xFF183E8D))),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                ),
+                                color: Colors.white,
+                                onPressed: () {
+                                  _launchUrl(urlToMeeting);
+                                },
+                              ),
                             )
                           ],
                         ),
