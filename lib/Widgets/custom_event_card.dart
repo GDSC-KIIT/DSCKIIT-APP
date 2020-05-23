@@ -43,6 +43,7 @@ class CustomEventCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Image(
+                  fit: BoxFit.contain,
                   image: NetworkImage(imgURL),
                   height: 80,
                   width: 200,
@@ -50,19 +51,25 @@ class CustomEventCard extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                Text(
-                  title,
-                  style: kTitleStyle.copyWith(
-                    color: Colors.grey[800],
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Text(
+                    title,
+                    style: kTitleStyle.copyWith(
+                      color: Colors.grey[800],
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: 5,
                 ),
-                Text(
-                  date,
-                  style: TextStyle(
-                    color: Colors.grey[600],
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Text(
+                    date,
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                    ),
                   ),
                 ),
               ],
@@ -109,14 +116,14 @@ Widget _buildAboutDialog(BuildContext context, String title, String imgURL,
           launch(feedbackUrl);
         },
         textColor: Theme.of(context).primaryColor,
-        child: const Text('FEEDBACK'),
+        child: const Text('FEEDBACK', style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       FlatButton(
         onPressed: () {
           launch(registerUrl);
         },
         textColor: Theme.of(context).primaryColor,
-        child: const Text('REGISTER'),
+        child: const Text('REGISTER', style: TextStyle(fontWeight: FontWeight.bold),),
       ),
     ],
   );
