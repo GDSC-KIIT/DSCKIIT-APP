@@ -52,7 +52,7 @@ class _ShowUsersListState extends State<ShowUsersList> {
                                             groupName: document['displayName'],
                                           )));
                             },
-                            child: document['admin'] ? Container() : Container(
+                            child: document.documentID == "Pvl0FwdJ5mQ8fLrNdU4gRyDXOd72" ? Container() : Container(
                               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                               decoration: BoxDecoration(
                                 color: Colors.white,
