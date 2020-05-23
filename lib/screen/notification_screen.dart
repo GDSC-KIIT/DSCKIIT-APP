@@ -10,6 +10,7 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(Colors.white);
     return Scaffold(
+        appBar: AppBar(elevation: 0.0,),
         backgroundColor: Colors.white,
         body: Center(
             child: Column(
@@ -18,7 +19,7 @@ class NotificationScreen extends StatelessWidget {
             Image.asset("assets/animator.gif"),
             Text('Coming Soon',
                 style: TextStyle(
-                    color: Color(0xFF183E8D),
+                    color: Colors.black,
                     fontSize: 20.0,
                     fontFamily: "Roboto"))
           ],
