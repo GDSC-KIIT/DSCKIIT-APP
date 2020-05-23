@@ -172,9 +172,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                         iconSize: 27,
                         onPressed: () {
-                          setState(() {
-                            showSnackBar = !showSnackBar;
-                          });
+//                          setState(() {
+//                            showSnackBar = !showSnackBar;
+//                          });
                         },
                       ),
                     ],
@@ -415,12 +415,13 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              "MESSAGE!!!",
+                              "MEETING!!!",
                               style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                             ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.search),
+                            RaisedButton(
+                              child: Text("Insert Text here", style: TextStyle(color: Colors.blue)),
+                              color: Colors.white,
+                              onPressed: (){}
                             )
                           ],
                         ),
