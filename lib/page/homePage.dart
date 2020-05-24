@@ -428,55 +428,63 @@ class _HomePageState extends State<HomePage> {
                     child: Padding(
                       padding: const EdgeInsets.only(
                           left: 8, right: 8, top: 8, bottom: 0),
-                      child: Container(
-                        height: 60,
-                        padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                        decoration: BoxDecoration(
-                            color: Colors.blue[300].withOpacity(0.5),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10),
-                                bottomLeft: Radius.zero,
-                                bottomRight: Radius.zero)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(13.0),
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    '$meetingTitle',
-                                    style: TextStyle(
-                                        color: Color(0xFF183E8D),
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    '$meetingDay, $meetingTime',
-                                    style: TextStyle(
-                                        color: Color(0xFF183E8D),
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: RaisedButton(
-                                child: Text("JOIN",
-                                    style: TextStyle(color: Color(0xFF183E8D))),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
+                      child: Material(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                            bottomLeft: Radius.zero,
+                            bottomRight: Radius.zero),
+                        child: Container(
+                          height: 60,
+                          padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                          decoration: BoxDecoration(
+                              color: Colors.blue[300].withOpacity(0.5),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10),
+                                  bottomLeft: Radius.zero,
+                                  bottomRight: Radius.zero)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(13.0),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      '$meetingTitle',
+                                      style: TextStyle(
+                                          color: Color(0xFF183E8D),
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      '$meetingDay, $meetingTime',
+                                      style: TextStyle(
+                                          color: Color(0xFF183E8D),
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
                                 ),
-                                color: Colors.white,
-                                onPressed: () {
-                                  _launchUrl(urlToMeeting);
-                                },
                               ),
-                            )
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: RaisedButton(
+                                  child: Text("JOIN",
+                                      style: TextStyle(color: Color(0xFF183E8D))),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                  ),
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    _launchUrl(urlToMeeting);
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
