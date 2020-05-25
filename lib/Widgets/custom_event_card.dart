@@ -29,12 +29,14 @@ class CustomEventCard extends StatelessWidget {
         );
       },
       child: Card(
-        elevation: 0.0,
+        color: Colors.white,
+        elevation: 2.0,
         margin: EdgeInsets.only(right: 5, left: 10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
         child: Container(
+          // color: Colors.blue,
           width: 200,
           height: 100,
           child: Padding(
