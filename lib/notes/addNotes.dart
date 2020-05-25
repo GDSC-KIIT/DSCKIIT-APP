@@ -1,4 +1,3 @@
-import 'package:dsckiit_app/model/note.dart';
 import 'package:flutter/material.dart';
 import 'package:dsckiit_app/model/note.dart';
 import 'package:dsckiit_app/services/firebase.dart';

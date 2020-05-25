@@ -115,6 +115,7 @@ class _HomePageState extends State<HomePage> {
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((ds) {
+        // print("I'm in.");
         DateTime date = DateTime.parse(ds.data['date']);
         setState(() {
           showSnackBar = true;
@@ -448,7 +449,7 @@ class _HomePageState extends State<HomePage> {
                           height: 60,
                           padding: EdgeInsets.only(left: 8.0, right: 8.0),
                           decoration: BoxDecoration(
-                              color: Colors.blue[300].withOpacity(0.5),
+                              color: Colors.lightBlueAccent[100].withOpacity(0.5),
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(10),
                                   topRight: Radius.circular(10),
@@ -653,7 +654,7 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MeetingsPage()));
+                                  builder: (context) => MeetingsPage(user: user)));
                         },
                       ),
                       ListTile(

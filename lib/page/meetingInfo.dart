@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 class MeetingInfo extends StatefulWidget {
   final String uid, title;
-  MeetingInfo({Key key, this.uid, this.title}) : super(key: key);
+  final bool isAdmin;
+  MeetingInfo({Key key, this.uid, this.title, this.isAdmin}) : super(key: key);
 
   @override
   _MeetingInfoState createState() => _MeetingInfoState();
@@ -12,11 +13,14 @@ class MeetingInfo extends StatefulWidget {
 
 class _MeetingInfoState extends State<MeetingInfo> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  bool isAdmin = true;
+  bool isAdmin;
 
   @override
   void initState() {
     super.initState();
+
+    this.isAdmin = widget.isAdmin;
+    print(isAdmin);
   }
 
   @override
