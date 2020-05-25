@@ -15,6 +15,38 @@
       },
       "oauth_client": [
         {
+          "client_id": "322909612053-79fllini641erm6q7b717u4gd25a17gu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dsckiit_app",
+            "certificate_hash": "85cd183718e10a4f27a806c1b396a8e6454a4246"
+          }
+        },
+        {
+          "client_id": "322909612053-ckls53u4ovs3bikp4q3cqd154gebislv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dsckiit_app",
+            "certificate_hash": "e886f386a91ea32ffd5e7d8b421ecd9e5794ab0d"
+          }
+        },
+        {
+          "client_id": "322909612053-54tl7ef1s316o89dsrs1dq1ihmkj8b8f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dsckiit_app",
+            "certificate_hash": "658615f6d6352f5cd02703aaeead4c026cfb334e"
+          }
+        },
+        {
+          "client_id": "322909612053-to0lu5po9r4c96vq14h0deqfr8u1g86l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dsckiit_app",
+            "certificate_hash": "6db5e7f816dce5fff6af6223d4e326bc66bd0e7c"
+          }
+        },
+        {
           "client_id": "322909612053-q9t76jsa3q7ftf81cuevu1upifb24p3m.apps.googleusercontent.com",
           "client_type": 3
         }
