@@ -12,7 +12,7 @@ class MeetingInfo extends StatefulWidget {
 
 class _MeetingInfoState extends State<MeetingInfo> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  bool isAdmin = false;
+  bool isAdmin = true;
 
   @override
   void initState() {
