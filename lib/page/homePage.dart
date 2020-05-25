@@ -182,189 +182,192 @@ class _HomePageState extends State<HomePage> {
       Builder(
         builder: (context) => Stack(
           children: <Widget>[
-            ListView(
-              children: <Widget>[
-                SizedBox(height: 60),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Ongoing",
-                        style: kHeadingStyle,
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_forward,
-                          color: Colors.grey[900],
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0, bottom: 8.0),
+              child: ListView(
+                children: <Widget>[
+                  SizedBox(height: 60),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          "Ongoing",
+                          style: kHeadingStyle,
                         ),
-                        iconSize: 27,
-                        onPressed: () {
+                        IconButton(
+                          icon: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.grey[900],
+                          ),
+                          iconSize: 27,
+                          onPressed: () {
 //                          setState(() {
 //                            showSnackBar = !showSnackBar;
 //                          });
-                        },
-                      ),
-                    ],
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  height: 150,
-                  child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: items.length,
-                    itemBuilder: (context, position) {
-                      return GestureDetector(
-                        onTap: () =>
-                            _navigateToProject(context, items[position]),
-                        onLongPress: () =>
-                            _deleteProject(context, items[position], position),
-                        child: Card(
-                          margin: EdgeInsets.only(right: 5, left: 10),
-                          color: primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          child: Container(
-                            width: 200,
-                            height: 100,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text('${items[position].projectName}',
-                                      style: kTitleStyle.copyWith(
+                  Container(
+                    height: 150,
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: items.length,
+                      itemBuilder: (context, position) {
+                        return GestureDetector(
+                          onTap: () =>
+                              _navigateToProject(context, items[position]),
+                          onLongPress: () =>
+                              _deleteProject(context, items[position], position),
+                          child: Card(
+                            margin: EdgeInsets.only(right: 5, left: 10),
+                            color: primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                            ),
+                            child: Container(
+                              width: 200,
+                              height: 100,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text('${items[position].projectName}',
+                                        style: kTitleStyle.copyWith(
+                                          color: Colors.white,
+                                        )),
+                                    Text(
+                                      "${items[position].number} members",
+                                      style: TextStyle(
                                         color: Colors.white,
-                                      )),
-                                  Text(
-                                    "${items[position].number} members",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 12,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 12,
+                                      ),
                                     ),
-                                  ),
-                                  // IconButton(
-                                  //     icon: const Icon(Icons.remove_circle_outline),
-                                  //     onPressed: () => _deleteProject(
-                                  //         context, items[position], position)),
-                                ],
+                                    // IconButton(
+                                    //     icon: const Icon(Icons.remove_circle_outline),
+                                    //     onPressed: () => _deleteProject(
+                                    //         context, items[position], position)),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Events and Schedules",
-                        style: kHeadingStyle,
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_forward,
-                          color: Colors.grey[900],
-                        ),
-                        iconSize: 27,
-                        onPressed: () {},
-                      ),
-                    ],
+                  SizedBox(
+                    height: 20,
                   ),
-                ),
-                Container(
-                  height: 150,
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: Firestore.instance.collection('events').snapshots(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError)
-                        return new Text('Error: ${snapshot.error}');
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.waiting:
-                          return Center(child: CircularProgressIndicator());
-                        default:
-                          return new ListView(
-                            physics: BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            children: snapshot.data.documents
-                                .map((DocumentSnapshot document) {
-                              return CustomEventCard(
-                                  title: document['title'],
-                                  imgURL: document['image'],
-                                  date: document['date'],
-                                  registerUrl: document['register'],
-                                  feedbackUrl: document['feedback']);
-                            }).toList(),
-                          );
-                      }
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  padding: EdgeInsets.all(8.0),
-                  // margin: EdgeInsets.all(10),
-                  child: Column(children: <Widget>[
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Suggest a Project',
-                        style: kHeadingStyle,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 7,
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Have an idea that can help the community? Share it\nwith all the members and let's see where it goes.",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                          //fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          "Events and Schedules",
+                          style: kHeadingStyle,
                         ),
-                      ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.grey[900],
+                          ),
+                          iconSize: 27,
+                          onPressed: () {},
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 10,
+                  ),
+                  Container(
+                    height: 150,
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: Firestore.instance.collection('events').snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasError)
+                          return new Text('Error: ${snapshot.error}');
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                            return Center(child: CircularProgressIndicator());
+                          default:
+                            return new ListView(
+                              physics: BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              children: snapshot.data.documents
+                                  .map((DocumentSnapshot document) {
+                                return CustomEventCard(
+                                    title: document['title'],
+                                    imgURL: document['image'],
+                                    date: document['date'],
+                                    registerUrl: document['register'],
+                                    feedbackUrl: document['feedback']);
+                              }).toList(),
+                            );
+                        }
+                      },
                     ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: GestureDetector(
-                        onTap: () => _createNewSuggest(context),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    // margin: EdgeInsets.all(10),
+                    child: Column(children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
                         child: Text(
-                          "SUGGEST A PROJECT",
+                          'Suggest a Project',
+                          style: kHeadingStyle,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 7,
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "Have an idea that can help the community? Share it\nwith all the members and let's see where it goes.",
                           style: TextStyle(
-                            color: Color(0xff417DF9),
+                            color: Colors.black,
                             fontSize: 15,
-                            fontWeight: FontWeight.bold,
+                            //fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                    )
-                  ]),
-                ),
-                showSnackBar ? SizedBox(height: 60) : SizedBox(),
-              ],
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: GestureDetector(
+                          onTap: () => _createNewSuggest(context),
+                          child: Text(
+                            "SUGGEST A PROJECT",
+                            style: TextStyle(
+                              color: Color(0xff417DF9),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+                  ),
+                  showSnackBar ? SizedBox(height: 60) : SizedBox(),
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 8.0),
@@ -496,7 +499,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   )
-                : Center()
+                :Center()
           ],
         ),
       ), // Home screen

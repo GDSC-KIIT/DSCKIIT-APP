@@ -199,7 +199,7 @@ class _NotePageState extends State<NotePage> {
     int delta = await showMenu(
       context: context,
       position: RelativeRect.fromRect(
-        _tapPosition & Size(40,40),
+        _tapPosition & Size(20,20),
         Offset.zero & overlay.semanticBounds.size,
       ),
       items: <PopupMenuEntry<int>>[

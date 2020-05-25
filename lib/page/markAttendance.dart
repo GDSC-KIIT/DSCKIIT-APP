@@ -60,11 +60,13 @@ class _MarkAttendanceState extends State<MarkAttendance> {
           if(!snapshot.hasData) return CircularProgressIndicator();
           return ListView(
             children: snapshot.data.documents.map<Widget>((DocumentSnapshot documentSnapshot){
-              return documentSnapshot.data['uid'] == null ? SizedBox() : AttendeeCard(
-                uid: documentSnapshot.data['uid'],
-                name: documentSnapshot.data['displayName'],
-                onChangeHandler: onChoice,
-                value: _attendees.indexOf(documentSnapshot.data['uid']) == -1 ? false : true,
+              return documentSnapshot.data['uid'] == null ? SizedBox() : Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 10, right: 8.0),
+                child: AttendeeCard(
+                  ds: documentSnapshot,
+                  onChangeHandler: onChoice,
+                  value: _attendees.indexOf(documentSnapshot.data['uid']) == -1 ? false : true,
+                ),
               );
             }).toList(),
           );
@@ -93,11 +95,11 @@ class _MarkAttendanceState extends State<MarkAttendance> {
 }
 
 class AttendeeCard extends StatefulWidget {
-  AttendeeCard({this.name, this.onChangeHandler, this.uid, this.value});
+  AttendeeCard({this.onChangeHandler, this.ds, this.value});
   bool value;
-  String uid;
   Function onChangeHandler;
-  String name;
+  DocumentSnapshot ds;
+
   @override
   _AttendeeCardState createState() => _AttendeeCardState();
 }
@@ -109,15 +111,43 @@ class _AttendeeCardState extends State<AttendeeCard> {
     bool value = widget.value;
     return GestureDetector(
       onTap: (){
-        widget.onChangeHandler(widget.uid);
+        widget.onChangeHandler(widget.ds.data['uid']);
       },
       child: Container(
-        padding: EdgeInsets.all(20),
-        color: value ? Colors.green : Colors.white,
-        child: Center(
-          child: Text(
-            widget.name,
-            style: TextStyle(color: value ? Colors.white: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+        padding: EdgeInsets.only(left: 50, top: 10, bottom: 10),
+        color: value ? Color(0xFFE9F2FF) : Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              ClipOval(
+                child: FadeInImage.assetNetwork(
+                  fadeInDuration: Duration(seconds: 1),
+                  height: 50,
+                  width: 50,
+                  placeholder: "assets/mascot.png",
+                  image: widget.ds.data['photoURL'].toString().isNotEmpty ? widget.ds.data['photoURL'] :
+                  'https://firebasestorage.googleapis.com/v0/b/myra-health.appspot.com/o/pf.png?alt=media&token=0a4f0eef-0aac-4b76-9cea-5f0f2bcde42f',
+                  fit: BoxFit.cover,
+                ),
+              ),
+              SizedBox(width: 10,),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(widget.ds.data['displayName'], style: TextStyle(fontWeight: FontWeight.w500, fontSize: 23),),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(widget.ds.data['email'], style: TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.w500, fontSize: 10),),
+                  )
+                ],
+              ),
+            ],
           ),
         ),
       ),
