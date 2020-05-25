@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "322909612053-ulj90la4c9lcfoius4pc78f4ftosvoot.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dsckiit_app",
+            "certificate_hash": "9020b6920a4c3aeddc4f46de45bff4b2c6285e44"
+          }
+        },
+        {
           "client_id": "322909612053-79fllini641erm6q7b717u4gd25a17gu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
