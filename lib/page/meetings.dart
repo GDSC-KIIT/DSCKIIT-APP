@@ -121,7 +121,7 @@ class MeetingCard extends StatelessWidget {
         width: 250,
         decoration: BoxDecoration(
           border: Border.all(width: 0.2, color: kFabColor),
-          color: Colors.white,//Colors.blue[100],
+          color: Colors.white,
           borderRadius: BorderRadius.circular(18),
         ),
         child: Column(
