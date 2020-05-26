@@ -44,7 +44,11 @@ class _PersonalChatState extends State<PersonalChat> {
       });
       setState(() {
         data = LinkedHashSet<String>.from(data1).toList();
-        _loading = false;
+        if(data == null){
+          _loading = true;
+        }else{
+          _loading = false;
+        }
       });
     });
   }
@@ -82,7 +86,7 @@ class _PersonalChatState extends State<PersonalChat> {
             ),
           onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ShowUsersList(uid: widget.uid,)))
       ),
-      body: (_loading) ? Center(child: CircularProgressIndicator(),): (data!=null && data.length!=0) ? RefreshIndicator(
+      body: (_loading) ? Center(child: CircularProgressIndicator(),) : (data!=null && data.length!=0) ? RefreshIndicator(
           onRefresh: refresh,
           child: new ListView.builder(
               itemCount: data.length,

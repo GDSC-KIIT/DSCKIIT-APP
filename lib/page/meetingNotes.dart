@@ -4,24 +4,21 @@ import 'package:dsckiit_app/Widgets/google_button.dart';
 import 'package:dsckiit_app/model/note.dart';
 import 'package:dsckiit_app/notes/addNotes.dart';
 import 'package:dsckiit_app/notes/displayNote.dart';
+import 'package:dsckiit_app/notes/noteTile.dart';
 import 'package:flutter/material.dart';
-import 'package:dsckiit_app/services/firebase.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'noteTile.dart';
 
-class NotePage extends StatefulWidget {
-  NotePage({this.num = 0});
+class MeetingNotePage extends StatefulWidget {
+  MeetingNotePage({this.uid});
 
-  int num;
+  String uid;
 
   @override
-  _NotePageState createState() => new _NotePageState();
+  _MeetingNotePageState createState() => new _MeetingNotePageState();
 }
 
-class _NotePageState extends State<NotePage> {
+class _MeetingNotePageState extends State<MeetingNotePage> {
   List<Note> items;
-  FirebaseFirestoreService db = new FirebaseFirestoreService();
-
   StreamSubscription<QuerySnapshot> noteSub;
 
   List<Color> colors = [
@@ -35,22 +32,46 @@ class _NotePageState extends State<NotePage> {
     Colors.black87,
   ];
 
-  @override
-  void initState() {
-    super.initState();
+  Stream<QuerySnapshot> getNoteList({int offset, int limit}) {
+    Stream<QuerySnapshot> snapshots = Firestore.instance.collection("meetings").document(widget.uid).collection("notes").getDocuments().asStream();
+    if (offset != null) {
+      snapshots = snapshots.skip(offset);
+    }
+    if (limit != null) {
+      snapshots = snapshots.take(limit);
+    }
+    return snapshots;
+  }
 
-    items = new List();
-
-    noteSub?.cancel();
-    noteSub = db.getNoteList().listen((QuerySnapshot snapshot) {
+  void populateNotes() async {
+//    QuerySnapshot docs = await Firestore.instance.collection("meetings").document(widget.uid).collection("notes").getDocuments();
+//    var documents = docs.documents;
+//    final List<Note> notes = new List();
+//    documents.forEach((element) {
+//      notes.add(Note.fromMap(element.data));
+//      print(element.data);
+//    });
+//    setState(() {
+//      this.items = notes;
+//    });
+    noteSub = getNoteList().listen((QuerySnapshot snapshot) {
       final List<Note> notes = snapshot.documents
           .map((documentSnapshot) => Note.fromMap(documentSnapshot.data))
           .toList();
 
       setState(() {
         this.items = notes;
+        print(items);
       });
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    items = new List();
+    noteSub?.cancel();
+    populateNotes();
   }
 
   @override
@@ -62,14 +83,6 @@ class _NotePageState extends State<NotePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: widget.num == 1 ? true : false,
-        title: Text(
-          'Meeting Notes',
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: StaggeredGridView.countBuilder(
@@ -86,9 +99,9 @@ class _NotePageState extends State<NotePage> {
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => DisplayNote(
-                        title: items[index].title,
-                        content: items[index].description,
-                      )));
+                    title: items[index].title,
+                    content: items[index].description,
+                  )));
             },
             child: MyTile(
               title: items[index].title,
@@ -110,33 +123,37 @@ class _NotePageState extends State<NotePage> {
   }
 
   void _deleteNote(BuildContext context, Note note, int position) async {
-    db.deleteNote(note.id).then((notes) {
-        items.removeAt(position);
-
-        noteSub = db.getNoteList().listen((QuerySnapshot snapshot) {
-          final List<Note> notes = snapshot.documents
-              .map((documentSnapshot) => Note.fromMap(documentSnapshot.data))
-              .toList();
-
-          setState(() {
-            this.items = notes;
-          });
-        });
+    final TransactionHandler deleteTransaction = (Transaction tx) async {
+      final DocumentSnapshot ds = await Firestore.instance.collection("meetings").document(widget.uid).collection("notes").document(note.id).get();
+      await tx.delete(ds.reference);
+      return {'deleted' : true};
+    };
+    Firestore.instance.runTransaction(deleteTransaction).then((result){
+      print(result);
+    }).catchError((error){
+      print("Error : $error");
+    });
+    setState(() {
+      items.removeAt(position);
     });
   }
 
   void _navigateToUpdateNote(BuildContext context, Note note) async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => NoteScreen(note, null)),
-    );
+      MaterialPageRoute(builder: (context) => NoteScreen(note, widget.uid)),
+    ).then((value){
+      populateNotes();
+    });
   }
 
   void _createNewNote(BuildContext context) async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => NoteScreen(Note(null, '', ''), null)),
-    );
+      MaterialPageRoute(builder: (context) => NoteScreen(Note(null, '', ''), widget.uid)),
+    ).then((value){
+      populateNotes();
+    });
   }
 
   var _tapPosition;
@@ -172,5 +189,4 @@ class _NotePageState extends State<NotePage> {
   void _storePosition(TapDownDetails details) {
     _tapPosition = details.globalPosition;
   }
-
 }

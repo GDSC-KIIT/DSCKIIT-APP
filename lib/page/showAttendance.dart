@@ -188,7 +188,7 @@ class _BodyState extends State<Body> {
                             children: <Widget>[
                               ClipOval(
                                 child: FadeInImage.assetNetwork(
-                                  fadeInDuration: Duration(seconds: 1),
+                                  fadeInDuration: Duration(seconds: 2),
                                   height: 50,
                                   width: 50,
                                   placeholder: "assets/mascot.png",
@@ -217,10 +217,13 @@ class _BodyState extends State<Body> {
                         );
                       } else if (snapshot.hasError){
                         return Center(child: Text("Some error has occured"));
-                      }else{
-                        return Center(child: CircularProgressIndicator());
                       }
-                      return new Container(alignment: AlignmentDirectional.center,child: new SizedBox(height: 0,),);
+                      if(index == 0){
+                        return new Container(alignment: AlignmentDirectional.center,child: Text("Loading.."),);
+                      }else{
+                        return new Container(alignment: AlignmentDirectional.center,child: SizedBox(),);
+                      }
+
                     }
                   ),
                 );

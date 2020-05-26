@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:dsckiit_app/model/note.dart';
 import 'package:dsckiit_app/services/firebase.dart';
 
 class NoteScreen extends StatefulWidget {
   final Note note;
-  NoteScreen(this.note);
+  String meetingUid;
+  NoteScreen(this.note, this.meetingUid);
 
   @override
   State<StatefulWidget> createState() => new _NoteScreenState();
@@ -69,19 +71,43 @@ class _NoteScreenState extends State<NoteScreen> {
                     padding: EdgeInsets.fromLTRB(100, 20, 100, 20),
                     onPressed: () {
                       if (widget.note.id != null) {
-                        db
-                            .updateNote(Note(
+                        if(widget.meetingUid == null)
+                        {
+                          // When this page is called from notes page
+                          db.updateNote(Note(
                                 widget.note.id,
                                 _titleController.text.trim(),
                                 _descriptionController.text.trim()))
                             .then((_) {
                           Navigator.pop(context);
-                        });
+                          });
+                        } else {
+                          // When this page is called from meeting notes page
+                          Firestore.instance.collection("meetings").document(widget.meetingUid).collection("notes").document(widget.note.id).updateData(
+                            Note(widget.note.id, _titleController.text.trim(), _descriptionController.text.trim()).toMap()
+                          ).then((value){
+                            db.updateNote(Note(
+                                widget.note.id,
+                                _titleController.text.trim(),
+                                _descriptionController.text.trim()))
+                                .then((retValue) {
+                                  if(!retValue){
+                                    print("General meeting of such id ${widget.note.id} doesnt exist");
+                                  }
+                              Navigator.pop(context);
+                            });
+                          });
+                        }
                       } else {
-                        db
-                            .createNote(_titleController.text.trim(),
+                        // Creating a new note
+                        db.createNote(_titleController.text.trim(),
                                 _descriptionController.text.trim())
-                            .then((_) {
+                            .then((Note n) {
+                              // The next two lines are executed when this page is called from meeting notes page as meetingUid != null then
+                          if(widget.meetingUid != null){
+                            print(n.id);
+                            Firestore.instance.collection("meetings").document(widget.meetingUid).collection("notes").document(n.id).setData(n.toMap());
+                            }
                           Navigator.pop(context);
                         });
                       }

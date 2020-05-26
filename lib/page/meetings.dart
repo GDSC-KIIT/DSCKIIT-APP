@@ -118,10 +118,10 @@ class MeetingCard extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(8, 15, 8, 8),
       child: Container(
         height: 160,
-        width: 300,
+        width: 250,
         decoration: BoxDecoration(
           border: Border.all(width: 0.2, color: kFabColor),
-          color: Colors.blue[100],
+          color: Colors.white,//Colors.blue[100],
           borderRadius: BorderRadius.circular(18),
         ),
         child: Column(

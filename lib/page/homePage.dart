@@ -183,10 +183,10 @@ class _HomePageState extends State<HomePage> {
         builder: (context) => Stack(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 10.0, bottom: 8.0),
+              padding: const EdgeInsets.only(top: 10.0),
               child: ListView(
                 children: <Widget>[
-                  SizedBox(height: 60),
+                  SizedBox(height: 50),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(

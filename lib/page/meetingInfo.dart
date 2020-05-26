@@ -1,4 +1,5 @@
 import 'package:dsckiit_app/page/markAttendance.dart';
+import 'package:dsckiit_app/page/meetingNotes.dart';
 import 'package:dsckiit_app/page/showAttendance.dart';
 import 'package:flutter/material.dart';
 
@@ -67,10 +68,10 @@ class _MeetingInfoState extends State<MeetingInfo> {
           children: isAdmin ? [
             ShowAttendance(uid: widget.uid,),
             MarkAttendance(uid: widget.uid,),
-            Container(),
+            MeetingNotePage(uid: widget.uid,),
           ] : [
             ShowAttendance(uid: widget.uid,),
-            Container(),
+            MeetingNotePage(uid: widget.uid,),
           ],
         ),
       ),
