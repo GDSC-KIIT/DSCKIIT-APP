@@ -188,7 +188,6 @@ class _BodyState extends State<Body> {
                             children: <Widget>[
                               ClipOval(
                                 child: FadeInImage.assetNetwork(
-                                  fadeInDuration: Duration(seconds: 2),
                                   height: 50,
                                   width: 50,
                                   placeholder: "assets/mascot.png",
