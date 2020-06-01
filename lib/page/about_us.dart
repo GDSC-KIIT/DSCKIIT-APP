@@ -1,11 +1,15 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:dsckiit_app/constants.dart';
+import 'package:dsckiit_app/page/developers.dart';
 import 'package:dsckiit_app/page/image_page.dart';
+import 'package:dsckiit_app/utils/tools.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutUs extends StatelessWidget {
@@ -75,74 +79,142 @@ class AboutUs extends StatelessWidget {
                           fontSize: 17,
                           fontFamily: 'GoogleSans'),
                       children: [
+                        // new WidgetSpan(
+                        //   child: ColorizeAnimatedTextKit(
+                        //       totalRepeatCount: 1,
+                        //       speed: Duration(milliseconds: 500),
+                        //       onTap: () => Navigator.push(
+                        //             context,
+                        //             MaterialPageRoute(
+                        //                 builder: (context) => new Developers()),
+                        //           ),
+                        //       text: ["developer"],
+                        //       textStyle: TextStyle(
+                        //           fontSize: 17, fontFamily: "GoogleSans"),
+                        //       colors: [
+                        //         Colors.black,
+                        //         Colors.blue,
+                        //         Colors.green,
+                        //         Colors.red,
+                        //       ],
+                        //       textAlign: TextAlign.start,
+                        //       alignment:
+                        //           Alignment.topLeft // or Alignment.topLeft
+                        //       ),
+                        // ),
                         new WidgetSpan(
-                          child: ColorizeAnimatedTextKit(
-                              totalRepeatCount: 2,
-                              speed: Duration(milliseconds: 2000),
-                              onTap: () {
-                                print("Tap Event");
-                              },
-                              text: ["developer"],
-                              textStyle: TextStyle(
-                                  fontSize: 17, fontFamily: "GoogleSans"),
-                              colors: [
-                                Colors.black,
-                                Colors.blue,
-                                Colors.green,
-                                Colors.red,
-                              ],
-                              textAlign: TextAlign.start,
-                              alignment:
-                                  Alignment.topLeft // or Alignment.topLeft
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.black,
+                            highlightColor:
+                                Tools.multiColors[Random().nextInt(4)],
+                            period: Duration(milliseconds: 2000),
+                            loop: 2,
+                            child: GestureDetector(
+                              child: Text(
+                                'developer',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 17, fontFamily: "GoogleSans"),
                               ),
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => new Developers()),
+                              ),
+                            ),
+                          ),
                         ),
                         new TextSpan(
                             text:
                                 " communities and supports them with commencing student clubs on their campuses. "),
+                        // new WidgetSpan(
+                        //   child: ColorizeAnimatedTextKit(
+                        //       totalRepeatCount: 1,
+                        //       speed: Duration(milliseconds: 500),
+                        //       onTap: () => Navigator.push(
+                        //             context,
+                        //             MaterialPageRoute(
+                        //                 builder: (context) => new Developers()),
+                        //           ),
+                        //       text: ["Developer"],
+                        //       textStyle: TextStyle(
+                        //           fontSize: 17, fontFamily: "GoogleSans"),
+                        //       colors: [
+                        //         Colors.black,
+                        //         Colors.blue,
+                        //         Colors.amber,
+                        //         Colors.green,
+                        //       ],
+                        //       textAlign: TextAlign.start,
+                        //       alignment:
+                        //           Alignment.topLeft // or Alignment.topLeft
+                        //       ),
+                        // ),
                         new WidgetSpan(
-                          child: ColorizeAnimatedTextKit(
-                              totalRepeatCount: 2,
-                              speed: Duration(milliseconds: 2000),
-                              onTap: () {
-                                print("Tap Event");
-                              },
-                              text: ["Developer"],
-                              textStyle: TextStyle(
-                                  fontSize: 17, fontFamily: "GoogleSans"),
-                              colors: [
-                                Colors.black,
-                                Colors.blue,
-                                Colors.amber,
-                                Colors.green,
-                              ],
-                              textAlign: TextAlign.start,
-                              alignment:
-                                  Alignment.topLeft // or Alignment.topLeft
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.black,
+                            highlightColor:
+                                Tools.multiColors[Random().nextInt(4)],
+                            period: Duration(milliseconds: 2500),
+                            loop: 2,
+                            child: GestureDetector(
+                              child: Text(
+                                'Developer',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 17, fontFamily: "GoogleSans"),
                               ),
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => new Developers()),
+                              ),
+                            ),
+                          ),
                         ),
                         new TextSpan(
                             text:
                                 " Student Clubs is a program that recognizes and supports university students who are excited about growing "),
+                        // new WidgetSpan(
+                        //   child: ColorizeAnimatedTextKit(
+                        //       totalRepeatCount: 1,
+                        //       speed: Duration(milliseconds: 500),
+                        //       onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) => new Developers()),),
+                        //       text: ["developer"],
+                        //       textStyle: TextStyle(
+                        //           fontSize: 17, fontFamily: "GoogleSans"),
+                        //       colors: [
+                        //         Colors.black,
+                        //         Colors.red,
+                        //         Colors.blue,
+                        //         Colors.amber,
+                        //       ],
+                        //       textAlign: TextAlign.start,
+                        //       alignment:
+                        //           Alignment.topLeft // or Alignment.topLeft
+                        //       ),
+                        // ),
                         new WidgetSpan(
-                          child: ColorizeAnimatedTextKit(
-                              totalRepeatCount: 2,
-                              speed: Duration(milliseconds: 2000),
-                              onTap: () {
-                                print("Tap Event");
-                              },
-                              text: ["developer"],
-                              textStyle: TextStyle(
-                                  fontSize: 17, fontFamily: "GoogleSans"),
-                              colors: [
-                                Colors.black,
-                                Colors.red,
-                                Colors.blue,
-                                Colors.amber,
-                              ],
-                              textAlign: TextAlign.start,
-                              alignment:
-                                  Alignment.topLeft // or Alignment.topLeft
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.black,
+                            highlightColor:
+                                Tools.multiColors[Random().nextInt(4)],
+                            loop: 2,
+                            period: Duration(milliseconds: 3000),
+                            child: GestureDetector(
+                              child: Text(
+                                'developer',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 17, fontFamily: "GoogleSans"),
                               ),
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => new Developers()),
+                              ),
+                            ),
+                          ),
                         ),
                         new TextSpan(
                             text:
@@ -198,13 +270,10 @@ class AboutUs extends StatelessWidget {
                         },
                       ),
                       IconButton(
-                        icon: Icon(
-                          Icons.mail,
-                          size: 32,
-                        ),
+                        icon: Icon(FontAwesomeIcons.solidEnvelope),
                         onPressed: () async {
                           var emailUrl =
-                              '''mailto:dsckiit@gmail.com?subject=Support Needed For DevExpo App&body={Name: Sayan Nath},Email: dsckiit@gmail.com}''';
+                              '''mailto:dsckiit@gmail.com?subject=Support Needed For DevExpo App''';
                           var out = Uri.encodeFull(emailUrl);
                           await _launchUrl(out);
                         },
