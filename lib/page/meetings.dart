@@ -61,12 +61,7 @@ class _MeetingsPageState extends State<MeetingsPage> {
             ? Padding(
                 padding: const EdgeInsets.only(bottom: 30, right: 15),
                 child: FloatingActionButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            new CreateMeeting(Meeting('', '', '', ''))),
-                  ),
+                  onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => new CreateMeeting(Meeting('', '', '', ''))),),
                   backgroundColor: Colors.white,
                   child: CustomPaint(
                     child: Container(),
