@@ -71,7 +71,7 @@ class _MeetingsPageState extends State<MeetingsPage> {
               )
             : SizedBox(),
         body: StreamBuilder(
-          stream: Firestore.instance.collection('meetings').snapshots(),
+          stream: Firestore.instance.collection('meetings').orderBy('date').snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData)
               return Center(child: Text("Loading meetings...."));
