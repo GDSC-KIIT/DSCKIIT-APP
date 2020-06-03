@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
 
   StreamSubscription<QuerySnapshot> projectSub;
   bool showSnackBar = false;
+  var _heightSnackBar = 0.0;
 
   checkAuthentication() async {
     _auth.onAuthStateChanged.listen((user) {
@@ -77,6 +78,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     this.checkAuthentication();
     this.getUser();
+    // _heightSnackBar = 0.0;
     this.getMeeting();
 
     items = new List();
@@ -102,12 +104,14 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  String urlToMeeting, meetingTitle = "Loading...", meetingTime = "Loading...", meetingDay = "Loading...";
+  String urlToMeeting,
+      meetingTitle = "Loading...",
+      meetingTime = "Loading...",
+      meetingDay = "Loading...";
+
+  Timer _timer;
 
   getMeeting() {
-    // setState(() {
-    //   showSnackBar = false;
-    // });
     var now = new DateTime.now();
     var formatter = new DateFormat('yyyy-MM-dd');
     String formatted = formatter.format(now);
@@ -118,9 +122,12 @@ class _HomePageState extends State<HomePage> {
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((ds) {
-        // print("I'm in.");
+        print("I'm in.");
         DateTime date = DateTime.parse(ds.data['date']);
         setState(() {
+          _timer = new Timer(const Duration(milliseconds: 400), () {
+            _heightSnackBar = 70;
+          });
           showSnackBar = true;
           meetingDay = DateFormat('EEEE').format(date);
           meetingTime = ds.data['time'];
@@ -183,7 +190,7 @@ class _HomePageState extends State<HomePage> {
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
     final tabs = [
       RefreshIndicator(
-              child: Builder(
+        child: Builder(
           builder: (context) => Stack(
             children: <Widget>[
               Padding(
@@ -226,13 +233,14 @@ class _HomePageState extends State<HomePage> {
                           return GestureDetector(
                             onTap: () =>
                                 _navigateToProject(context, items[position]),
-                            onLongPress: () =>
-                                _deleteProject(context, items[position], position),
+                            onLongPress: () => _deleteProject(
+                                context, items[position], position),
                             child: Card(
                               margin: EdgeInsets.only(right: 5, left: 10),
                               color: primaryColor,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
                               ),
                               child: Container(
                                 width: 200,
@@ -242,7 +250,8 @@ class _HomePageState extends State<HomePage> {
                                   child: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text('${items[position].projectName}',
                                           style: kTitleStyle.copyWith(
@@ -295,7 +304,8 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       height: 150,
                       child: StreamBuilder<QuerySnapshot>(
-                        stream: Firestore.instance.collection('events').snapshots(),
+                        stream:
+                            Firestore.instance.collection('events').snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
                           if (snapshot.hasError)
@@ -374,7 +384,8 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 8.0),
+                padding:
+                    const EdgeInsets.only(left: 10.0, right: 10.0, top: 8.0),
                 child: Material(
                   borderRadius: BorderRadius.circular(10),
                   elevation: 7.0,
@@ -417,8 +428,9 @@ class _HomePageState extends State<HomePage> {
                                 padding: const EdgeInsets.only(right: 10.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    Navigator.of(context).push(MaterialPageRoute(
-                                        builder: (BuildContext context) {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) {
                                       return AccountPage(user: user);
                                     }));
                                   },
@@ -439,74 +451,85 @@ class _HomePageState extends State<HomePage> {
               showSnackBar
                   ? Align(
                       alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8, right: 8, top: 8, bottom: 0),
-                        child: Material(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                              bottomLeft: Radius.zero,
-                              bottomRight: Radius.zero),
-                          child: Container(
-                            height: 60,
-                            padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                            decoration: BoxDecoration(
-                                color: Colors.lightBlueAccent[100].withOpacity(0.5),
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    topRight: Radius.circular(10),
-                                    bottomLeft: Radius.zero,
-                                    bottomRight: Radius.zero)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(13.0),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text(
-                                        '$meetingTitle',
-                                        style: TextStyle(
-                                            color: Color(0xFF183E8D),
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.bold),
+                      child: AnimatedContainer(
+                        duration: Duration(seconds: 1),
+                        height: _heightSnackBar,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8, right: 8, top: 8, bottom: 0),
+                          child: Material(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                                bottomLeft: Radius.zero,
+                                bottomRight: Radius.zero),
+                            child: SingleChildScrollView(
+                              child: Container(
+                                height: 60,
+                                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.lightBlueAccent[100]
+                                        .withOpacity(0.5),
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10),
+                                        bottomLeft: Radius.zero,
+                                        bottomRight: Radius.zero)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(13.0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text(
+                                            '$meetingTitle',
+                                            style: TextStyle(
+                                                color: Color(0xFF183E8D),
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            '$meetingDay, $meetingTime',
+                                            style: TextStyle(
+                                                color: Color(0xFF183E8D),
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        ],
                                       ),
-                                      Text(
-                                        '$meetingDay, $meetingTime',
-                                        style: TextStyle(
-                                            color: Color(0xFF183E8D),
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: RaisedButton(
-                                    child: Text("JOIN",
-                                        style: TextStyle(color: Color(0xFF183E8D))),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
                                     ),
-                                    color: Colors.white,
-                                    onPressed: () {
-                                      _launchUrl(urlToMeeting);
-                                    },
-                                  ),
-                                )
-                              ],
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: RaisedButton(
+                                        child: Text("JOIN",
+                                            style: TextStyle(
+                                                color: Color(0xFF183E8D))),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(18.0),
+                                        ),
+                                        color: Colors.white,
+                                        onPressed: () {
+                                          _launchUrl(urlToMeeting);
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     )
-                  :Center()
+                  : Center()
             ],
           ),
-        ), onRefresh: () async {
+        ),
+        onRefresh: () async {
           this.getMeeting();
         },
       ), // Home screen
@@ -661,7 +684,8 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MeetingsPage(user: user)));
+                                  builder: (context) =>
+                                      MeetingsPage(user: user)));
                         },
                       ),
                       ListTile(
