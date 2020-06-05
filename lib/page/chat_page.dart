@@ -4,10 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dsckiit_app/page/chat_bubble.dart';
 import 'package:dsckiit_app/page/group_details_screen.dart';
+import 'package:dsckiit_app/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,6 +21,7 @@ class ChatPage extends StatefulWidget {
   @override
   ChatScreenState createState() => new ChatScreenState();
   final String to, from, groupName, groupId, url, uid, name;
+
   //url = url of reciever
   ChatPage(
       {Key key,
@@ -37,37 +40,40 @@ class ChatScreenState extends State<ChatPage> {
       new TextEditingController();
   bool _isComposingMessage = false;
   var _scaffoldContext;
+
   DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
   String _fromUserUrl;
 
   void _onLoading(int i) {
-    if(i == 1){
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Image.asset('assets/animator.gif'),
-                Text("Sending image.."),
-              ],
-            )
-          );
-          return Dialog(
-            child: new Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                new CircularProgressIndicator(),
-                new Text("Loading"),
-              ],
-            ),
-          );
-        },
-      );
-    }
-    else {
+    if (i == 1) {
+      Flushbar(
+        showProgressIndicator: true,
+        borderRadius: 10.0,
+        padding: EdgeInsets.all(10),
+        backgroundGradient: LinearGradient(colors: [Color(0xffa3bded), Color(0xff6991c7)]),
+        flushbarStyle: FlushbarStyle.GROUNDED,
+        titleText: Center(child: Text("Sending image.......", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),)),
+        title: 'Sending image...',
+        message: "Message being sent",
+        messageText: Text("Message being sent", style: TextStyle(color: Colors.transparent),),
+      )..show(context);
+//      showDialog(
+//        context: context,
+//        barrierDismissible: false,
+//        builder: (BuildContext context) {
+//          return AlertDialog(
+//            backgroundColor: Colors.transparent/,
+//            content: Column(
+//              mainAxisSize: MainAxisSize.min,
+//              children: <Widget>[
+//                Image.asset('assets/animator.gif'),
+//                Text("Sending image.."),
+//              ],
+//            )
+//          );
+//        },
+//      );
+    } else {
       Navigator.pop(context);
     }
   }
@@ -80,12 +86,9 @@ class ChatScreenState extends State<ChatPage> {
     } else {
       databaseReference = databaseReference.child('messages/personalMessage');
     }
-    Firestore.instance
-        .collection('users')
-        .document(widget.from)
-        .get().then((DocumentSnapshot documentSnapshot)=>{
-          _fromUserUrl = documentSnapshot.data['photoURL']
-        });
+    Firestore.instance.collection('users').document(widget.from).get().then(
+        (DocumentSnapshot documentSnapshot) =>
+            {_fromUserUrl = documentSnapshot.data['photoURL']});
     super.initState();
   }
 
@@ -254,13 +257,8 @@ class ChatScreenState extends State<ChatPage> {
                   ),
                 ),
                 //new Divider(height: 1.0),
-                Builder(
-                  builder: (context){
-                    return _buildTextComposer();
-                  },
-//                  child: new Container(
-//                    child: _buildTextComposer(),
-//                  ),
+                new Container(
+                  child: _buildTextComposer(),
                 ),
                 new Builder(builder: (BuildContext context) {
                   _scaffoldContext = context;
@@ -384,20 +382,23 @@ class ChatScreenState extends State<ChatPage> {
                               onPressed: () async {
                                 File imageFile = await ImagePicker.pickImage(
                                     source: ImageSource.gallery);
-                                if(imageFile != null){
+                                if (imageFile != null) {
                                   int timestamp =
                                       new DateTime.now().millisecondsSinceEpoch;
                                   _onLoading(1);
                                   StorageReference storageReference =
-                                  FirebaseStorage.instance.ref().child(
-                                      "img_" + timestamp.toString() + ".jpg");
+                                      FirebaseStorage.instance.ref().child(
+                                          "img_" +
+                                              timestamp.toString() +
+                                              ".jpg");
                                   StorageUploadTask uploadTask =
-                                  storageReference.put(imageFile);
+                                      storageReference.put(imageFile);
                                   final StorageTaskSnapshot downloadUrl =
-                                  (await uploadTask.onComplete);
+                                      (await uploadTask.onComplete);
                                   final String url =
-                                  (await downloadUrl.ref.getDownloadURL());
-                                  _sendMessage(messageText: null, imageUrl: url);
+                                      (await downloadUrl.ref.getDownloadURL());
+                                  _sendMessage(
+                                      messageText: null, imageUrl: url);
                                   _onLoading(0);
                                 }
                               }),
@@ -432,7 +433,7 @@ class ChatScreenState extends State<ChatPage> {
     _sendMessage(messageText: text.trim(), imageUrl: null);
   }
 
-  void _sendMessage({String messageText, String imageUrl}) async{
+  void _sendMessage({String messageText, String imageUrl}) async {
     if (widget.groupId != null) {
       await databaseReference.push().set({
         'url': _fromUserUrl,
