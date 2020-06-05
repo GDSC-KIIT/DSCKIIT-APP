@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dsckiit_app/page/image_page.dart';
 import 'package:dsckiit_app/utils/colors.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -75,7 +76,17 @@ class _ChatBubbleState extends State<ChatBubble> {
                   }
               );
               if(result){
-                await FirebaseDatabase.instance.reference().child('messages').child('personalMessage').child(widget.message.key).remove();
+                await FirebaseDatabase.instance.reference().child('messages').child('personalMessage').child(widget.message.key).remove().then((value){
+                  Flushbar(
+                    flushbarPosition: FlushbarPosition.TOP,
+                    flushbarStyle: FlushbarStyle.GROUNDED,
+                    duration: Duration(seconds: 1),
+                    animationDuration: Duration(milliseconds: 50),
+                    title: "Message deleted",
+                    messageText: Text("Message deleted", style: TextStyle(color: Colors.transparent),),
+                    message: "Message deleted",
+                  )..show(context);
+                });
               }
             }
           },
