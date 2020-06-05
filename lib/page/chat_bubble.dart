@@ -49,6 +49,36 @@ class _ChatBubbleState extends State<ChatBubble> {
     bool fromMe = widget.fromMeBool;
     return GestureDetector(
           onTap: _showTime,
+          onLongPress: () async {
+            if(fromMe && !widget.isGroup){
+              final result = await showDialog(
+                  context: context,
+                  builder: (_) {
+                    return AlertDialog(
+                      title: Text("Delete message?"),
+                      content: Text(messageBody ?? 'Image'),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text("Yes"),
+                          onPressed: (){
+                            Navigator.of(context).pop(true);
+                          },
+                        ),
+                        FlatButton(
+                          child: Text("No"),
+                          onPressed: (){
+                            Navigator.of(context).pop(false);
+                          },
+                        )
+                      ],
+                    );
+                  }
+              );
+              if(result){
+                await FirebaseDatabase.instance.reference().child('messages').child('personalMessage').child(widget.message.key).remove();
+              }
+            }
+          },
           child: Align(
               alignment: fromMe ? Alignment.centerRight : Alignment.centerLeft,
               child: Column(
