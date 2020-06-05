@@ -40,6 +40,38 @@ class ChatScreenState extends State<ChatPage> {
   DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
   String _fromUserUrl;
 
+  void _onLoading(int i) {
+    if(i == 1){
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Image.asset('assets/animator.gif'),
+                Text("Sending image.."),
+              ],
+            )
+          );
+          return Dialog(
+            child: new Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                new CircularProgressIndicator(),
+                new Text("Loading"),
+              ],
+            ),
+          );
+        },
+      );
+    }
+    else {
+      Navigator.pop(context);
+    }
+  }
+
   @override
   void initState() {
     if (widget.groupId != null) {
@@ -222,8 +254,13 @@ class ChatScreenState extends State<ChatPage> {
                   ),
                 ),
                 //new Divider(height: 1.0),
-                new Container(
-                  child: _buildTextComposer(),
+                Builder(
+                  builder: (context){
+                    return _buildTextComposer();
+                  },
+//                  child: new Container(
+//                    child: _buildTextComposer(),
+//                  ),
                 ),
                 new Builder(builder: (BuildContext context) {
                   _scaffoldContext = context;
@@ -347,18 +384,22 @@ class ChatScreenState extends State<ChatPage> {
                               onPressed: () async {
                                 File imageFile = await ImagePicker.pickImage(
                                     source: ImageSource.gallery);
-                                int timestamp =
-                                    new DateTime.now().millisecondsSinceEpoch;
-                                StorageReference storageReference =
-                                    FirebaseStorage.instance.ref().child(
-                                        "img_" + timestamp.toString() + ".jpg");
-                                StorageUploadTask uploadTask =
-                                    storageReference.put(imageFile);
-                                final StorageTaskSnapshot downloadUrl =
-                                    (await uploadTask.onComplete);
-                                final String url =
-                                    (await downloadUrl.ref.getDownloadURL());
-                                _sendMessage(messageText: null, imageUrl: url);
+                                if(imageFile != null){
+                                  int timestamp =
+                                      new DateTime.now().millisecondsSinceEpoch;
+                                  _onLoading(1);
+                                  StorageReference storageReference =
+                                  FirebaseStorage.instance.ref().child(
+                                      "img_" + timestamp.toString() + ".jpg");
+                                  StorageUploadTask uploadTask =
+                                  storageReference.put(imageFile);
+                                  final StorageTaskSnapshot downloadUrl =
+                                  (await uploadTask.onComplete);
+                                  final String url =
+                                  (await downloadUrl.ref.getDownloadURL());
+                                  _sendMessage(messageText: null, imageUrl: url);
+                                  _onLoading(0);
+                                }
                               }),
                         ),
                       )
@@ -391,9 +432,9 @@ class ChatScreenState extends State<ChatPage> {
     _sendMessage(messageText: text.trim(), imageUrl: null);
   }
 
-  void _sendMessage({String messageText, String imageUrl}) {
+  void _sendMessage({String messageText, String imageUrl}) async{
     if (widget.groupId != null) {
-      databaseReference.push().set({
+      await databaseReference.push().set({
         'url': _fromUserUrl,
         'message': messageText,
         'from': widget.from,
@@ -403,7 +444,7 @@ class ChatScreenState extends State<ChatPage> {
         'timeStamp': DateTime.now().millisecondsSinceEpoch
       });
     } else {
-      databaseReference.push().set({
+      await databaseReference.push().set({
         'message': messageText,
         'from': widget.from,
         'to': widget.to,
