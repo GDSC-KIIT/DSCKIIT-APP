@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:dsckiit_app/model/project.dart';
 import 'package:dsckiit_app/model/suggest.dart';
 import 'package:dsckiit_app/notes/notePage.dart';
@@ -11,6 +12,7 @@ import 'package:dsckiit_app/page/meetings.dart';
 import 'package:dsckiit_app/services/crud.dart';
 import 'package:dsckiit_app/suggest/add.dart';
 import 'package:dsckiit_app/utils/colors.dart';
+import 'package:dsckiit_app/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dsckiit_app/Widgets/custom_event_card.dart';
@@ -23,6 +25,7 @@ import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:dsckiit_app/screen/notification_screen.dart';
 import 'package:dsckiit_app/projects/addProject.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:dsckiit_app/Widgets/google_button.dart';
@@ -184,7 +187,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   ScrollController _controller = ScrollController();
-
+  bool showComingSoon = false;
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
@@ -408,15 +411,50 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         Expanded(
-                          child: TextField(
-                            cursorColor: Colors.black,
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.go,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 15),
-                                hintText: "Search..."),
+                          child: showComingSoon ? Container(
+                            child: Shimmer.fromColors(
+                              baseColor: Colors.black,
+                              highlightColor:
+                              Tools.multiColors[Random().nextInt(4)],
+                              period: Duration(milliseconds: 2000),
+                              loop: 2,
+                              child: Text(
+                                'Coming soon..',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 17, fontFamily: "GoogleSans"),
+                              ),
+                            ),
+                          ): GestureDetector(
+                            onTap: () async {
+                                print("Pressed");
+                                setState(() {
+                                  print(showComingSoon);
+                                  showComingSoon = true;
+                                  print(showComingSoon);
+                                 });
+                                await Future.delayed(Duration(seconds: 4), (){
+                                  setState(() {
+                                    showComingSoon = false;
+                                  });
+                                });
+                            },
+                            child: Container(
+                              padding: EdgeInsets.only(top: 2, left: 10),
+                              child: Text("Search...",
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                              ) ?? TextField(
+                                enabled: false,
+                                cursorColor: Colors.black,
+                                keyboardType: TextInputType.text,
+                                textInputAction: TextInputAction.go,
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    contentPadding:
+                                        EdgeInsets.symmetric(horizontal: 15),
+                                    hintText: "Search..."),
+                              ),
+                            ),
                           ),
                         ),
                         !isSignedIn
@@ -743,50 +781,4 @@ class _HomePageState extends State<HomePage> {
       throw 'Could not launch $url';
     }
   }
-}
-
-class FloatAppBar extends StatelessWidget with PreferredSizeWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          top: 10,
-          right: 15,
-          left: 15,
-          child: Container(
-            color: Colors.white,
-            child: Row(
-              children: <Widget>[
-                Material(
-                  type: MaterialType.transparency,
-                  child: IconButton(
-                    splashColor: Colors.grey,
-                    icon: Icon(Icons.menu),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: TextField(
-                    cursorColor: Colors.black,
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.go,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                        hintText: "Search..."),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
