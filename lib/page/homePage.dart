@@ -188,6 +188,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
+    final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0;
     final tabs = [
       RefreshIndicator(
         child: Builder(
@@ -548,14 +549,14 @@ class _HomePageState extends State<HomePage> {
           body: tabs[_currentNavBarIndex],
           floatingActionButton: _currentNavBarIndex != 0
               ? null
-              : FloatingActionButton(
+              : showFab ? FloatingActionButton(
                   backgroundColor: Color(0xFF183E8D),
                   child: CustomPaint(
                     child: Container(),
                     foregroundPainter: FloatingPainterGButton(),
                   ),
                   onPressed: () => _createNewProject(context),
-                ),
+                ) : null,
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: BottomNavigationBar(
