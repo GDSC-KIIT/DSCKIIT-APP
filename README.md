@@ -1,6 +1,6 @@
 # DSCKIIT APP
 
-An app, made by DSCKIIT, for DSCKIIT.
+An app, made by DSCKIIT Members, for DSCKIIT.
 (To be made for the public in the later iterations)
 
 ## Inspiration:
